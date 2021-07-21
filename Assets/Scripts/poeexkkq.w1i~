@@ -1,0 +1,119 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class Coding : MonoBehaviour
+{
+    public static GameObject[,] objectArray;
+    public static string[,] content;
+    public int maxColumn;
+    public int maxRow;
+    public int column;
+    public int row;
+    int x, y,ifcount;
+    public string objectName;
+
+    public Text Code;
+
+    public void CodeButtonClicked()
+    {
+        x = 0;
+        y = 0;
+        ifcount = 0;
+        objectArray = ObjectCollection.objectArray;
+        maxColumn = ObjectCollection.maxColumn;
+        maxRow = ObjectCollection.maxRow;
+        content = ObjectCollection.content;
+
+        Code = Code.GetComponent<Text>();
+
+        Code.text = null;
+        Code.text = "#include<stdio.h>\n" +
+                    "int main(void){\n";
+        Debug.Log(objectArray[x, y].name);
+        while ((x != 0) || (y != maxRow))
+        {
+            CodingCheck();
+        }
+
+        Code.text += "\treturn 0;\n";
+        Code.text += "}";
+    }
+
+
+    public void Code_Printf()
+    {
+        space(spacecount(1));
+        Code.text += "printf(" + content[x, y] + ");\n";
+        y++;
+    }
+    public void CodingCheck()
+    {
+        switch (objectArray[x, y].name)
+        {
+            case "Printf_prefab":
+                Code_Printf();
+                // Debug.Log(maxRow);
+                break;
+
+            case "If_prefab":
+                Code_If();
+                break;
+
+            default:
+                y++;
+                break;
+
+        }
+    }
+
+    public void Code_If()
+    {
+
+        int ifxcount;
+        int ifycount;
+        ifxcount = 0;
+        ifycount = 0;
+        y++;
+        space(spacecount(1));
+        ifcount++;
+        Code.text += "if(" + content[x, y - 1] + ")" + "{\n";
+
+        while (objectArray[x, y].name != "Corner1_prefab")
+        {
+            CodingCheck();
+            ifycount++;
+        }
+        y = y - ifycount;
+        x++;
+        ifycount = 0;
+        space(spacecount(0));
+        Code.text += "}else{\n";
+        while (objectArray[x, y].name != "Corner2_prefab")
+        {
+            CodingCheck();
+        }
+        x--;
+        y++;
+        space(spacecount(0));
+        Code.text += "}\n";
+        ifcount -=2;
+    }
+
+    public void space(int count)
+    {
+        for(int i = 0; i < count; i++)
+        {
+            Code.text+="\t";
+        } 
+    }
+
+    public int spacecount(int x)
+    {
+        return 1+ x + ifcount;
+
+    }
+}
+
+
