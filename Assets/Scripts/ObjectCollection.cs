@@ -1,3 +1,5 @@
+//ちょうよう
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,13 +10,13 @@ public class ObjectCollection : MonoBehaviour
     //オブジェクト配列の宣言
     public static GameObject[,] objectArray = new GameObject[64,128];
     public static string[,] SaveobjectArray = new string[64,128];
-    
+
     public GameObject[,] wireArray = new GameObject[64,128];
     public GameObject[,] HorizontalwireArray = new GameObject[64,128];
     //nakamiiii
     public static string[,] content = new string[64,128];
     public Text messageText;
-    
+
     Ifreference[] ifArray = new Ifreference[128];
 
 
@@ -38,7 +40,7 @@ public class ObjectCollection : MonoBehaviour
     public const float HorizontalSpace = 4.0f;
     public const float startX = 0f;
     public const float startY = 1.0f;
-    
+
     //変数の宣言
     static float locationX;
     static float locationY;
@@ -94,7 +96,7 @@ public class ObjectCollection : MonoBehaviour
 
     //列と行による位置決定
     public static void Location(int column,int raw, int depth)
-    {  
+    {
         locationX = HorizontalSpace * column + startX;
         locationY = VerticalSpace * raw + startY;
         locationZ = depth;
@@ -105,11 +107,11 @@ public class ObjectCollection : MonoBehaviour
     public void Update ()
     {
         if(Input.GetMouseButtonDown(0))
-        {    
+        {
             StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
             StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
-            
-            
+
+
             int i,j;
             for(i = 0;i<maxColumn+1;i++){
                 if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
@@ -136,7 +138,7 @@ public class ObjectCollection : MonoBehaviour
             CurrentColumn = jibunX;
             CurrentRow = jibunY;
             CurrentPosition();
-        }   
+        }
     }
 
     void makeInstance()
@@ -311,8 +313,8 @@ public class ObjectCollection : MonoBehaviour
                 break;
         }
     }
-    
-    
+
+
     public void ForButtonClicked()
     {
         tempRow = CurrentRow;
@@ -362,7 +364,7 @@ public class ObjectCollection : MonoBehaviour
         CurrentPosition();
         whetherIf = false;
     }
-    
+
     //printf,if共通
     void ButtonClicked()
     {
@@ -475,7 +477,7 @@ public class ObjectCollection : MonoBehaviour
             objectArray[column,row]=null;
         }
     }
-    
+
     void countColumnRow()
     {
         int column;
@@ -492,14 +494,14 @@ public class ObjectCollection : MonoBehaviour
         {
             for(row = 0;objectArray[column,row]==null;row++)
             if(row == maxRow)
-            if(objectArray[column,row]==null) 
+            if(objectArray[column,row]==null)
             {
                 maxColumn = column;
                 Debug.Log("maxColumn="+maxColumn);
                 return;
             }
         }
-    }   
+    }
 
     public void ObjectToString(string name, int Column, int Raw)
     {
@@ -529,7 +531,7 @@ public class ObjectCollection : MonoBehaviour
             case "Calc_prefab":
                 SaveobjectArray[Column, Raw] = "Calc_prefab";
                 break;
-            
+
         }
        // Debug.Log(SaveobjectArray[Column, Raw]);
     }
@@ -660,7 +662,7 @@ public class ObjectCollection : MonoBehaviour
         }
         WireSetting();
     }
-    
+
     //ボタン操作上
     public void UpButtonClicked()
     {
@@ -743,13 +745,13 @@ public class ObjectCollection : MonoBehaviour
                     if(ifArray[j].ifStartColumn==ifArray[ifCount].ifStartColumn)
                     if(ifArray[j].ifStartRow<ifArray[ifCount].ifStartRow)
                     if(ifArray[j].ifEndRow>=ifArray[ifCount].ifStartRow)
-                    {   
+                    {
                         InOutCheck = true;
                         if(ifArray[j].ifDistance()<length)
                         {
                             length = ifArray[j].ifDistance();
                             temp = j;
-                        }   
+                        }
                     }
                 }
                 //Debug.Log(length);
@@ -823,7 +825,7 @@ public class ObjectCollection : MonoBehaviour
                 if(objectArray[CurrentColumn, CurrentRow]!=null){
                     /*Debug.Log(objectArray[CurrentColumn, CurrentRow].name
                         +","+CurrentColumn+","+CurrentRow);*/
-                            
+
                     switch (objectArray[CurrentColumn, CurrentRow].name)
                     {
                     case "Printf_prefab":
@@ -924,7 +926,7 @@ public class ObjectCollection : MonoBehaviour
                 PrintfDisplay.text = DataHere;
                 PrintfMenu.SetActive(!PrintfMenuActivity);
             }else if(imanani==3){
-                
+
                 IfDisPlay.text = DataHere;
                 IfMenu.SetActive(!IfMenuActivity);
             }else if(imanani==5||imanani==6){
