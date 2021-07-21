@@ -37,6 +37,8 @@ public class VarSetting : MonoBehaviour
     public static int stringCount;
     public static int varCount;
 
+    List<string> reservedWord = new List<string>();
+
     void Start()
     {
         //作った変数の数を数えてるやつを初期化
@@ -55,6 +57,7 @@ public class VarSetting : MonoBehaviour
 
         //変数を入れる配列のインスタンスを作る
         makeInstance();
+        reservedList();
     }
 
     void makeInstance()
@@ -63,6 +66,42 @@ public class VarSetting : MonoBehaviour
         for(i = 0;i < 128;i++)　intVarArray[i] = new VarCollection();
         for(i = 0;i < 128;i++)　floatVarArray[i] = new VarCollection();
         for(i = 0;i < 128;i++)　stringVarArray[i] = new VarCollection();
+    }
+
+    void reservedList()
+    {
+        reservedWord.Add("auto");
+        reservedWord.Add("break");
+        reservedWord.Add("case");
+        reservedWord.Add("char");
+        reservedWord.Add("const");
+        reservedWord.Add("continue");
+        reservedWord.Add("default");
+        reservedWord.Add("do");
+        reservedWord.Add("double");
+        reservedWord.Add("else");
+        reservedWord.Add("enum");
+        reservedWord.Add("exturn");
+        reservedWord.Add("float");
+        reservedWord.Add("for");
+        reservedWord.Add("goto");
+        reservedWord.Add("if");
+        reservedWord.Add("int");
+        reservedWord.Add("long");
+        reservedWord.Add("resister");
+        reservedWord.Add("return");
+        reservedWord.Add("signed");
+        reservedWord.Add("sizeof");
+        reservedWord.Add("short");
+        reservedWord.Add("static");
+        reservedWord.Add("struct");
+        reservedWord.Add("switch");
+        reservedWord.Add("typedef");
+        reservedWord.Add("union");
+        reservedWord.Add("unsigned");
+        reservedWord.Add("void");
+        reservedWord.Add("volatile");
+        reservedWord.Add("while");
     }
 
     public void EnterButtonClicked()
@@ -103,6 +142,15 @@ public class VarSetting : MonoBehaviour
             ResetInputField();
             return;
         }
+        foreach(string r in reservedWord)
+        {
+            if(varName==r)
+            {
+                messageText.text =
+                    "変数に予約語を用いることはできません";
+            }
+        }
+
         varValue = valueText.text.ToString();
 
         //変数の作成
