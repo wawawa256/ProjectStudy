@@ -15,7 +15,7 @@ public class VarSetting : MonoBehaviour
     public static string[] savefloatnameArray = new string[128];
     public static string[] savestringvalueArray = new string[128];
     public static string[] savestringnameArray = new string[128];
-    
+
     public InputField nameInputField;
     public InputField valueInputField;
     public Dropdown formatDropDown;
@@ -23,7 +23,7 @@ public class VarSetting : MonoBehaviour
     public Text valueText;
     public Text varList;
     public Text messageText;
-    
+
     public static int varFormat;
     public static string varName;
     public static string varValue;
@@ -73,7 +73,7 @@ public class VarSetting : MonoBehaviour
         //それぞれ入力された値を代入
         varFormat = formatDropDown.value;
         varName = nameText.text.ToString();
-        
+
         foreach(string a in nameArray)
         {
             if(varName == a)
@@ -88,7 +88,7 @@ public class VarSetting : MonoBehaviour
         {
             if(!checkLetter(c))
             {
-                messageText.text = 
+                messageText.text =
                     "変数には半角英数字または_(アンダーバー)のみ使用できます";
                 ResetInputField();
                 return;
@@ -98,7 +98,7 @@ public class VarSetting : MonoBehaviour
         init = varName[0];
         if('0' <= init && init <= '9')
         {
-            messageText.text = 
+            messageText.text =
                 "変数の頭文字に数字は使用できません";
             ResetInputField();
             return;
@@ -309,7 +309,7 @@ public class VarSetting : MonoBehaviour
         }
         for(i = 0;i < stringCount;i++)
         {
-            varList.text += "char[] " + 
+            varList.text += "char[] " +
                 stringVarArray[i].varName + " = " +
                 stringVarArray[i].originalValue + "\n";
         }
@@ -369,6 +369,34 @@ public class VarSetting : MonoBehaviour
             return "float "+floatVarArray[xth-1].varName;
         }
         return "char[] "+stringVarArray[xth-1].varName;
+    }
+
+    public string watchthis(int xth){
+        if(xth>intCount){
+            xth -= intCount;
+        }else{
+            return "int";
+        }
+        if(xth>floatCount){
+            xth -= floatCount;
+        }else{
+            return "float";
+        }
+        return "char";
+    }
+
+    public string youshouldrun(int xth){
+        if(xth>intCount){
+            xth -= intCount;
+        }else{
+            return intVarArray[xth-1].varName;
+        }
+        if(xth>floatCount){
+            xth -= floatCount;
+        }else{
+            return floatVarArray[xth-1].varName;
+        }
+        return stringVarArray[xth-1].varName;
     }
 }
 

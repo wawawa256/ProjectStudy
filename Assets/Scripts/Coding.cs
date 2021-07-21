@@ -9,13 +9,22 @@ public class Coding : MonoBehaviour
 {
     public static GameObject[,] objectArray;
     public static string[,] content;
+    public static string[,] kata;
     public int maxColumn;
     public int maxRow;
     public int column;
     public int row;
     int x, y,ifcount;
     public string objectName;
-
+    public static int intCount;
+    public static int floatCount;
+    public static int stringCount;
+    public static string[] saveintvalueArray = new string[128];
+    public static string[] saveintnameArray = new string[128];
+    public static string[] savefloatvalueArray = new string[128];
+    public static string[] savefloatnameArray = new string[128];
+    public static string[] savestringvalueArray = new string[128];
+    public static string[] savestringnameArray = new string[128];
     public Text Code;
 
     public void CodeButtonClicked()
@@ -28,31 +37,88 @@ public class Coding : MonoBehaviour
         maxColumn = ObjectCollection.maxColumn;
         maxRow = ObjectCollection.maxRow;
         content = ObjectCollection.content;
-
+        kata = ObjectCollection.kata;
+        intCount = VarSetting.intCount;
+        floatCount = VarSetting.floatCount;
+        stringCount = VarSetting.stringCount;
+        saveintnameArray = VarSetting.saveintnameArray;
+        saveintvalueArray = VarSetting.saveintvalueArray;
+        savefloatnameArray = VarSetting.savefloatnameArray;
+        savefloatvalueArray = VarSetting.savefloatvalueArray;
+        savestringnameArray = VarSetting.saveintnameArray;
+        savestringvalueArray = VarSetting.savestringvalueArray;
         Code = Code.GetComponent<Text>();
+
         //最初の決り文句みたいなやつ入れる
         Code.text = null;
         Code.text = "#include<stdio.h>\n" +
                     "int main(void){\n";
-        //上から順に調べていく、左下まで行ったら押しまい
-        while ((x != 0) || (y != maxRow))
+
+        for (int i = 0; i < intCount; i++)
+        {
+           space(spacecount(1));
+           Code.text += "int " +
+           saveintnameArray[i] + " = " +
+           saveintvalueArray[i] + ";\n";
+        }
+        for (int i = 0; i < floatCount; i++)
+        {
+            space(spacecount(1));
+            Code.text += "float " +
+            savefloatnameArray[i] + " = " +
+            savefloatvalueArray[i] + ";\n";
+        }
+        for (int i = 0; i < stringCount; i++)
+        {
+            space(spacecount(1));
+            Code.text += "char[] " +
+            savestringnameArray[i] + " = " +
+            savestringvalueArray[i] + ";\n";
+        }
+            //上から順に調べていく、左下まで行ったら押しまい 
+            while ((x != 0) || (y != maxRow))
         {
             CodingCheck();
         }
         //決り文句入れて終了
         Code.text += "\treturn 0;\n";
         Code.text += "}";
+        GUIUtility.systemCopyBuffer = Code.text;
+
     }
 
     //中身見て出力するだけ
     public void Code_Printf()
     {
         space(spacecount(1));
-        Code.text += "printf(" + '"'+ content[x, y] + '"' +  ")" + ";";
-        Code.text += "\n";
-        y++;
-    }
+        switch (kata[x, y])
+        {
+            case " ":
+                Code.text += "printf(" + '"' + content[x, y] + '"' + ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
 
+            case "int":
+                Code.text += "printf(" + '"' + "%d" + '"' +","+content[x,y]+ ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
+            case "float":
+                Code.text += "printf(" + '"' + "%f" + '"' + "," + content[x, y] + ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
+            case "char":
+                Code.text += "printf(" + '"' + "%s" + '"' + "," + content[x, y] + ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
+            default:
+                y++;
+                break;
+        }
+    }
     //下方向にどんどん進んで、何があるか調べる
     public void CodingCheck()
     {
