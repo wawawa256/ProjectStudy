@@ -200,7 +200,10 @@ public class ObjectCollection : MonoBehaviour
 
     //Paizaボタン
 
-
+    public void PaizaButtonClicked()
+    {
+        Application.OpenURL("https://paiza.io/ja/projects/new");
+    }
 
     //printfボタン
     public void PrintfButtonClicked()
@@ -1061,12 +1064,12 @@ public class ObjectCollection : MonoBehaviour
             case 3://if
                 string vartext1, vartext2;
                 if(varsettingcs.VarDropdownIf1.value!=0){
-                    vartext1=varsettingcs.youshouldrun(varsettingcs.VarDropdownIf1.value);
+                    vartext1=varsettingcs.whatisthis(varsettingcs.VarDropdownIf1.value);
                 }else{
                     vartext1=IfInputField1.text.ToString();
                 }
                 if(varsettingcs.VarDropdownIf2.value!=0){
-                    vartext2=varsettingcs.youshouldrun(varsettingcs.VarDropdownIf2.value);
+                    vartext2=varsettingcs.whatisthis(varsettingcs.VarDropdownIf2.value);
                 }else{
                     vartext2=IfInputField2.text.ToString();
                 }
@@ -1078,12 +1081,12 @@ public class ObjectCollection : MonoBehaviour
             case 7://calc
                 string vartext3,vartext4;
                 if(varsettingcs.VarDropdownCalc1.value!=0){
-                    vartext3=varsettingcs.youshouldrun(varsettingcs.VarDropdownCalc1.value);
+                    vartext3=varsettingcs.whatisthis(varsettingcs.VarDropdownCalc1.value);
                 }else{
                     vartext3=CalcInputField1.text.ToString();
                 }
                 if(varsettingcs.VarDropdownCalc2.value!=0){
-                    vartext4=varsettingcs.youshouldrun(varsettingcs.VarDropdownCalc2.value);
+                    vartext4=varsettingcs.whatisthis(varsettingcs.VarDropdownCalc2.value);
                 }else{
                     vartext4=CalcInputField2.text.ToString();
                 }
@@ -1091,7 +1094,7 @@ public class ObjectCollection : MonoBehaviour
                 if(varsettingcs.VarDropdownCalc3.value==0){
                     aaa="";
                 }else{
-                    aaa=varsettingcs.youshouldrun(varsettingcs.VarDropdownCalc3.value);
+                    aaa=varsettingcs.whatisthis(varsettingcs.VarDropdownCalc3.value);
                 }
                 DataHere=aaa+"="+vartext3+enzansi2+vartext4;
                 CalcDisplay.text=DataHere;
@@ -1143,19 +1146,19 @@ public class ObjectCollection : MonoBehaviour
                 enzansi2="";
                 break;
             case 1:
-                enzansi2="+";
+                enzansi2="＋";
                 break;
             case 2:
-                enzansi2="-";
+                enzansi2="－";
                 break;
             case 3:
-                enzansi2="*";
+                enzansi2="×";
                 break;
             case 4:
-                enzansi2="/";
+                enzansi2="÷";
                 break;
             case 5:
-                enzansi2="%";
+                enzansi2="％";
                 break;
             case 6:
                 enzansi2="";

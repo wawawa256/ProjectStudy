@@ -58,6 +58,15 @@ public class VarSetting : MonoBehaviour
         //変数を入れる配列のインスタンスを作る
         makeInstance();
         reservedList();
+
+        //でばっぐ
+        varName = "intkun";
+        MakeVar(0, "123");
+        varName = "floatkun";
+        MakeVar(1, "44.6");
+        varName = "charkun";
+        MakeVar(2, "konnitiwa");
+
     }
 
     void makeInstance()

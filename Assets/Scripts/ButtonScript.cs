@@ -55,6 +55,11 @@ public class ButtonScript : MonoBehaviour
         forFlag = 0;
     }
 
+    public void PaizaButtonClicked()
+    {
+        Application.OpenURL("https://paiza.io/ja/projects/new");
+    }
+
     public void OnClick()
     {
         AddpanelActivity = AddPanel.activeInHierarchy;
