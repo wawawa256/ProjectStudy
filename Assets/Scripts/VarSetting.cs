@@ -57,6 +57,7 @@ public class VarSetting : MonoBehaviour
 
         //変数を入れる配列のインスタンスを作る
         makeInstance();
+        reservedList();
     }
 
     void makeInstance()
