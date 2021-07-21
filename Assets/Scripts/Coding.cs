@@ -45,7 +45,7 @@ public class Coding : MonoBehaviour
         saveintvalueArray = VarSetting.saveintvalueArray;
         savefloatnameArray = VarSetting.savefloatnameArray;
         savefloatvalueArray = VarSetting.savefloatvalueArray;
-        savestringnameArray = VarSetting.saveintnameArray;
+        savestringnameArray = VarSetting.savestringnameArray;
         savestringvalueArray = VarSetting.savestringvalueArray;
         Code = Code.GetComponent<Text>();
 
@@ -71,9 +71,9 @@ public class Coding : MonoBehaviour
         for (int i = 0; i < stringCount; i++)
         {
             space(spacecount(1));
-            Code.text += "char[] " +
-            savestringnameArray[i] + " = " +
-            savestringvalueArray[i] + ";\n";
+            Code.text += "char " +
+            savestringnameArray[i] + "[] = " +'"'+
+            savestringvalueArray[i]+'"' + ";\n";
         }
             //上から順に調べていく、左下まで行ったら押しまい 
             while ((x != 0) || (y != maxRow))
