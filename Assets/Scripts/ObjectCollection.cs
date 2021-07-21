@@ -4,6 +4,9 @@
 
 //nakami1
 
+
+//なかみちこわい
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
