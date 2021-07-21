@@ -255,6 +255,7 @@ public class ObjectCollection : MonoBehaviour
         ifArray[ifCount].ifEndColumn = CurrentColumn;
         ifArray[ifCount].ifEndRow = CurrentRow;
 
+
         //仮に置いとく、外にifがあると使えない
         CurrentColumn++;
         //横幅をどれだけにするか求める
@@ -271,6 +272,7 @@ public class ObjectCollection : MonoBehaviour
         }
         CurrentColumn = ifArray[ifCount].ifEndColumn;
         CurrentRow = ifArray[ifCount].ifEndRow;
+        //IFMATOME();
         ifFlag = 0;
         ifCount++;
     }
@@ -421,6 +423,7 @@ public class ObjectCollection : MonoBehaviour
     //一つ上のオブジェクトをコピーして下に移動
     void ObjectReplace()
     {
+        //bool p;
         int i;
         for(CurrentRow=maxRow;CurrentRow>tempRow-1;CurrentRow--)
         {
@@ -451,6 +454,11 @@ public class ObjectCollection : MonoBehaviour
                             for(i=0;i<ifCount;i++)
                             if(ifArray[i].ifEndRow == CurrentRow-1)
                                 ifArray[i].ifEndRow = CurrentRow;
+                            break;
+
+                        case "Tatedake_prefab":
+                            Destroy(objectArray[CurrentColumn,CurrentRow-1]);
+                            objectArray[CurrentColumn,CurrentRow-1]=null;
                             break;
                         default:
                             break;
@@ -485,7 +493,9 @@ public class ObjectCollection : MonoBehaviour
         int row;
         for(row=1;row<maxRow;row++)
         for(column=1;column<maxColumn;column++)
-        if(wireArray[column,row-1]==null)
+        if(wireArray[column,row-1]==null
+            //&&( (objectArray[column,row].name!="Tatedake_prefab"&&objectArray[column,row].name!="Yokodake_prefab") || objectArray[column,row]==null)
+            )
         {
             Destroy(objectArray[column,row]);
             objectArray[column,row]=null;
@@ -873,7 +883,7 @@ public class ObjectCollection : MonoBehaviour
                         {
                             WireInstall(Wire_prefab);
                             HorizontalWireInstall(Wire_If_prefab);
-                            CurrentColumn++;
+                            CurrentColumn++; //庭野完成したらここ破壊
                             WireInstall(Wire_prefab);
                             CurrentColumn--;
                         }
@@ -899,6 +909,14 @@ public class ObjectCollection : MonoBehaviour
                         WireInstall(Wire_prefab);
                         break;
 
+                    case "Tatedake_prefab":
+                        WireInstall(Wire_prefab);
+                        break;
+
+                    case "Yokodake_prefab":
+                        HorizontalWireInstall(Wire_If_prefab);
+                        break;
+
                     default:
                         break;
                     }
@@ -918,6 +936,8 @@ public class ObjectCollection : MonoBehaviour
     public GameObject PrintfMenu;
     public GameObject ForMenu;
     public GameObject CalcMenu;
+    public GameObject Tatedake_prefab;
+    public GameObject Yokodake_prefab;
     public string enzansi;
     //変数#2 inputfieldから入力を受け取るため、textにその今のあれをブチ込むためにどっちも取得
     public InputField PrintfInputField;
@@ -1197,6 +1217,134 @@ public class ObjectCollection : MonoBehaviour
 
     }
     public GameObject VarSettingEmptyObject;
+
+    public int SeekThemOut(){ //中は[どこから縦を伸ばしたらいいかな]を調べたいだけなのでmaxだけ返せばok.
+        int ifkazu=0;
+        int maxifkazu=0;
+        int x=ifArray[ifCount].ifStartColumn;
+        int y=ifArray[ifCount].ifStartRow;
+        for(y=ifArray[ifCount].ifStartRow+1;y<ifArray[ifCount].ifEndRow;y++){
+            if(objectArray[x,y].name=="If_prefab"){
+                ifkazu++;
+                if(maxifkazu<ifkazu){
+                    maxifkazu++;
+                }
+            }else if(objectArray[x,y].name=="Corner1_prefab"){
+                ifkazu--;
+            }
+        }
+        if(ifkazu>0){
+            Debug.Log("なかおる；；");
+        }
+        return maxifkazu;
+    }
+
+    public void PlacingSentry(int nakax,int starty,int endy){ //外は[スライドを何回、どこからどこまで、すればいいかな]を調べたいが...
+        int x=nakax+1;
+        int y=starty;
+        int flag=0;
+        for(y=starty;y<=endy;y++){
+            if(objectArray[x,y]!=null){
+                flag=1;
+                Debug.Log("そとにいる；；");
+                break;
+            }
+        }
+        if(flag==1){
+            int nextnakax=x;
+            int nextstarty=SearchUpper(x,y);
+            int nextendy=SearchLower(x,y);
+            PlacingSentry(nextnakax,nextstarty,nextendy);
+            ObjectSlide(x,starty,endy);
+            Debug.Log("すらいどしたよ");
+        }
+    }
+
+    public void ObjectSlide(int startx,int starty,int endy){
+        int x=CurrentColumn;
+        int y=CurrentRow;
+        CurrentColumn=startx;
+        for(CurrentRow=starty;CurrentRow<endy;CurrentRow++){
+            ObjectInstall(objectArray[CurrentColumn-1,CurrentRow]);
+            Destroy(objectArray[CurrentColumn-1,CurrentRow]);
+            objectArray[CurrentColumn-1,CurrentRow]=null;
+            content[CurrentColumn,CurrentRow]=content[CurrentColumn-1,CurrentRow];
+            content[CurrentColumn-1,CurrentRow]="";
+            kata[CurrentColumn,CurrentRow]=kata[CurrentColumn-1,CurrentRow];
+            kata[CurrentColumn-1,CurrentRow]=" ";
+            }
+        CurrentRow=starty;
+        CurrentColumn--;
+        ObjectInstall(Yokodake_prefab);
+        CurrentRow=endy;
+        for(int i=0;i<ifCount;i++){ //ifをずらしたのだからそれも教えてあげよう
+            if(ifArray[i].ifCornerRow==CurrentRow&&ifArray[i].ifCornerColumn==CurrentColumn){
+                ifArray[i].ifCornerColumn++;
+            }
+        }
+        ObjectInstall(Yokodake_prefab);
+        CurrentColumn=x;
+        CurrentRow=y;
+        WireSetting();
+    }
+
+    public void ImaIfShori(int nakax){ // →、↓、← の順で処理するよ
+        CurrentColumn=ifArray[ifCount].ifStartColumn;
+        CurrentRow=ifArray[ifCount].ifStartRow;
+        //右にyoko配置
+        for(CurrentRow=ifArray[ifCount].ifStartRow;CurrentColumn<nakax;CurrentColumn++){
+            ObjectInstall(Yokodake_prefab);
+        }
+        //右端に到着、tateおく
+        CurrentColumn=nakax+1;
+        ObjectInstall(Tatedake_prefab);
+        //下までblankいれる
+        //CurrentRow++;
+        for(CurrentRow=CurrentRow+1;CurrentRow<ifArray[ifCount].ifEndRow;CurrentRow++){
+            ObjectInstall(Blank_prefab);
+        }
+        //下ついた。corner2おく
+        CurrentRow=ifArray[ifCount].ifEndRow;
+        ObjectInstall(Corner2_prefab);
+         //ついでにarrayに情報いれる
+        ifArray[ifCount].ifCornerColumn=CurrentColumn;
+        ifArray[ifCount].ifCornerRow=CurrentRow;
+        //左にyokoおいてく
+        //CurrentColumn--;
+        for(CurrentColumn=CurrentColumn-1;CurrentColumn>ifArray[ifCount].ifStartColumn;CurrentColumn--){
+            ObjectInstall(Yokodake_prefab);
+        }
+        WireSetting();
+    }
+
+    public int SearchRight(int x,int y){ //ifにぶつかってからtatedakeをさがします
+        while(objectArray[x,y].name!="Tatedake_prefab"){
+            x++;
+        }
+        return x;
+    }
+    public int SearchLower(int x,int y){ //tatedakeにぶつかってからyokoを探してくれます
+        while(objectArray[x,y].name!="Corner2_prefab"){
+            y++;
+        }
+        return y;
+    }
+
+    public int SearchUpper(int x,int y){ //tatedakeにぶつかってからyokoを探してくれます
+        while(objectArray[x,y].name!="Tatedake_prefab"){
+            y--;
+        }
+        return y;
+    }
+
+    public void IFMATOME(){
+        int ys=ifArray[ifCount].ifStartRow;
+        int ye=ifArray[ifCount].ifEndRow;
+
+        int p=SeekThemOut();
+        PlacingSentry(p,ys,ye);
+        ImaIfShori(p);
+    }
 
     public void reload()
     {
