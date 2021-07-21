@@ -13,6 +13,7 @@ public class ObjectCollection : MonoBehaviour
     public GameObject[,] HorizontalwireArray = new GameObject[64,128];
     //nakamiiii
     public static string[,] content = new string[64,128];
+    public static string[,] kata = new string[64,128];
     public Text messageText;
 
     Ifreference[] ifArray = new Ifreference[128];
@@ -90,6 +91,15 @@ public class ObjectCollection : MonoBehaviour
 
         // 西田
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
+
+        //contentの型用
+        for (int i = 0; i < 64; i++)
+        {
+            for (int j = 0; j < 128; j++)
+            {
+                kata[i,j] = " ";
+            }
+        }
     }
 
     //列と行による位置決定
@@ -443,6 +453,8 @@ public class ObjectCollection : MonoBehaviour
                     }
                     content[CurrentColumn,CurrentRow]=content[CurrentColumn,CurrentRow-1];
                     content[CurrentColumn,CurrentRow-1]="";
+                    kata[CurrentColumn,CurrentRow]=kata[CurrentColumn,CurrentRow-1];
+                    kata[CurrentColumn,CurrentRow-1]=" ";
                 }
             }
         }
@@ -573,6 +585,15 @@ public class ObjectCollection : MonoBehaviour
                 //Debug.Log(content[i, j]);
             }
         }
+        //座標ごとストレージに保存する(変数の型情報)
+        for (i = 0; i < maxColumn; i++)
+        {
+            for (j = 0; j < maxRow; j++)
+            {
+                PlayerPrefs.SetString("kataArray" + i + j, kata[i, j]);
+                //Debug.Log(content[i, j]);
+            }
+        }
         PlayerPrefs.SetInt("maxColumn", maxColumn);
         PlayerPrefs.SetInt("maxRow", maxRow);
         PlayerPrefs.Save();
@@ -586,6 +607,7 @@ public class ObjectCollection : MonoBehaviour
             {
                 SaveobjectArray[i, j] = PlayerPrefs.GetString("ObjectArray" + i + j, null);
                 content[i, j] = PlayerPrefs.GetString("contentArray" + i + j, null);
+                kata[i, j] = PlayerPrefs.GetString("kataArray" + i + j, null);
                 // Debug.Log(content[i, j]);
             }
         }
@@ -1021,8 +1043,12 @@ public class ObjectCollection : MonoBehaviour
                 string vartext;
                 if(varsettingcs.VarDropdownPrintf.value!=0){
                     vartext = varsettingcs.whatisthis(varsettingcs.VarDropdownPrintf.value);
-                }else{
+                    kata[CurrentColumn,CurrentRow]=varsettingcs.watchthis(varsettingcs.VarDropdownPrintf.value);
+                    content[CurrentColumn, CurrentRow] = varsettingcs.youshouldrun(varsettingcs.VarDropdownPrintf.value);
+                }
+                else{
                     vartext = PrintfInputField.text.ToString();
+                    content[CurrentColumn, CurrentRow] = vartext;
                 }
                 DataHere = vartext;
                 PrintfDisplay.text = DataHere;
@@ -1042,6 +1068,7 @@ public class ObjectCollection : MonoBehaviour
                 }
                 DataHere=vartext1+enzansi+vartext2;
                 IfDisPlay.text = DataHere;
+                content[CurrentColumn, CurrentRow] = DataHere;
                 break;
 
             case 7://calc
@@ -1064,13 +1091,14 @@ public class ObjectCollection : MonoBehaviour
                 }
                 DataHere=aaa+"="+vartext3+enzansi2+vartext4;
                 CalcDisplay.text=DataHere;
+                content[CurrentColumn, CurrentRow] = DataHere;
                 break;
 
             default:
                 break;
         }
         Debug.Log("値変えたよ");
-        content[CurrentColumn,CurrentRow]=DataHere;
+     //   content[CurrentColumn,CurrentRow]=DataHere;
     }
 
     //dropdown取得。これは選択するたびにかってにだしてくれる
