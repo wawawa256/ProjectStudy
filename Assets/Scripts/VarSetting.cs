@@ -148,6 +148,8 @@ public class VarSetting : MonoBehaviour
             {
                 messageText.text =
                     "変数に予約語を用いることはできません";
+                ResetInputField();
+                return;
             }
         }
 
