@@ -4,6 +4,10 @@
 
 //nakami1
 
+
+//君が代
+//なかみちこわい
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
