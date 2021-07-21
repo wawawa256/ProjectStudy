@@ -4,6 +4,9 @@
 
 //nakami1
 
+
+//君が代
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
