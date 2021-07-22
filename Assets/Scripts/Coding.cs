@@ -84,7 +84,6 @@ public class Coding : MonoBehaviour
         Code.text += "\treturn 0;\n";
         Code.text += "}";
         GUIUtility.systemCopyBuffer = Code.text;
-
     }
 
     //中身見て出力するだけ
@@ -186,7 +185,7 @@ public class Coding : MonoBehaviour
     {
         space(spacecount(1));
         Code.text += content[x,y];
-        Code.text += "\n";
+        Code.text += ";\n";
         y++;
     }
 
