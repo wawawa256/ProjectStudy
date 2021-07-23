@@ -69,6 +69,7 @@ public class ObjectCollection : MonoBehaviour
     public float  StartPosY;
     public int jibunX = 0;
     public int jibunY = 0;
+    public static int touch_flag = 1;
 
     //変数の初期化と初期設定
     public void Start()
@@ -114,41 +115,41 @@ public class ObjectCollection : MonoBehaviour
      //西田
     public void Update ()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            Debug.Log("Update");
-            StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
-            StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
-
-
-            int i,j;
-            for(i = 0;i<maxColumn+1;i++){
-                if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
-                    jibunX = i;
-                    break;
+        if(touch_flag == 1){
+            if(Input.GetMouseButtonDown(0)){
+                Debug.Log("Update");
+                StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
+                StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
+                int i,j;
+                for(i = 0;i<maxColumn+1;i++){
+                    if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
+                        jibunX = i;
+                        break;
+                    }
+                    else if(i == maxColumn){
+                        jibunX = 64;
+                    }
                 }
-                else if(i == maxColumn){
-                    jibunX = 64;
+                for(j = 0; j<maxRow+1;j++){
+                    if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//j行目にあるよ
+                        jibunY = j;
+                        break;
+                    }
+                    else if(j==maxRow){
+                        jibunY = 129;
+                    }
                 }
+                if(jibunX == 64 || jibunY == 129)return;
+                if(objectArray[jibunX,jibunY]==null)return;
+                //Location(jibunX,jibunY,-1);
+                //CurrentPlace.transform.position = Place;
+                CurrentColumn = jibunX;
+                CurrentRow = jibunY;
+                CurrentPosition();
+                Debug.Log("update fin");
             }
-            for(j = 0; j<maxRow+1;j++){
-                if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//j行目にあるよ
-                    jibunY = j;
-                    break;
-                }
-                else if(j==maxRow){
-                    jibunY = 129;
-                }
-            }
-            if(jibunX == 64 || jibunY == 129)return;
-            if(objectArray[jibunX,jibunY]==null)return;
-            //Location(jibunX,jibunY,-1);
-            //CurrentPlace.transform.position = Place;
-            CurrentColumn = jibunX;
-            CurrentRow = jibunY;
-            CurrentPosition();
-            Debug.Log("update fin");
         }
+        
     }
 
     void makeInstance()
