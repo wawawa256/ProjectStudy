@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 908901531506981298}
   - component: {fileID: 558160494174883619}
   m_Layer: 0
-  m_Name: FlowChart_ForStart
+  m_Name: ForStart_prefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 5915915881307531056}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0}
   m_Children:
   - {fileID: 5940463669782385409}
   m_Father: {fileID: 0}
