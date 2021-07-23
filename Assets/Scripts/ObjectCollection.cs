@@ -720,7 +720,8 @@ public class ObjectCollection : MonoBehaviour
                         break;
                 }
                 //nullはinstantiate不可
-
+                CurrentColumn = i;
+                CurrentRow = j;
                 if (Prefab != null)
                 {
                     //Debug.Log(Prefab);
@@ -736,10 +737,13 @@ public class ObjectCollection : MonoBehaviour
 
                     //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
                     objectArray[i, j].name = Prefab.name;
+                    textMake(CurrentColumn, CurrentRow, Prefab.name);
                 }
             }
         }
         WireSetting();
+        CurrentColumn = 0;
+        CurrentRow = 0;
     }
 
     //ボタン操作上
