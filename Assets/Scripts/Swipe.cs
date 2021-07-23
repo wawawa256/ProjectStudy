@@ -35,15 +35,13 @@ public class Swipe : MonoBehaviour
 
     void Update ()
     {
-        maxColumn = ObjectCollection.maxColumn;
-        maxRow = ObjectCollection.maxRow;
-        CameraPosX = mainCamera.transform.position.x;
-        CameraPosY = mainCamera.transform.position.y;
-        maxPosX = HorizontalSpace * maxColumn + startX;
-        maxPosY = VerticalSpace * maxRow + startY;
-
         if(Input.GetMouseButtonDown(0))
         {    
+            maxColumn = ObjectCollection.maxColumn;
+            maxRow = ObjectCollection.maxRow;
+            maxPosX = HorizontalSpace * maxColumn;
+            maxPosY = VerticalSpace * maxRow;
+
             StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
             StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
         }
@@ -53,6 +51,8 @@ public class Swipe : MonoBehaviour
             EndPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
             SwipeLengthX = StartPosX - EndPosX;
             SwipeLengthY = StartPosY - EndPosY;
+            CameraPosX = mainCamera.transform.position.x;
+            CameraPosY = mainCamera.transform.position.y;
 
             UpperSetting();
 
