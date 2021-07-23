@@ -116,6 +116,7 @@ public class ObjectCollection : MonoBehaviour
     {
         if(Input.GetMouseButtonDown(0))
         {
+            Debug.Log("Update");
             StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
             StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
 
@@ -131,7 +132,7 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
             for(j = 0; j<maxRow+1;j++){
-                if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//i行目にあるよ
+                if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//j行目にあるよ
                     jibunY = j;
                     break;
                 }
@@ -146,6 +147,7 @@ public class ObjectCollection : MonoBehaviour
             CurrentColumn = jibunX;
             CurrentRow = jibunY;
             CurrentPosition();
+            Debug.Log("update fin");
         }
     }
 
@@ -198,13 +200,10 @@ public class ObjectCollection : MonoBehaviour
         HorizontalwireArray[CurrentColumn,CurrentRow].name=Prefab.name;
     }
 
-    //Paizaボタン
-
-
-
     //printfボタン
     public void PrintfButtonClicked()
     {
+        Debug.Log("printfButton");
         //置こうとしている場所を一度保存しておく
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
@@ -219,6 +218,7 @@ public class ObjectCollection : MonoBehaviour
 
         CurrentPosition();
         whetherIf = false;
+        Debug.Log("printf fin");
     }
 
     //ifボタン
@@ -402,7 +402,7 @@ public class ObjectCollection : MonoBehaviour
         countColumnRow();
         WireSetting();
         illegalObjectCheck();
-        ifArrayCheck();
+        //ifArrayCheck();
     }
 
     //すでにオブジェクトがその位置にあるか
@@ -513,7 +513,7 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[0,row] == null) break;
             maxRow++;
         }
-        Debug.Log("maxRow="+maxRow);
+        //Debug.Log("maxRow="+maxRow);
         for(column = 1;column<64;column++)
         {
             for(row = 0;objectArray[column,row]==null;row++)
@@ -521,7 +521,7 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[column,row]==null)
             {
                 maxColumn = column;
-                Debug.Log("maxColumn="+maxColumn);
+                //Debug.Log("maxColumn="+maxColumn);
                 return;
             }
         }
@@ -772,7 +772,7 @@ public class ObjectCollection : MonoBehaviour
             }
             else
             {
-                Debug.Log("ifCount = "+ifCount);
+                //Debug.Log("ifCount = "+ifCount);
                 for(j=0;j<ifCount;j++)
                 {
                 //ifStartが他のifの内側かどうか
@@ -793,7 +793,7 @@ public class ObjectCollection : MonoBehaviour
                 //内
                 if(InOutCheck)
                 {
-                    Debug.Log("uchi");
+                    //Debug.Log("uchi");
                     for(i=0;i<maxRow;i++)
                     {
                         if(ifArray[temp].ifStartRow<i)
@@ -807,7 +807,7 @@ public class ObjectCollection : MonoBehaviour
                 //外
                 else
                 {
-                    Debug.Log("soto");
+                    //Debug.Log("soto");
                     for(i=0;i<maxRow;i++)
                     {
                         act = false;
@@ -835,7 +835,7 @@ public class ObjectCollection : MonoBehaviour
         }
         Location(CurrentColumn,CurrentRow,-1);
         CurrentPlace.transform.position = Place;
-        reload();
+        //reload();
         preRow = CurrentRow;
         preColumn = CurrentColumn;
         //Debug.Log("maxRow = "+maxRow);
@@ -870,7 +870,6 @@ public class ObjectCollection : MonoBehaviour
                         if(CurrentRow!=maxRow-1)
                         {
                             WireInstall(Wire_prefab);
-                            Debug.Log(CurrentRow);
                         }
                         break;
 
