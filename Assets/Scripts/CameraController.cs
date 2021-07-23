@@ -19,7 +19,7 @@ public class CameraController : MonoBehaviour
     public void reload() {
         CurrentColumn = ObjectCollection.CurrentColumn;
         CurrentRow = ObjectCollection.CurrentRow;
-        ObjectCollection.Location(CurrentColumn+1,CurrentRow+1,-10);
+        ObjectCollection.Location(CurrentColumn,CurrentRow,-10);
         //カメラはプレイヤーと同じ位置にする
         mainCamera.transform.position = ObjectCollection.Place;
 
