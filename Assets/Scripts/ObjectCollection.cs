@@ -65,10 +65,10 @@ public class ObjectCollection : MonoBehaviour
     int preRow;
 
     //西田
-    public float  StartPosX;
-    public float  StartPosY;
-    public int jibunX = 0;
-    public int jibunY = 0;
+    // public float  StartPosX;
+    // public float  StartPosY;
+    // public int jibunX = 0;
+    // public int jibunY = 0;
 
     //変数の初期化と初期設定
     public void Start()
@@ -90,7 +90,7 @@ public class ObjectCollection : MonoBehaviour
         makeInstance();
 
         // 西田
-        mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
+        // mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
 
         //contentの型用
         for (int i = 0; i < 64; i++)
@@ -112,44 +112,44 @@ public class ObjectCollection : MonoBehaviour
     }
 
      //西田
-    public void Update ()
-    {
-        if(Input.GetMouseButtonDown(0))
-        {
-            //Debug.Log("Update");
-            StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
-            StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
+    // public void Update ()
+    // {
+    //     if(Input.GetMouseButtonDown(0))
+    //     {
+    //         Debug.Log("Update");
+    //         StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
+    //         StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
 
 
-            int i,j;
-            for(i = 0;i<maxColumn+1;i++){
-                if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
-                    jibunX = i;
-                    break;
-                }
-                else if(i == maxColumn){
-                    jibunX = 64;
-                }
-            }
-            for(j = 0; j<maxRow+1;j++){
-                if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//j行目にあるよ
-                    jibunY = j;
-                    break;
-                }
-                else if(j==maxRow){
-                    jibunY = 129;
-                }
-            }
-            if(jibunX == 64 || jibunY == 129)return;
-            if(objectArray[jibunX,jibunY]==null)return;
-            //Location(jibunX,jibunY,-1);
-            //CurrentPlace.transform.position = Place;
-            CurrentColumn = jibunX;
-            CurrentRow = jibunY;
-            CurrentPosition();
-            //Debug.Log("update fin");
-        }
-    }
+    //         int i,j;
+    //         for(i = 0;i<maxColumn+1;i++){
+    //             if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
+    //                 jibunX = i;
+    //                 break;
+    //             }
+    //             else if(i == maxColumn){
+    //                 jibunX = 64;
+    //             }
+    //         }
+    //         for(j = 0; j<maxRow+1;j++){
+    //             if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//j行目にあるよ
+    //                 jibunY = j;
+    //                 break;
+    //             }
+    //             else if(j==maxRow){
+    //                 jibunY = 129;
+    //             }
+    //         }
+    //         if(jibunX == 64 || jibunY == 129)return;
+    //         if(objectArray[jibunX,jibunY]==null)return;
+    //         //Location(jibunX,jibunY,-1);
+    //         //CurrentPlace.transform.position = Place;
+    //         CurrentColumn = jibunX;
+    //         CurrentRow = jibunY;
+    //         CurrentPosition();
+    //         Debug.Log("update fin");
+    //     }
+    // }
 
     void makeInstance()
     {
@@ -180,7 +180,7 @@ public class ObjectCollection : MonoBehaviour
 
     void textMake(int column,int row,string name)
     {
-        Transform canv = 
+        Transform canv =
             objectArray[column,row].transform.Find("Canvas");
         if(canv == null) return;
         GameObject canvObj = canv.gameObject;
@@ -204,7 +204,7 @@ public class ObjectCollection : MonoBehaviour
         case "Calc_prefab":
             ObjectText.text = "Calculate";
             break;
-            
+
         }
         else
         {
@@ -486,7 +486,7 @@ public class ObjectCollection : MonoBehaviour
                     {
                         ObjectInstall(objectArray[CurrentColumn,CurrentRow-1]);
                         textMake(CurrentColumn,CurrentRow,objectArray[CurrentColumn,CurrentRow-1].name);
-                    
+
                         switch(objectArray[CurrentColumn,CurrentRow-1].name)
                         {
                         case "If_prefab":
