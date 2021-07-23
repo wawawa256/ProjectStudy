@@ -1525,9 +1525,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Paiza
-
-'
+  m_Text: Paiza
 --- !u!222 &137481860
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1892,7 +1890,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.78200006, y: 0}
   m_AnchorMax: {x: 0.78200006, y: 1}
-  m_AnchoredPosition: {x: -262.44626, y: -333.81787}
+  m_AnchoredPosition: {x: -235.97, y: -292}
   m_SizeDelta: {x: 267.0474, y: -811.3643}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &168730832
@@ -2513,6 +2511,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1682481288}
+        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
+        m_MethodName: touch_flagtateruyo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &213653619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2915,8 +2925,8 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 240, y: 70}
-  m_Spacing: {x: 0, y: 15}
+  m_CellSize: {x: 240, y: 65}
+  m_Spacing: {x: 0, y: 10}
   m_Constraint: 1
   m_ConstraintCount: 1
 --- !u!114 &258297309
@@ -2964,16 +2974,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messageText: {fileID: 1714211588}
   CurrentPlace: {fileID: 515324387}
-  Printf_prefab: {fileID: 2769626745291384917, guid: 2c43da1ff9e1a4fb99a79f1cfa420535, type: 3}
-  If_prefab: {fileID: 3413320604208290281, guid: 5cd85c0a8aaf34a869e80375c6fd417d, type: 3}
+  Printf_prefab: {fileID: 1284551837734781671, guid: 4b1ba3acdc6a24324958b5d3a8613c6d, type: 3}
+  If_prefab: {fileID: 6633812285940625856, guid: 92cdb6e9cb9fe4e278879c38614fd684, type: 3}
   Blank_prefab: {fileID: 9101584263933921257, guid: f230b5e1475ab49618a600cfaf1aea79, type: 3}
   Wire_prefab: {fileID: 3143971191318222018, guid: d8098e3d71d314f8d978434ea17388a4, type: 3}
   Wire_If_prefab: {fileID: 5123664820458306697, guid: a7c7d46221442435c959d9249ad72448, type: 3}
   Corner1_prefab: {fileID: 7081676813067730129, guid: 9a0b379a63a9c4887ad429bccbbc62ed, type: 3}
   Corner2_prefab: {fileID: 1300635845545357244, guid: ab076123c61d54163a964c19b9c4a1d5, type: 3}
-  ForStart_prefab: {fileID: 5606810396029997906, guid: 2e7112836ec654b7c917860caf6a3325, type: 3}
-  ForEnd_prefab: {fileID: 4608137198965012375, guid: c023c6227816d4d1c912e76613f2ba6d, type: 3}
-  Calc_prefab: {fileID: 4733804972509276715, guid: e6b1e10b0edc94adb8a6de237cde7664, type: 3}
+  ForStart_prefab: {fileID: 5915915881307531056, guid: 106660c57447a4fd888a4719bc2c76d5, type: 3}
+  ForEnd_prefab: {fileID: 2564939335298593, guid: dcdddc181c9244a248bc5946dd0ca3b2, type: 3}
+  Calc_prefab: {fileID: 6093919044520773781, guid: 5c9f6d3f4444c4f9eaea742b80ad4d79, type: 3}
   varsettingcs: {fileID: 0}
   StartPosX: 0
   StartPosY: 0
@@ -2983,8 +2993,8 @@ MonoBehaviour:
   PrintfMenu: {fileID: 1784775340}
   ForMenu: {fileID: 1252419975}
   CalcMenu: {fileID: 1097063490}
-  Tatedake_prefab: {fileID: 7880586597996365381, guid: 6f5ba704e2196f54c904081c27a6a6d1, type: 3}
-  Yokodake_prefab: {fileID: 5943651443365725486, guid: 971144e0e4f2ab64a942df5046544c63, type: 3}
+  Tatedake_prefab: {fileID: 0}
+  Yokodake_prefab: {fileID: 0}
   enzansi: 
   PrintfInputField: {fileID: 1660280107}
   IfInputField1: {fileID: 627690454}
@@ -5335,10 +5345,10 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -5389,8 +5399,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 0b5b81dafa17c4243a0a3b20ed9ae134, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -7278,8 +7288,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240, y: -255}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240, y: -225}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &646397953
 MonoBehaviour:
@@ -8138,7 +8148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -8168,8 +8178,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 28809885}
   m_HandleRect: {fileID: 28809884}
   m_Direction: 0
-  m_Value: -0.000023977993
-  m_Size: 0.97741926
+  m_Value: -0.000037056412
+  m_Size: 0.97741896
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8756,7 +8766,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 089c2bb48081b4c49842dc2313f1ff27, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d7083121dd9ac4e8e8fa2de9c788b30b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9192,7 +9202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -9380,7 +9390,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 420.74512, y: 460.00064}
+  m_AnchoredPosition: {x: 1110, y: 439}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &838333523
@@ -9804,6 +9814,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1682481288}
+        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
+        m_MethodName: touch_flagtateruyo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &857106911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10094,8 +10116,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240, y: -340}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240, y: -300}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &889805011
 MonoBehaviour:
@@ -10160,6 +10182,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1682481287}
+        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10732,8 +10766,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240.00012, y: -425}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240.00012, y: -375}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1.0000005, y: 1}
 --- !u!114 &932174863
 MonoBehaviour:
@@ -10878,8 +10912,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240, y: -84.99999}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240, y: -74.99999}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1, y: 1.0000001}
 --- !u!114 &941393998
 MonoBehaviour:
@@ -11908,8 +11942,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240, y: -595}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240, y: -525}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1019232660
 MonoBehaviour:
@@ -12426,6 +12460,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1682481288}
+        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
+        m_MethodName: touch_flagtateruyo
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1067330585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12718,6 +12764,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1682481288}
+        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
+        m_MethodName: touch_flagtateruyo
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -14237,7 +14295,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.13500977, y: -508.88403}
+  m_AnchoredPosition: {x: 0.13476562, y: -508.88403}
   m_SizeDelta: {x: 0.26978, y: -1017.768}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1225300762
@@ -14461,7 +14519,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -15001,7 +15059,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 649.92, y: 0.00012207031}
+  m_AnchoredPosition: {x: 649.9199, y: 0}
   m_SizeDelta: {x: -1299.8, y: -0.00012207}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1267944080
@@ -15157,8 +15215,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240, y: -510}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240, y: -450}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1277816755
 MonoBehaviour:
@@ -15336,8 +15394,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1860016083}
   m_HandleRect: {fileID: 1860016082}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.7625178
+  m_Value: 0.9999996
+  m_Size: 0.67523926
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16572,7 +16630,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0c8a204712d7e45b7ab2ee7d199be5be, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5119e467bc6df49da93cdf597127050b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -16970,8 +17028,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -93.18, y: 165.49}
-  m_SizeDelta: {x: 320, y: 749.017}
+  m_AnchoredPosition: {x: -93.18, y: 174.93}
+  m_SizeDelta: {x: 320, y: 665.2297}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1533196951
 MonoBehaviour:
@@ -17677,7 +17735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1580227506
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17695,7 +17753,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 580.745, y: 456.00067}
+  m_AnchoredPosition: {x: 464.89, y: 460}
   m_SizeDelta: {x: 160, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1580227508
@@ -18011,7 +18069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -18167,8 +18225,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.6039216}
-  m_RaycastTarget: 1
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -19386,7 +19444,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -20058,8 +20116,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -43.7266, y: -0.00000082977}
-  m_SizeDelta: {x: 2049.5427, y: 62.232}
+  m_AnchoredPosition: {x: 31.258, y: 0.000029688}
+  m_SizeDelta: {x: 1857.8, y: 62.232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1714211588
 MonoBehaviour:
@@ -20610,7 +20668,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22690,7 +22748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -22826,8 +22884,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240, y: -170}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240, y: -150}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &1947394353
 MonoBehaviour:
@@ -22972,7 +23030,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 240.00017, y: 0}
-  m_SizeDelta: {x: 240, y: 70}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1.0000007, y: 1}
 --- !u!114 &1988706212
 MonoBehaviour:
@@ -23033,6 +23091,18 @@ MonoBehaviour:
       - m_Target: {fileID: 1602442962}
         m_TargetAssemblyTypeName: VarSetting, Assembly-CSharp
         m_MethodName: UpdateVarDropdown
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1682481288}
+        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
+        m_MethodName: touch_flagkorosuyo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -23404,8 +23474,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 240, y: -595}
-  m_SizeDelta: {x: 240, y: 70}
+  m_AnchoredPosition: {x: 240, y: -600}
+  m_SizeDelta: {x: 240, y: 65}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2027344067
 MonoBehaviour:

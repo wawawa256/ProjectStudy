@@ -69,6 +69,7 @@ public class ObjectCollection : MonoBehaviour
     public float  StartPosY;
     public int jibunX = 0;
     public int jibunY = 0;
+    public static int touch_flag = 1;
 
     //変数の初期化と初期設定
     public void Start()
@@ -90,7 +91,7 @@ public class ObjectCollection : MonoBehaviour
         makeInstance();
 
         // 西田
-        mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
+        // mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
 
         //contentの型用
         for (int i = 0; i < 64; i++)
@@ -114,39 +115,41 @@ public class ObjectCollection : MonoBehaviour
      //西田
     public void Update ()
     {
-        if(Input.GetMouseButtonDown(0))
-        {
-            StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
-            StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
-
-
-            int i,j;
-            for(i = 0;i<maxColumn+1;i++){
-                if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
-                    jibunX = i;
-                    break;
+        if(touch_flag == 1){
+            if(Input.GetMouseButtonDown(0)){
+                Debug.Log("Update");
+                StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
+                StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
+                int i,j;
+                for(i = 0;i<maxColumn+1;i++){
+                    if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
+                        jibunX = i;
+                        break;
+                    }
+                    else if(i == maxColumn){
+                        jibunX = 64;
+                    }
                 }
-                else if(i == maxColumn){
-                    jibunX = 64;
+                for(j = 0; j<maxRow+1;j++){
+                    if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//j行目にあるよ
+                        jibunY = j;
+                        break;
+                    }
+                    else if(j==maxRow){
+                        jibunY = 129;
+                    }
                 }
+                if(jibunX == 64 || jibunY == 129)return;
+                if(objectArray[jibunX,jibunY]==null)return;
+                //Location(jibunX,jibunY,-1);
+                //CurrentPlace.transform.position = Place;
+                CurrentColumn = jibunX;
+                CurrentRow = jibunY;
+                CurrentPosition();
+                Debug.Log("update fin");
             }
-            for(j = 0; j<maxRow+1;j++){
-                if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//i行目にあるよ
-                    jibunY = j;
-                    break;
-                }
-                else if(j==maxRow){
-                    jibunY = 129;
-                }
-            }
-            if(jibunX == 64 || jibunY == 129)return;
-            if(objectArray[jibunX,jibunY]==null)return;
-            //Location(jibunX,jibunY,-1);
-            //CurrentPlace.transform.position = Place;
-            CurrentColumn = jibunX;
-            CurrentRow = jibunY;
-            CurrentPosition();
         }
+        
     }
 
     void makeInstance()
@@ -172,6 +175,42 @@ public class ObjectCollection : MonoBehaviour
 
         //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
         objectArray[CurrentColumn, CurrentRow].name = Prefab.name;
+
+        textMake(CurrentColumn,CurrentRow,Prefab.name);
+    }
+
+    void textMake(int column,int row,string name)
+    {
+        Transform canv =
+            objectArray[column,row].transform.Find("Canvas");
+        if(canv == null) return;
+        GameObject canvObj = canv.gameObject;
+        Transform text = canvObj.transform.Find("Text");
+        GameObject textObj = text.gameObject;
+        Text ObjectText = textObj.GetComponent<Text>();
+
+        Debug.Log(content[column,row]);
+        if(content[column,row] == null || content[column,row] == "")
+        switch (name)
+        {
+        case "Printf_prefab":
+            ObjectText.text = "printf";
+            break;
+        case "If_prefab":
+            ObjectText.text = "if";
+            break;
+        case "ForStart_prefab":
+            ObjectText.text = "for";
+            break;
+        case "Calc_prefab":
+            ObjectText.text = "Calculate";
+            break;
+
+        }
+        else
+        {
+            ObjectText.text = content[column,row];
+        }
     }
 
     //縦ワイヤーの設置
@@ -198,13 +237,10 @@ public class ObjectCollection : MonoBehaviour
         HorizontalwireArray[CurrentColumn,CurrentRow].name=Prefab.name;
     }
 
-    //Paizaボタン
-
-
-
     //printfボタン
     public void PrintfButtonClicked()
     {
+        //Debug.Log("printfButton");
         //置こうとしている場所を一度保存しておく
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
@@ -219,6 +255,7 @@ public class ObjectCollection : MonoBehaviour
 
         CurrentPosition();
         whetherIf = false;
+        //Debug.Log("printf fin");
     }
 
     //ifボタン
@@ -402,7 +439,7 @@ public class ObjectCollection : MonoBehaviour
         countColumnRow();
         WireSetting();
         illegalObjectCheck();
-        ifArrayCheck();
+        //ifArrayCheck();
     }
 
     //すでにオブジェクトがその位置にあるか
@@ -441,10 +478,18 @@ public class ObjectCollection : MonoBehaviour
                 }
                 else
                 {
-                    ObjectInstall(objectArray[CurrentColumn,CurrentRow-1]);
+                    content[CurrentColumn,CurrentRow]=content[CurrentColumn,CurrentRow-1];
+                    content[CurrentColumn,CurrentRow-1]="";
+                    kata[CurrentColumn,CurrentRow]=kata[CurrentColumn,CurrentRow-1];
+                    kata[CurrentColumn,CurrentRow-1]=" ";
+
                     if(objectArray[CurrentColumn,CurrentRow-1]!=null)
-                    switch(objectArray[CurrentColumn,CurrentRow-1].name)
                     {
+                        ObjectInstall(objectArray[CurrentColumn,CurrentRow-1]);
+                        textMake(CurrentColumn,CurrentRow,objectArray[CurrentColumn,CurrentRow-1].name);
+
+                        switch(objectArray[CurrentColumn,CurrentRow-1].name)
+                        {
                         case "If_prefab":
                             for(i=0;i<ifCount;i++)
                             if(ifArray[i].ifStartRow == CurrentRow-1)
@@ -462,11 +507,8 @@ public class ObjectCollection : MonoBehaviour
                             break;
                         default:
                             break;
+                        }
                     }
-                    content[CurrentColumn,CurrentRow]=content[CurrentColumn,CurrentRow-1];
-                    content[CurrentColumn,CurrentRow-1]="";
-                    kata[CurrentColumn,CurrentRow]=kata[CurrentColumn,CurrentRow-1];
-                    kata[CurrentColumn,CurrentRow-1]=" ";
                 }
             }
         }
@@ -513,7 +555,7 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[0,row] == null) break;
             maxRow++;
         }
-        Debug.Log("maxRow="+maxRow);
+        //Debug.Log("maxRow="+maxRow);
         for(column = 1;column<64;column++)
         {
             for(row = 0;objectArray[column,row]==null;row++)
@@ -521,7 +563,7 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[column,row]==null)
             {
                 maxColumn = column;
-                Debug.Log("maxColumn="+maxColumn);
+                //Debug.Log("maxColumn="+maxColumn);
                 return;
             }
         }
@@ -670,6 +712,9 @@ public class ObjectCollection : MonoBehaviour
                         Prefab = Corner2_prefab;
                         // Debug.Log(Prefab);
                         break;
+                    case "Calc_prefab":
+                        Prefab = Calc_prefab;
+                        break;
                     default:
                         Prefab = null;
                         break;
@@ -772,7 +817,7 @@ public class ObjectCollection : MonoBehaviour
             }
             else
             {
-                Debug.Log("ifCount = "+ifCount);
+                //Debug.Log("ifCount = "+ifCount);
                 for(j=0;j<ifCount;j++)
                 {
                 //ifStartが他のifの内側かどうか
@@ -793,7 +838,7 @@ public class ObjectCollection : MonoBehaviour
                 //内
                 if(InOutCheck)
                 {
-                    Debug.Log("uchi");
+                    //Debug.Log("uchi");
                     for(i=0;i<maxRow;i++)
                     {
                         if(ifArray[temp].ifStartRow<i)
@@ -807,7 +852,7 @@ public class ObjectCollection : MonoBehaviour
                 //外
                 else
                 {
-                    Debug.Log("soto");
+                    //Debug.Log("soto");
                     for(i=0;i<maxRow;i++)
                     {
                         act = false;
@@ -835,7 +880,7 @@ public class ObjectCollection : MonoBehaviour
         }
         Location(CurrentColumn,CurrentRow,-1);
         CurrentPlace.transform.position = Place;
-        reload();
+        //reload();
         preRow = CurrentRow;
         preColumn = CurrentColumn;
         //Debug.Log("maxRow = "+maxRow);
@@ -870,7 +915,6 @@ public class ObjectCollection : MonoBehaviour
                         if(CurrentRow!=maxRow-1)
                         {
                             WireInstall(Wire_prefab);
-                            Debug.Log(CurrentRow);
                         }
                         break;
 
@@ -1076,6 +1120,7 @@ public class ObjectCollection : MonoBehaviour
                 }
                 DataHere = vartext;
                 PrintfDisplay.text = DataHere;
+                textMake(CurrentColumn,CurrentRow,"Printf_prefab");
                 break;
 
             case 3://if
@@ -1093,6 +1138,7 @@ public class ObjectCollection : MonoBehaviour
                 DataHere=vartext1+enzansi+vartext2;
                 IfDisPlay.text = DataHere;
                 content[CurrentColumn, CurrentRow] = DataHere;
+                textMake(CurrentColumn,CurrentRow,"If_prefab");
                 break;
 
             case 7://calc
@@ -1116,6 +1162,7 @@ public class ObjectCollection : MonoBehaviour
                 DataHere=aaa+"="+vartext3+enzansi2+vartext4;
                 CalcDisplay.text=DataHere;
                 content[CurrentColumn, CurrentRow] = DataHere;
+                textMake(CurrentColumn, CurrentRow,"Calc_prefab");
                 break;
 
             default:
