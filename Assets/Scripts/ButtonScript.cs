@@ -34,6 +34,7 @@ public class ButtonScript : MonoBehaviour
 
     int ifFlag;
     int forFlag;
+    
 
     public void Start()
     {
@@ -54,6 +55,15 @@ public class ButtonScript : MonoBehaviour
         ifFlag = 0;
         forFlag = 0;
     }
+
+    public void touch_flagtateruyo(){
+        ObjectCollection.touch_flag = 1;
+    }
+    public void touch_flagkorosuyo(){
+        ObjectCollection.touch_flag = 0;
+    }
+
+    
 
     public void PaizaButtonClicked()
     {
