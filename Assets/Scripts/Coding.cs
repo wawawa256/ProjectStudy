@@ -14,7 +14,7 @@ public class Coding : MonoBehaviour
     public int maxRow;
     public int column;
     public int row;
-    int x, y,ifcount;
+    int x, y,ifcount,nullcheak;
     public string objectName;
     public static int intCount;
     public static int floatCount;
@@ -33,6 +33,7 @@ public class Coding : MonoBehaviour
         x = 0;
         y = 0;
         ifcount = 0;
+        nullcheak = 0;
         objectArray = ObjectCollection.objectArray;
         maxColumn = ObjectCollection.maxColumn;
         maxRow = ObjectCollection.maxRow;
@@ -75,14 +76,24 @@ public class Coding : MonoBehaviour
             savestringnameArray[i] + "[] = " +'"'+
             savestringvalueArray[i]+'"' + ";\n";
         }
-            //上から順に調べていく、左下まで行ったら押しまい 
-            while ((x != 0) || (y != maxRow))
+            //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
+            while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
         {
             CodingCheck();
         }
         //決り文句入れて終了
-        Code.text += "\treturn 0;\n";
-        Code.text += "}";
+
+        if (nullcheak == 1)
+        {
+            Code.text = null;
+            Code.text =( "入力された情報が不十分なブロックが存在します");
+        }
+        else
+        {
+            Code.text += "\treturn 0;\n";
+            Code.text += "}";
+        }
+
         GUIUtility.systemCopyBuffer = Code.text;
     }
 
@@ -131,7 +142,6 @@ public class Coding : MonoBehaviour
             case "If_prefab":
                 Code_If();
                 break;
-
             case "Calc_prefab":
                 Code_Calc();
                 break;
@@ -145,8 +155,9 @@ public class Coding : MonoBehaviour
 
     public void Code_If()
     {
-
-       // int ifxcount;
+        // 条件が空欄じゃないことを確認する
+        if (content[x, y] == null || content[x, y] == "") nullcheak = 1;
+        // int ifxcount;
         int ifycount;
        //ifxcount = 0;
         ifycount = 0;
@@ -183,6 +194,7 @@ public class Coding : MonoBehaviour
 
     public void Code_Calc()
     {
+        if (content[x, y] == null || content[x, y] == "") nullcheak = 1;
         space(spacecount(1));
         Code.text += content[x,y];
         Code.text += ";\n";
