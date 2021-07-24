@@ -126,7 +126,6 @@ public class ObjectCollection : MonoBehaviour
     //         StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
     //         StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
 
-
     //         int i,j;
     //         for(i = 0;i<maxColumn+1;i++){
     //             if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
