@@ -32,6 +32,13 @@ public class ObjectCollection : MonoBehaviour
     public GameObject ForEnd_prefab;
     public GameObject Calc_prefab;
 
+    public Dropdown VarDropdownPrintf;
+    public Dropdown VarDropdownCalc1;
+    public Dropdown VarDropdownCalc2;
+    public Dropdown VarDropdownCalc3;
+    public Dropdown VarDropdownIf1;
+    public Dropdown VarDropdownIf2;
+
     Camera mainCamera;
 
     //定数の宣言
@@ -84,7 +91,6 @@ public class ObjectCollection : MonoBehaviour
         preRow = 0;
         ObjectInstall(Blank_prefab);
         CurrentPlace.transform.position = new Vector3(startX,startY,-1.0f);
-        varsettingcs = VarSettingEmptyObject.GetComponent<VarSetting>();
         messageText = messageText.GetComponent<Text>();
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
         makeInstance();
@@ -679,10 +685,8 @@ public class ObjectCollection : MonoBehaviour
             for (int j = 0; j < maxRow; j++)
             {
                 GameObject Prefab;
-
                 switch (SaveobjectArray[i, j])
                 {
-
                     case "Printf_prefab":
                         Prefab = Printf_prefab;
                         //Debug.Log(Prefab);
@@ -970,12 +974,8 @@ public class ObjectCollection : MonoBehaviour
 //庭野ゾーン
 //
     //できればUI系はButtonScriptにまとめたいと思ってる。
-    //そうすると他のメニューとも連携取れやすいはず。byたくみん
+    //そうすると他のメニューとも連携取れやすいはず。
     //変数#1 メニュー表示のためにメニュー(GameObject)を追加
-    public GameObject IfMenu;
-    public GameObject PrintfMenu;
-    public GameObject ForMenu;
-    public GameObject CalcMenu;
     public GameObject Tatedake_prefab;
     public GameObject Yokodake_prefab;
     public string enzansi;
@@ -991,35 +991,6 @@ public class ObjectCollection : MonoBehaviour
     public Text ForDisplay;
     public Text CalcDisplay;
 
-    //中身メニューを開こう。メニュー開くボタンにアタッチ
-    public void OpenContentMenu()
-        {
-            //text→textcomponent取得する。
-            PrintfDisplay = PrintfDisplay.GetComponent<Text>();
-            IfDisPlay = IfDisPlay.GetComponent<Text>();
-            ForDisplay = ForDisplay.GetComponent<Text>();
-            int imanani=ItemCheck2();
-            bool IfMenuActivity = IfMenu.activeInHierarchy;
-            bool PrintfMenuActivity = PrintfMenu.activeInHierarchy;
-            bool ForMenuActivity = ForMenu.activeInHierarchy;
-            bool CalcMenuActivity = CalcMenu.activeInHierarchy;
-            string DataHere = content[CurrentColumn,CurrentRow];
-
-            if(imanani==2){
-                //更新処理。何もしないとさっき入力した時のdisplayがmenuないに表示されるからそれを今のデータに合わせて変更してあげなくちゃいけない。
-                PrintfDisplay.text = DataHere;
-                PrintfMenu.SetActive(!PrintfMenuActivity);
-            }else if(imanani==3){
-
-                IfDisPlay.text = DataHere;
-                IfMenu.SetActive(!IfMenuActivity);
-            }else if(imanani==5||imanani==6){
-                ForMenu.SetActive(!ForMenuActivity);
-            }else if(imanani==7){
-                CalcDisplay.text=DataHere;
-                CalcMenu.SetActive(!CalcMenuActivity);
-            }
-        }
 
     //値取得パート。
 
@@ -1030,19 +1001,19 @@ public class ObjectCollection : MonoBehaviour
         int imanani=ItemCheck2();
         switch(imanani){
             case 2: //printfなとき
-                varsettingcs.VarDropdownPrintf.value=0;
+                VarDropdownPrintf.value=0;
                 break;
 
             case 3: //ifなとき...
-                varsettingcs.VarDropdownIf1.value=0;
-                varsettingcs.VarDropdownIf2.value=0;
+                VarDropdownIf1.value=0;
+                VarDropdownIf2.value=0;
                 //フォームクリアしない。複数あるから。
                 break;
 
             //case 5: //forなとき、実装後回しにしてる・・・。
 
             case 7: //calc!
-                varsettingcs.VarDropdownCalc1.value=
+                VarDropdownCalc1.value=
 
             default:
                 Debug.Log("GO SLEEP BITCH");
@@ -1073,42 +1044,43 @@ public class ObjectCollection : MonoBehaviour
     }
     //じゃあinputfield変更時に消す奴もいるんじゃね？
     public void ResetChoice1(){
-        varsettingcs.VarDropdownPrintf.value=0;
+        VarDropdownPrintf.value=0;
         return;
     }
     public void ResetChoice2(){
-        varsettingcs.VarDropdownIf1.value=0;
+        VarDropdownIf1.value=0;
         return;
     }
     public void ResetChoice3(){
-        varsettingcs.VarDropdownIf2.value=0;
+        VarDropdownIf2.value=0;
         return;
     }
     public void ResetChoice4(){
-        varsettingcs.VarDropdownCalc1.value=0;
+        VarDropdownCalc1.value=0;
         return;
     }
     public void ResetChoice5(){
-        varsettingcs.VarDropdownCalc2.value=0;
+        VarDropdownCalc2.value=0;
         return;
     }
     /*public void ResetChoice6(){
-        varsettingcs.VarDropdownCalc3.value=0;
+        VarDropdownCalc3.value=0;
         return;
     }*/
 
     //inputfieldの変更、選択肢変更の時の共通処理
-    public void GetVarContent(){
+    public void GetVarContent()
+    {
         GameObject ObjectHere = objectArray[CurrentColumn,CurrentRow];
         string DataHere = content[CurrentColumn,CurrentRow];
         int imanani=ItemCheck2();
         switch(imanani){
             case 2://printf
                 string vartext;
-                if(varsettingcs.VarDropdownPrintf.value!=0){
-                    vartext = varsettingcs.whatisthis(varsettingcs.VarDropdownPrintf.value);
-                    kata[CurrentColumn,CurrentRow]=varsettingcs.watchthis(varsettingcs.VarDropdownPrintf.value);
-                    content[CurrentColumn, CurrentRow] = varsettingcs.youshouldrun(varsettingcs.VarDropdownPrintf.value);
+                if(VarDropdownPrintf.value!=0){
+                    vartext = VarSetting.whatisthis(VarDropdownPrintf.value);
+                    kata[CurrentColumn,CurrentRow]=VarSetting.watchthis(VarDropdownPrintf.value);
+                    content[CurrentColumn, CurrentRow] = VarSetting.youshouldrun(VarDropdownPrintf.value);
                 }
                 else{
                     vartext = PrintfInputField.text.ToString();
@@ -1121,13 +1093,13 @@ public class ObjectCollection : MonoBehaviour
 
             case 3://if
                 string vartext1, vartext2;
-                if(varsettingcs.VarDropdownIf1.value!=0){
-                    vartext1=varsettingcs.youshouldrun(varsettingcs.VarDropdownIf1.value);
+                if(VarDropdownIf1.value!=0){
+                    vartext1=VarSetting.youshouldrun(VarDropdownIf1.value);
                 }else{
                     vartext1=IfInputField1.text.ToString();
                 }
-                if(varsettingcs.VarDropdownIf2.value!=0){
-                    vartext2=varsettingcs.youshouldrun(varsettingcs.VarDropdownIf2.value);
+                if(VarDropdownIf2.value!=0){
+                    vartext2=VarSetting.youshouldrun(VarDropdownIf2.value);
                 }else{
                     vartext2=IfInputField2.text.ToString();
                 }
@@ -1139,21 +1111,21 @@ public class ObjectCollection : MonoBehaviour
 
             case 7://calc
                 string vartext3,vartext4;
-                if(varsettingcs.VarDropdownCalc1.value!=0){
-                    vartext3=varsettingcs.youshouldrun(varsettingcs.VarDropdownCalc1.value);
+                if(VarDropdownCalc1.value!=0){
+                    vartext3=VarSetting.youshouldrun(VarDropdownCalc1.value);
                 }else{
                     vartext3=CalcInputField1.text.ToString();
                 }
-                if(varsettingcs.VarDropdownCalc2.value!=0){
-                    vartext4=varsettingcs.youshouldrun(varsettingcs.VarDropdownCalc2.value);
+                if(VarDropdownCalc2.value!=0){
+                    vartext4=VarSetting.youshouldrun(VarDropdownCalc2.value);
                 }else{
                     vartext4=CalcInputField2.text.ToString();
                 }
                 string aaa;
-                if(varsettingcs.VarDropdownCalc3.value==0){
+                if(VarDropdownCalc3.value==0){
                     aaa="";
                 }else{
-                    aaa=varsettingcs.youshouldrun(varsettingcs.VarDropdownCalc3.value);
+                    aaa=VarSetting.youshouldrun(VarDropdownCalc3.value);
                 }
                 DataHere=aaa+"="+vartext3+enzansi2+vartext4;
                 CalcDisplay.text=DataHere;
@@ -1228,7 +1200,7 @@ public class ObjectCollection : MonoBehaviour
     }
 
     //上の奴を参考にしてつくった。1:blank 2:printf 3:if 4:ifend 5:fors 6:fore 99:null
-    int ItemCheck2(){
+    static public int ItemCheck2(){
         if(!objectArray[CurrentColumn,CurrentRow]){
             return 0;
         }
@@ -1259,7 +1231,6 @@ public class ObjectCollection : MonoBehaviour
         }
 
     }
-    public GameObject VarSettingEmptyObject;
 
     public int SeekThemOut(){ //中は[どこから縦を伸ばしたらいいかな]を調べたいだけなのでmaxだけ返せばok.
         int ifkazu=0;
