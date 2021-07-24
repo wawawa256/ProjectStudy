@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class VarSetting : MonoBehaviour
 {
-    public VarCollection[] intVarArray = new VarCollection[128];
-    public VarCollection[] floatVarArray = new VarCollection[128];
-    public VarCollection[] stringVarArray = new VarCollection[128];
+    public static VarCollection[] intVarArray = new VarCollection[128];
+    public static VarCollection[] floatVarArray = new VarCollection[128];
+    public static VarCollection[] stringVarArray = new VarCollection[128];
     public string[] nameArray = new string[256];
     public static string[] saveintvalueArray = new string[128];
     public static string[] saveintnameArray = new string[128];
@@ -416,7 +416,7 @@ public class VarSetting : MonoBehaviour
         VarDropdownCalc3.value=0;
     }
 
-    public string whatisthis(int xth){
+    static public string whatisthis(int xth){
         if(xth>intCount){
             xth -= intCount;
         }else{
@@ -430,7 +430,7 @@ public class VarSetting : MonoBehaviour
         return "char[] "+stringVarArray[xth-1].varName;
     }
 
-    public string watchthis(int xth){
+    static public string watchthis(int xth){
         if(xth>intCount){
             xth -= intCount;
         }else{
@@ -444,7 +444,7 @@ public class VarSetting : MonoBehaviour
         return "char";
     }
 
-    public string youshouldrun(int xth){
+    static public string youshouldrun(int xth){
         if(xth>intCount){
             xth -= intCount;
         }else{
