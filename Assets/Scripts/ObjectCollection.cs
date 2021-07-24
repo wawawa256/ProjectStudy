@@ -979,10 +979,10 @@ public class ObjectCollection : MonoBehaviour
     //できればUI系はButtonScriptにまとめたいと思ってる。
     //そうすると他のメニューとも連携取れやすいはず。byたくみん
     //変数#1 メニュー表示のためにメニュー(GameObject)を追加
-    public GameObject IfMenu;
-    public GameObject PrintfMenu;
-    public GameObject ForMenu;
-    public GameObject CalcMenu;
+    //public GameObject IfMenu;
+    //public GameObject PrintfMenu;
+    //public GameObject ForMenu;
+    //public GameObject CalcMenu;
     public GameObject Tatedake_prefab;
     public GameObject Yokodake_prefab;
     public string enzansi;
@@ -1015,19 +1015,19 @@ public class ObjectCollection : MonoBehaviour
         int imanani=ItemCheck2();
         switch(imanani){
             case 2: //printfなとき
-                varsettingcs.VarDropdownPrintf.value=0;
+                VarDropdownPrintf.value=0;
                 break;
 
             case 3: //ifなとき...
-                varsettingcs.VarDropdownIf1.value=0;
-                varsettingcs.VarDropdownIf2.value=0;
+                VarDropdownIf1.value=0;
+                VarDropdownIf2.value=0;
                 //フォームクリアしない。複数あるから。
                 break;
 
             //case 5: //forなとき、実装後回しにしてる・・・。
 
             case 7: //calc!
-                varsettingcs.VarDropdownCalc1.value=
+                VarDropdownCalc1.value=
 
             default:
                 Debug.Log("GO SLEEP BITCH");
@@ -1058,23 +1058,23 @@ public class ObjectCollection : MonoBehaviour
     }
     //じゃあinputfield変更時に消す奴もいるんじゃね？
     public void ResetChoice1(){
-        varsettingcs.VarDropdownPrintf.value=0;
+        VarDropdownPrintf.value=0;
         return;
     }
     public void ResetChoice2(){
-        varsettingcs.VarDropdownIf1.value=0;
+        VarDropdownIf1.value=0;
         return;
     }
     public void ResetChoice3(){
-        varsettingcs.VarDropdownIf2.value=0;
+        VarDropdownIf2.value=0;
         return;
     }
     public void ResetChoice4(){
-        varsettingcs.VarDropdownCalc1.value=0;
+        VarDropdownCalc1.value=0;
         return;
     }
     public void ResetChoice5(){
-        varsettingcs.VarDropdownCalc2.value=0;
+        VarDropdownCalc2.value=0;
         return;
     }
     /*public void ResetChoice6(){
@@ -1111,7 +1111,7 @@ public class ObjectCollection : MonoBehaviour
                 }else{
                     vartext1=IfInputField1.text.ToString();
                 }
-                if(varsettingcs.VarDropdownIf2.value!=0){
+                if(VarDropdownIf2.value!=0){
                     vartext2=VarSetting.youshouldrun(VarDropdownIf2.value);
                 }else{
                     vartext2=IfInputField2.text.ToString();
