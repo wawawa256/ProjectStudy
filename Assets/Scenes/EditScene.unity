@@ -2555,7 +2555,7 @@ RectTransform:
   - {fileID: 1019232659}
   - {fileID: 2027344066}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 11
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -2641,15 +2641,13 @@ MonoBehaviour:
   ForStart_prefab: {fileID: 5915915881307531056, guid: 106660c57447a4fd888a4719bc2c76d5, type: 3}
   ForEnd_prefab: {fileID: 2564939335298593, guid: dcdddc181c9244a248bc5946dd0ca3b2, type: 3}
   Calc_prefab: {fileID: 6093919044520773781, guid: 5c9f6d3f4444c4f9eaea742b80ad4d79, type: 3}
+  VarDropdownPrintf: {fileID: 2006899445}
+  VarDropdownCalc1: {fileID: 1035214470}
+  VarDropdownCalc2: {fileID: 1642882170}
+  VarDropdownCalc3: {fileID: 183891933}
+  VarDropdownIf1: {fileID: 1245574791}
+  VarDropdownIf2: {fileID: 1812609889}
   varsettingcs: {fileID: 0}
-  StartPosX: 0
-  StartPosY: 0
-  jibunX: 0
-  jibunY: 0
-  IfMenu: {fileID: 1293782634}
-  PrintfMenu: {fileID: 1784775340}
-  ForMenu: {fileID: 1252419975}
-  CalcMenu: {fileID: 1097063490}
   Tatedake_prefab: {fileID: 0}
   Yokodake_prefab: {fileID: 0}
   enzansi: 
@@ -2665,7 +2663,6 @@ MonoBehaviour:
   dropdown: {fileID: 2125226349}
   dropdownenzansi2: {fileID: 1219248677}
   enzansi2: 
-  VarSettingEmptyObject: {fileID: 1602442961}
 --- !u!4 &274685831
 Transform:
   m_ObjectHideFlags: 0
@@ -3173,7 +3170,7 @@ RectTransform:
   - {fileID: 840344259}
   - {fileID: 1418409912}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3413,7 +3410,7 @@ RectTransform:
   m_Children:
   - {fileID: 1519294328}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 4
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.78200006, y: 0}
   m_AnchorMax: {x: 0.78200006, y: 1}
@@ -4973,7 +4970,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 12
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
@@ -9043,7 +9040,7 @@ RectTransform:
   m_Children:
   - {fileID: 1765824238}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10197,7 +10194,7 @@ RectTransform:
   m_Children:
   - {fileID: 1050774119}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.78200006, y: 0}
   m_AnchorMax: {x: 0.78200006, y: 1}
@@ -11796,6 +11793,14 @@ MonoBehaviour:
   ForStartButton: {fileID: 0}
   ForEndButton: {fileID: 0}
   CalcButton: {fileID: 0}
+  IfMenu: {fileID: 0}
+  PrintfMenu: {fileID: 0}
+  ForMenu: {fileID: 0}
+  CalcMenu: {fileID: 0}
+  PrintfDisplay: {fileID: 0}
+  IfDisPlay: {fileID: 0}
+  ForDisplay: {fileID: 0}
+  CalcDisplay: {fileID: 0}
 --- !u!114 &1050774121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12786,7 +12791,7 @@ RectTransform:
   - {fileID: 183891932}
   - {fileID: 516889016}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 8
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -14293,7 +14298,7 @@ RectTransform:
   - {fileID: 1067330583}
   - {fileID: 2006899444}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -14448,7 +14453,7 @@ RectTransform:
   m_Children:
   - {fileID: 915851983}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 10
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -14869,7 +14874,7 @@ RectTransform:
   - {fileID: 1245574790}
   - {fileID: 1812609888}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -17142,7 +17147,7 @@ RectTransform:
   m_Children:
   - {fileID: 113057176}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -19302,6 +19307,14 @@ MonoBehaviour:
   ForStartButton: {fileID: 1942332571}
   ForEndButton: {fileID: 1653754661}
   CalcButton: {fileID: 1585032299}
+  IfMenu: {fileID: 1293782634}
+  PrintfMenu: {fileID: 1784775340}
+  ForMenu: {fileID: 1252419975}
+  CalcMenu: {fileID: 1097063490}
+  PrintfDisplay: {fileID: 87840095}
+  IfDisPlay: {fileID: 788694836}
+  ForDisplay: {fileID: 1077116226}
+  CalcDisplay: {fileID: 329318629}
 --- !u!4 &1682481289
 Transform:
   m_ObjectHideFlags: 0
@@ -20448,7 +20461,7 @@ RectTransform:
   - {fileID: 213653617}
   - {fileID: 761027530}
   m_Father: {fileID: 1848957770}
-  m_RootOrder: 5
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -21260,6 +21273,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1587141809}
+  - {fileID: 450630328}
+  - {fileID: 258297307}
   - {fileID: 1580227506}
   - {fileID: 838333522}
   - {fileID: 917924201}
@@ -21270,8 +21285,6 @@ RectTransform:
   - {fileID: 1097063491}
   - {fileID: 334101213}
   - {fileID: 1267944079}
-  - {fileID: 258297307}
-  - {fileID: 450630328}
   - {fileID: 1225300761}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -22468,8 +22481,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
-        m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
+      - m_Target: {fileID: 1682481288}
+        m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
         m_MethodName: OpenContentMenu
         m_Mode: 1
         m_Arguments:
