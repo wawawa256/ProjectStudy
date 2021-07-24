@@ -32,6 +32,16 @@ public class ButtonScript : MonoBehaviour
     bool ForEndButtonActivity;
     bool CalcButtonActivity;
 
+    public GameObject IfMenu;
+    public GameObject PrintfMenu;
+    public GameObject ForMenu;
+    public GameObject CalcMenu;
+
+    public Text PrintfDisplay;
+    public Text IfDisPlay;
+    public Text ForDisplay;
+    public Text CalcDisplay;
+
     int ifFlag;
     int forFlag;
     
@@ -171,5 +181,36 @@ public class ButtonScript : MonoBehaviour
         CalcButton.SetActive(true);
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
-    }
+    } 
+
+    //中身メニューを開こう。メニュー開くボタンにアタッチ
+    public void OpenContentMenu()
+        {
+            //text→textcomponent取得する。
+            PrintfDisplay = PrintfDisplay.GetComponent<Text>();
+            IfDisPlay = IfDisPlay.GetComponent<Text>();
+            ForDisplay = ForDisplay.GetComponent<Text>();
+            int imanani = ObjectCollection.ItemCheck2();
+            bool IfMenuActivity = IfMenu.activeInHierarchy;
+            bool PrintfMenuActivity = PrintfMenu.activeInHierarchy;
+            bool ForMenuActivity = ForMenu.activeInHierarchy;
+            bool CalcMenuActivity = CalcMenu.activeInHierarchy;
+            string DataHere = 
+                ObjectCollection.content[ObjectCollection.CurrentColumn,ObjectCollection.CurrentRow];
+
+            if(imanani==2){
+                //更新処理。何もしないとさっき入力した時のdisplayがmenuないに表示されるからそれを今のデータに合わせて変更してあげなくちゃいけない。
+                PrintfDisplay.text = DataHere;
+                PrintfMenu.SetActive(!PrintfMenuActivity);
+            }else if(imanani==3){
+
+                IfDisPlay.text = DataHere;
+                IfMenu.SetActive(!IfMenuActivity);
+            }else if(imanani==5||imanani==6){
+                ForMenu.SetActive(!ForMenuActivity);
+            }else if(imanani==7){
+                CalcDisplay.text=DataHere;
+                CalcMenu.SetActive(!CalcMenuActivity);
+            }
+        }
 }
