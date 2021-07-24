@@ -1109,12 +1109,12 @@ public class ObjectCollection : MonoBehaviour
                 if(VarDropdownIf1.value!=0){
                     vartext1=VarSetting.youshouldrun(VarDropdownIf1.value);
                 }else{
-                    vartext1=IfInputField1.text.ToString();
+                    vartext1='"'+IfInputField1.text.ToString()+'"';
                 }
                 if(VarDropdownIf2.value!=0){
                     vartext2=VarSetting.youshouldrun(VarDropdownIf2.value);
                 }else{
-                    vartext2=IfInputField2.text.ToString();
+                    vartext2='"'+IfInputField2.text.ToString()+'"';
                 }
                 DataHere=vartext1+enzansi+vartext2;
                 IfDisPlay.text = DataHere;
