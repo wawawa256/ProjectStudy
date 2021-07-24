@@ -715,6 +715,9 @@ public class ObjectCollection : MonoBehaviour
                         Prefab = Corner2_prefab;
                         // Debug.Log(Prefab);
                         break;
+                    case "Calc_prefab":
+                        Prefab = Calc_prefab;
+                        break;
                     default:
                         Prefab = null;
                         break;
