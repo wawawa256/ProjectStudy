@@ -291,7 +291,7 @@ public class ObjectCollection : MonoBehaviour
         ifArray[ifCount].ifEndColumn = CurrentColumn;
         ifArray[ifCount].ifEndRow = CurrentRow;
 
-
+        
         //仮に置いとく、外にifがあると使えない
         CurrentColumn++;
         //横幅をどれだけにするか求める
@@ -535,7 +535,7 @@ public class ObjectCollection : MonoBehaviour
         for(row=1;row<maxRow;row++)
         for(column=1;column<maxColumn;column++)
         if(wireArray[column,row-1]==null
-            //&&( (objectArray[column,row].name!="Tatedake_prefab"&&objectArray[column,row].name!="Yokodake_prefab") || objectArray[column,row]==null)
+            &&( (objectArray[column,row].name!="Tatedake_prefab"&&objectArray[column,row].name!="Yokodake_prefab") || objectArray[column,row]==null)
             )
         {
             Destroy(objectArray[column,row]);
@@ -1058,6 +1058,19 @@ public class ObjectCollection : MonoBehaviour
         CalcInputField2.text="";
         return;
     }
+    public void GetContentOn7(){
+        ForInputField1.text="";
+        ForInputField2.text="";
+        ForInputField3.text="";
+    }
+    public void zenkesi(){
+        GetContentOn2();
+        GetContentOn3();
+        GetContentOn4();
+        GetContentOn5();
+        GetContentOn6();
+        GetContentOn7();
+    }
     //じゃあinputfield変更時に消す奴もいるんじゃね？
     public void ResetChoice1(){
         VarDropdownPrintf.value=0;
@@ -1293,14 +1306,14 @@ public class ObjectCollection : MonoBehaviour
                 ifkazu--;
             }
         }
-        if(ifkazu>0){
+        if(maxifkazu>0){
             Debug.Log("なかおる；；");
         }
         return maxifkazu;
     }
 
-    public void PlacingSentry(int nakax,int starty,int endy){ //外は[スライドを何回、どこからどこまで、すればいいかな]を調べたいが...
-        int x=nakax+1;
+    public void PlacingSentry(int nakax,int starty,int endy,int preflag){ //外は[スライドを何回、どこからどこまで、すればいいかな]を調べたいが...
+        int x=nakax+1+CurrentColumn;
         int y=starty;
         int flag=0;
         for(y=starty;y<=endy;y++){
@@ -1310,11 +1323,14 @@ public class ObjectCollection : MonoBehaviour
                 break;
             }
         }
-        if(flag==1){
+        if(flag==0&&preflag==1){
+            ObjectSlide(x,starty,endy);
+            Debug.Log("すらいどはじめまむ");
+        }else if(flag==1){
             int nextnakax=x;
             int nextstarty=SearchUpper(x,y);
             int nextendy=SearchLower(x,y);
-            PlacingSentry(nextnakax,nextstarty,nextendy);
+            PlacingSentry(nextnakax,nextstarty,nextendy,1);
             ObjectSlide(x,starty,endy);
             Debug.Log("すらいどしたよ");
         }
@@ -1349,23 +1365,58 @@ public class ObjectCollection : MonoBehaviour
     }
 
     public void ImaIfShori(int nakax){ // →、↓、← の順で処理するよ
+        if(nakax==0){
+            //仮に置いとく、外にifがあると使えない
+            CurrentColumn=ifArray[ifCount].ifStartColumn+1;
+            CurrentRow=ifArray[ifCount].ifStartRow;
+            ObjectInstall(Tatedake_prefab);
+            Debug.Log("たておいた");
+            //横幅をどれだけにするか求める
+            //ifControl(ifFlag);
+            CurrentRow=ifArray[ifCount].ifEndRow;
+            ObjectInstall(Corner2_prefab);
+            Debug.Log("こなおいた");
+            ifArray[ifCount].ifCornerColumn = CurrentColumn;
+            ifArray[ifCount].ifCornerRow = CurrentRow;
+            CurrentRow--;
+            while(CurrentRow>ifArray[ifCount].ifStartRow)
+            {
+                ObjectInstall(Blank_prefab);
+                CurrentRow--;
+            }
+            CurrentColumn = ifArray[ifCount].ifEndColumn;
+            CurrentRow = ifArray[ifCount].ifEndRow;
+            return;
+        }
         CurrentColumn=ifArray[ifCount].ifStartColumn;
+        int imacolumn=CurrentColumn;
+        nakax+=CurrentColumn;
         CurrentRow=ifArray[ifCount].ifStartRow;
         //右にyoko配置
-        for(CurrentRow=ifArray[ifCount].ifStartRow;CurrentColumn<nakax;CurrentColumn++){
+        for(CurrentColumn=ifArray[ifCount].ifStartColumn+1;CurrentColumn<nakax+1;CurrentColumn++){
             ObjectInstall(Yokodake_prefab);
+            Debug.Log("よこおいた");
+            Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         }
+        
         //右端に到着、tateおく
         CurrentColumn=nakax+1;
         ObjectInstall(Tatedake_prefab);
+        Debug.Log("たておいた");
+        Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         //下までblankいれる
         //CurrentRow++;
         for(CurrentRow=CurrentRow+1;CurrentRow<ifArray[ifCount].ifEndRow;CurrentRow++){
             ObjectInstall(Blank_prefab);
+            Debug.Log("Blankいれた");
+            Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         }
+        
         //下ついた。corner2おく
         CurrentRow=ifArray[ifCount].ifEndRow;
         ObjectInstall(Corner2_prefab);
+        Debug.Log("cor2おいた");
+        Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
          //ついでにarrayに情報いれる
         ifArray[ifCount].ifCornerColumn=CurrentColumn;
         ifArray[ifCount].ifCornerRow=CurrentRow;
@@ -1373,7 +1424,10 @@ public class ObjectCollection : MonoBehaviour
         //CurrentColumn--;
         for(CurrentColumn=CurrentColumn-1;CurrentColumn>ifArray[ifCount].ifStartColumn;CurrentColumn--){
             ObjectInstall(Yokodake_prefab);
+            Debug.Log("よこおいた");
+            Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         }
+        
         WireSetting();
     }
 
@@ -1402,7 +1456,7 @@ public class ObjectCollection : MonoBehaviour
         int ye=ifArray[ifCount].ifEndRow;
 
         int p=SeekThemOut();
-        PlacingSentry(p,ys,ye);
+        PlacingSentry(p,ys,ye,0);
         ImaIfShori(p);
     }
 

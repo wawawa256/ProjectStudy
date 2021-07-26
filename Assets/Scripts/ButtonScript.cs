@@ -202,10 +202,9 @@ public class ButtonScript : MonoBehaviour
                 PrintfDisplay.text = DataHere;
                 PrintfMenu.SetActive(!PrintfMenuActivity);
             }else if(imanani==3){
-
                 IfDisPlay.text = DataHere;
                 IfMenu.SetActive(!IfMenuActivity);
-            }else if(imanani==5||imanani==6){
+            }else if(imanani==5){
                 ForDisplay.text=DataHere;
                 ForMenu.SetActive(!ForMenuActivity);
             }else if(imanani==7){

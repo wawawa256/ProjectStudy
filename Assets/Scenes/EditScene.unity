@@ -2725,8 +2725,8 @@ MonoBehaviour:
   StartPosY: 0
   jibunX: 0
   jibunY: 0
-  Tatedake_prefab: {fileID: 0}
-  Yokodake_prefab: {fileID: 0}
+  Tatedake_prefab: {fileID: 7880586597996365381, guid: 6f5ba704e2196f54c904081c27a6a6d1, type: 3}
+  Yokodake_prefab: {fileID: 5943651443365725486, guid: 971144e0e4f2ab64a942df5046544c63, type: 3}
   enzansi: 
   PrintfInputField: {fileID: 1660280107}
   IfInputField1: {fileID: 627690454}
@@ -2739,6 +2739,7 @@ MonoBehaviour:
   PrintfDisplay: {fileID: 87840095}
   IfDisPlay: {fileID: 788694836}
   CalcDisplay: {fileID: 329318629}
+  ForDisplay: {fileID: 0}
   VarDropdownPrintf: {fileID: 2006899445}
   VarDropdownCalc1: {fileID: 1035214470}
   VarDropdownCalc2: {fileID: 1642882170}
@@ -8453,8 +8454,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 28809885}
   m_HandleRect: {fileID: 28809884}
   m_Direction: 0
-  m_Value: -0.00006103489
-  m_Size: 0.97741926
+  m_Value: -0.000010899135
+  m_Size: 0.9774194
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
