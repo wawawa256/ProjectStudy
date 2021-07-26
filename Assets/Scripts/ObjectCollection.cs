@@ -57,7 +57,6 @@ public class ObjectCollection : MonoBehaviour
     public static int ifFlag;
     public static int forFlag;
     public static Vector3 Place;
-    public VarSetting varsettingcs;
 
     int ifCount;
 
@@ -291,9 +290,11 @@ public class ObjectCollection : MonoBehaviour
         ifArray[ifCount].ifEndColumn = CurrentColumn;
         ifArray[ifCount].ifEndRow = CurrentRow;
 
-
         //仮に置いとく、外にifがあると使えない
         CurrentColumn++;
+        CurrentRow--;
+        ObjectInstall(Tatedake_prefab);
+        CurrentRow++;
         //横幅をどれだけにするか求める
         //ifControl(ifFlag);
 
@@ -596,6 +597,13 @@ public class ObjectCollection : MonoBehaviour
             case "Calc_prefab":
                 SaveobjectArray[Column, Raw] = "Calc_prefab";
                 break;
+            case "Tatedake_prefab":
+                SaveobjectArray[Column, Raw] = "Tatedake_prefab";
+                break;
+            case "Yokodake_prefab":
+                SaveobjectArray[Column, Raw] = "Yokodake_prefab";
+                break;
+
 
         }
        // Debug.Log(SaveobjectArray[Column, Raw]);
@@ -673,6 +681,8 @@ public class ObjectCollection : MonoBehaviour
     //再配置
     void LoadObject()
     {
+        tempColumn=-1;
+        tempRow=-1;
         //Debug.Log("ろーどかいしするよ");
         for (int i = 0; i < maxColumn; i++)
         {
@@ -713,6 +723,12 @@ public class ObjectCollection : MonoBehaviour
                         break;
                     case "Calc_prefab":
                         Prefab = Calc_prefab;
+                        break;
+                    case "Tatedake_prefab":
+                        Prefab = Tatedake_prefab;
+                        break;
+                    case "Yokodake_prefab":
+                        Prefab = Yokodake_prefab;
                         break;
                     default:
                         Prefab = null;
@@ -930,9 +946,6 @@ public class ObjectCollection : MonoBehaviour
                         {
                             WireInstall(Wire_prefab);
                             HorizontalWireInstall(Wire_If_prefab);
-                            CurrentColumn++; //庭野完成したらここ破壊
-                            WireInstall(Wire_prefab);
-                            CurrentColumn--;
                         }
                         break;
 
@@ -976,13 +989,7 @@ public class ObjectCollection : MonoBehaviour
 //
 //庭野ゾーン
 //
-    //できればUI系はButtonScriptにまとめたいと思ってる。
-    //そうすると他のメニューとも連携取れやすいはず。byたくみん
     //変数#1 メニュー表示のためにメニュー(GameObject)を追加
-    //public GameObject IfMenu;
-    //public GameObject PrintfMenu;
-    //public GameObject ForMenu;
-    //public GameObject CalcMenu;
     public GameObject Tatedake_prefab;
     public GameObject Yokodake_prefab;
     public string enzansi;
@@ -1388,6 +1395,15 @@ public class Ifreference
     public int ifEndRow;
     public int ifCornerColumn;
     public int ifCornerRow;
+    public Ifreference()
+    {
+        ifStartColumn = -1;
+        ifStartRow = -1;
+        ifEndColumn = -1;
+        ifEndRow = -1;
+        ifCornerColumn = -1;
+        ifCornerRow = -1;
+    }
     public int ifDistance()
     {
         int distance;
