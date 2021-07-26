@@ -992,12 +992,14 @@ public class ObjectCollection : MonoBehaviour
     public InputField IfInputField2;
     public InputField CalcInputField1;
     public InputField CalcInputField2;
+    public InputField ForInputField1; //starti
+    public InputField ForInputField2; //endi
+    public InputField ForInputField3; //d
     //textやつ
     public Text PrintfDisplay;
     public Text IfDisPlay;
-    public Text ForDisplay;
     public Text CalcDisplay;
-
+    public Text ForDisplay;
     public Dropdown VarDropdownPrintf;
     public Dropdown VarDropdownCalc1;
     public Dropdown VarDropdownCalc2;
@@ -1120,6 +1122,37 @@ public class ObjectCollection : MonoBehaviour
                 IfDisPlay.text = DataHere;
                 content[CurrentColumn, CurrentRow] = DataHere;
                 textMake(CurrentColumn,CurrentRow,"If_prefab");
+                break;
+
+            case 5://for
+                string vartextfor1,vartextfor2,vartextfor3;
+                int txt1,txt2,txt3;
+                vartextfor1=ForInputField1.text.ToString();
+                vartextfor2=ForInputField2.text.ToString();
+                vartextfor3=ForInputField3.text.ToString();
+                try{
+                    txt1=int.Parse(vartextfor1);
+                    txt2=int.Parse(vartextfor2);
+                    txt3=int.Parse(vartextfor3);
+                }catch{
+                    messageText.text="整数以外を入力できません";
+                    break;
+                }
+                string enzansidocchi="";
+                string enzansidocchi2="";
+                if(txt1==txt2){
+                    messageText.text="死ね";
+                    break;
+                }else if(txt1>txt2){
+                    enzansidocchi=">=";
+                    enzansidocchi2="-=";
+                }else{
+                    enzansidocchi="<=";
+                    enzansidocchi2="+=";
+                }
+                DataHere="for(int i="+txt1+";"+"i"+enzansidocchi+txt2+";i"+enzansidocchi2+txt3+")";//for(int i=init;i<=)
+                ForDisplay.text=DataHere;
+                content[CurrentColumn,CurrentRow]="DataHere";
                 break;
 
             case 7://calc
