@@ -44,7 +44,6 @@ public class ButtonScript : MonoBehaviour
 
     int ifFlag;
     int forFlag;
-    
 
     public void Start()
     {
