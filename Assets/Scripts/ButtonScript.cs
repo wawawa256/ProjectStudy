@@ -206,6 +206,7 @@ public class ButtonScript : MonoBehaviour
                 IfDisPlay.text = DataHere;
                 IfMenu.SetActive(!IfMenuActivity);
             }else if(imanani==5||imanani==6){
+                ForDisplay.text=DataHere;
                 ForMenu.SetActive(!ForMenuActivity);
             }else if(imanani==7){
                 CalcDisplay.text=DataHere;
