@@ -60,12 +60,12 @@ public class VarSetting : MonoBehaviour
         reservedList();
 
         //でばっぐ
-        varName = "intkun";
-        MakeVar(0, "123");
-        varName = "floatkun";
-        MakeVar(1, "44.6");
-        varName = "charkun";
-        MakeVar(2, "konnitiwa");
+        varName = "a";
+        MakeVar(0, "3");
+        varName = "b";
+        MakeVar(1, "1.2");
+        varName = "c";
+        MakeVar(2, "c");
 
     }
 
