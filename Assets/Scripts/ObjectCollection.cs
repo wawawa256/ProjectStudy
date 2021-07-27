@@ -535,8 +535,9 @@ public class ObjectCollection : MonoBehaviour
         for(row=1;row<maxRow;row++)
         for(column=1;column<maxColumn;column++)
         if(wireArray[column,row-1]==null
-            &&( (objectArray[column,row].name!="Tatedake_prefab"&&objectArray[column,row].name!="Yokodake_prefab") || objectArray[column,row]==null)
-            )
+            && ((objectArray[column,row].name!="Tatedake_prefab"
+            && objectArray[column,row].name!="Yokodake_prefab")
+            || objectArray[column,row]==null))
         {
             Destroy(objectArray[column,row]);
             objectArray[column,row]=null;
