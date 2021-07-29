@@ -115,8 +115,9 @@ public class ObjectCollection : MonoBehaviour
     public void Update ()
     {
         if(touch_flag == 1){
-            if(Input.GetMouseButtonDown(0)){
-                Debug.Log("Update");
+            if(Input.GetMouseButtonDown(0))
+            {
+                //Debug.Log("Update");
                 StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
                 StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
                 int i,j;
@@ -145,7 +146,7 @@ public class ObjectCollection : MonoBehaviour
                 CurrentColumn = jibunX;
                 CurrentRow = jibunY;
                 CurrentPosition();
-                Debug.Log("update fin");
+                //Debug.Log("update fin");
             }
         }
         
@@ -535,9 +536,10 @@ public class ObjectCollection : MonoBehaviour
         for(row=1;row<maxRow;row++)
         for(column=1;column<maxColumn;column++)
         if(wireArray[column,row-1]==null
-            && ((objectArray[column,row].name!="Tatedake_prefab"
-            && objectArray[column,row].name!="Yokodake_prefab")
-            || objectArray[column,row]==null))
+            //&& ((objectArray[column,row].name!="Tatedake_prefab"
+            //&& objectArray[column,row].name!="Yokodake_prefab")
+            //|| objectArray[column,row]==null)
+            )
         {
             Destroy(objectArray[column,row]);
             objectArray[column,row]=null;
@@ -669,6 +671,8 @@ public class ObjectCollection : MonoBehaviour
         }
         maxColumn = PlayerPrefs.GetInt("maxColumn", 0);
         maxRow = PlayerPrefs.GetInt("maxRow", 0);
+        tempColumn = -1;
+        tempRow = -1;
         LoadObject();
     }
     //再配置
@@ -744,48 +748,6 @@ public class ObjectCollection : MonoBehaviour
         WireSetting();
         CurrentColumn = 0;
         CurrentRow = 0;
-    }
-
-    //ボタン操作上
-    public void UpButtonClicked()
-    {
-        if(CurrentRow == 0) return;
-        if(objectArray[CurrentColumn,CurrentRow-1]!= null)
-        {
-            CurrentRow--;
-            CurrentPosition();
-        }
-    }
-
-    //ボタン操作下
-    public void DownButtonClicked()
-    {
-        if(objectArray[CurrentColumn,CurrentRow+1]!= null)
-        {
-            CurrentRow++;
-            CurrentPosition();
-        }
-    }
-
-    //ボタン操作左
-    public void LeftButtonClicked()
-    {
-        if(CurrentColumn == 0) return;
-        if(objectArray[CurrentColumn-1,CurrentRow]!= null)
-        {
-            CurrentColumn--;
-            CurrentPosition();
-        }
-    }
-
-    //ボタン操作右
-    public void RightButtonClicked()
-    {
-        if(objectArray[CurrentColumn+1,CurrentRow]!= null)
-        {
-            CurrentColumn++;
-            CurrentPosition();
-        }
     }
 
     //赤枠の位置決定
@@ -1130,7 +1092,8 @@ public class ObjectCollection : MonoBehaviour
                 if(VarDropdownIf2.value!=0){
                     vartext2=VarSetting.youshouldrun(VarDropdownIf2.value);
                 }else{
-                    vartext2='"'+IfInputField2.text.ToString()+'"';
+                    //vartext2='"'+IfInputField2.text.ToString()+'"';
+                    vartext2=IfInputField2.text.ToString();
                 }
                 DataHere=vartext1+enzansi+vartext2;
                 IfDisPlay.text = DataHere;
