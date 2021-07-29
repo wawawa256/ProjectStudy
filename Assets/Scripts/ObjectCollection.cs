@@ -1258,11 +1258,15 @@ public class ObjectCollection : MonoBehaviour
     public int SeekThemOut(){ //中は[どこから縦を伸ばしたらいいかな]を調べたいだけなのでmaxだけ返せばok.
         int ifkazu=0;
         int maxifkazu=0;
+        bool ifaru=false;
         int x=ifArray[ifCount].ifStartColumn;
         int y=ifArray[ifCount].ifStartRow;
         for(y=ifArray[ifCount].ifStartRow+1;y<ifArray[ifCount].ifEndRow;y++){
             ifkazu=0;
             x=ifArray[ifCount].ifStartColumn;
+            if(objectArray[x,y].name=="If_prefab"){
+                ifaru=true;
+            }
             while(objectArray[x+1,y]!=null){
                 ifkazu++;
                 x++;
@@ -1271,15 +1275,36 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
-        Debug.Log(maxifkazu);
-        if(maxifkazu>0){
+        if(ifaru){
             Debug.Log("なかおる；；");
+            while(!sonoXcheck(maxifkazu)){
+                x--;
+            }
+        }else{
+            maxifkazu=0;
         }
+        Debug.Log(maxifkazu);
         return maxifkazu;
     }
+
+    public bool sonoXcheck(int mondaix){
+        int x=mondaix;
+        int y=ifArray[ifCount].ifStartRow;
+        for(y=ifArray[ifCount].ifStartRow+1;y<ifArray[ifCount].ifEndRow;y++){
+            if(objectArray[x,y]!=null){
+                if(objectArray[x,y].name=="Corner2_prefab"){
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     public int originalX;
+    public int XonSentry;
     public void PlacingSentry(int nakax,int starty,int endy,int preflag){ //外は[スライドを何回、どこからどこまで、すればいいかな]を調べたいが...
-        int x=nakax+1+CurrentColumn;
+        int x=nakax+1;
         int y=starty;
         int flag=0;
         for(y=starty;y<=endy;y++){
@@ -1291,7 +1316,7 @@ public class ObjectCollection : MonoBehaviour
         }
         if(flag==0&&preflag==1){
             ObjectSlide(x,starty,endy);
-            Debug.Log("すらいどはじめまむ");
+            Debug.Log("すらいどはじめまむ"+x.ToString()+starty.ToString()+endy.ToString());
         }else if(flag==1){
             int nextnakax=x;
             int nextstarty=SearchUpper(x,y);
@@ -1428,7 +1453,8 @@ public class ObjectCollection : MonoBehaviour
 
         int p=SeekThemOut();
         originalX=p+CurrentColumn+1;
-        PlacingSentry(p,ys,ye,0);
+        XonSentry=originalX-1;
+        PlacingSentry(XonSentry,ys,ye,0);
         ImaIfShori(p);
     }
 
