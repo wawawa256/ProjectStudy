@@ -293,7 +293,7 @@ public class ObjectCollection : MonoBehaviour
         ifArray[ifCount].ifEndRow = CurrentRow;
 
         
-        //仮に置いとく、外にifがあると使えない
+        /*//仮に置いとく、外にifがあると使えない
         CurrentColumn++;
         //横幅をどれだけにするか求める
         //ifControl(ifFlag);
@@ -308,8 +308,8 @@ public class ObjectCollection : MonoBehaviour
             CurrentRow--;
         }
         CurrentColumn = ifArray[ifCount].ifEndColumn;
-        CurrentRow = ifArray[ifCount].ifEndRow;
-        //IFMATOME();
+        CurrentRow = ifArray[ifCount].ifEndRow;*/
+        IFMATOME();
         ifFlag = 0;
         ifCount++;
     }
@@ -438,7 +438,7 @@ public class ObjectCollection : MonoBehaviour
         }
         countColumnRow();
         WireSetting();
-        illegalObjectCheck();
+        //illegalObjectCheck();
         //ifArrayCheck();
     }
 
@@ -893,9 +893,9 @@ public class ObjectCollection : MonoBehaviour
                         {
                             WireInstall(Wire_prefab);
                             HorizontalWireInstall(Wire_If_prefab);
-                            CurrentColumn++; //庭野完成したらここ破壊
+                            /*CurrentColumn++; //庭野完成したらここ破壊
                             WireInstall(Wire_prefab);
-                            CurrentColumn--;
+                            CurrentColumn--;*/
                         }
                         break;
 
@@ -1261,21 +1261,23 @@ public class ObjectCollection : MonoBehaviour
         int x=ifArray[ifCount].ifStartColumn;
         int y=ifArray[ifCount].ifStartRow;
         for(y=ifArray[ifCount].ifStartRow+1;y<ifArray[ifCount].ifEndRow;y++){
-            if(objectArray[x,y].name=="If_prefab"){
+            ifkazu=0;
+            x=ifArray[ifCount].ifStartColumn;
+            while(objectArray[x+1,y]!=null){
                 ifkazu++;
+                x++;
                 if(maxifkazu<ifkazu){
-                    maxifkazu++;
+                    maxifkazu=ifkazu;
                 }
-            }else if(objectArray[x,y].name=="Corner1_prefab"){
-                ifkazu--;
             }
         }
+        Debug.Log(maxifkazu);
         if(maxifkazu>0){
             Debug.Log("なかおる；；");
         }
         return maxifkazu;
     }
-
+    public int originalX;
     public void PlacingSentry(int nakax,int starty,int endy,int preflag){ //外は[スライドを何回、どこからどこまで、すればいいかな]を調べたいが...
         int x=nakax+1+CurrentColumn;
         int y=starty;
@@ -1295,8 +1297,12 @@ public class ObjectCollection : MonoBehaviour
             int nextstarty=SearchUpper(x,y);
             int nextendy=SearchLower(x,y);
             PlacingSentry(nextnakax,nextstarty,nextendy,1);
-            ObjectSlide(x,starty,endy);
-            Debug.Log("すらいどしたよ");
+            if(originalX==x){
+                return;
+            }else{
+                ObjectSlide(x,starty,endy);
+                Debug.Log("すらいどしたよ");
+            }
         }
     }
 
@@ -1304,7 +1310,7 @@ public class ObjectCollection : MonoBehaviour
         int x=CurrentColumn;
         int y=CurrentRow;
         CurrentColumn=startx;
-        for(CurrentRow=starty;CurrentRow<endy;CurrentRow++){
+        for(CurrentRow=starty;CurrentRow<=endy;CurrentRow++){
             ObjectInstall(objectArray[CurrentColumn-1,CurrentRow]);
             Destroy(objectArray[CurrentColumn-1,CurrentRow]);
             objectArray[CurrentColumn-1,CurrentRow]=null;
@@ -1352,6 +1358,7 @@ public class ObjectCollection : MonoBehaviour
             CurrentRow = ifArray[ifCount].ifEndRow;
             return;
         }
+        //中にあった場合。
         CurrentColumn=ifArray[ifCount].ifStartColumn;
         int imacolumn=CurrentColumn;
         nakax+=CurrentColumn;
@@ -1420,6 +1427,7 @@ public class ObjectCollection : MonoBehaviour
         int ye=ifArray[ifCount].ifEndRow;
 
         int p=SeekThemOut();
+        originalX=p+CurrentColumn+1;
         PlacingSentry(p,ys,ye,0);
         ImaIfShori(p);
     }
