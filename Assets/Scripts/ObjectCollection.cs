@@ -912,33 +912,6 @@ public class ObjectCollection : MonoBehaviour
 
     //値取得パート。
 
-
-    //もう死ねよこの関数
-    /*public void GetContentOn(){
-        //見づらくなるから一瞬おく。あとで返してあげよう
-        int imanani=ItemCheck2();
-        switch(imanani){
-            case 2: //printfなとき
-                VarDropdownPrintf.value=0;
-                break;
-
-            case 3: //ifなとき...
-                VarDropdownIf1.value=0;
-                VarDropdownIf2.value=0;
-                //フォームクリアしない。複数あるから。
-                break;
-
-            //case 5: //forなとき、実装後回しにしてる・・・。
-
-            case 7: //calc!
-                VarDropdownCalc1.value=
-
-            default:
-                Debug.Log("GO SLEEP BITCH");
-                break;
-        }
-    }*/
-
     //ｋのへんは選択肢変更時に呼び出してinputfieldの中身リセット
     public void GetContentOn2(){
         PrintfInputField.text="";
@@ -1068,9 +1041,9 @@ public class ObjectCollection : MonoBehaviour
                     enzansidocchi="<=";
                     enzansidocchi2="+=";
                 }
-                DataHere="for(int i="+txt1+";"+"i"+enzansidocchi+txt2+";i"+enzansidocchi2+txt3+")";//for(int i=init;i<=)
+                DataHere="int i="+txt1+";"+"i"+enzansidocchi+txt2+";i"+enzansidocchi2+txt3;//for(int i=init;i<=)
                 ForDisplay.text=DataHere;
-                content[CurrentColumn,CurrentRow]="DataHere";
+                content[CurrentColumn,CurrentRow]=DataHere;
                 break;
 
             case 7://calc
