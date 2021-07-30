@@ -136,20 +136,18 @@ public class ObjectCollection : MonoBehaviour
                         break;
                     }
                     else if(j==maxRow){
-                        jibunY = 129;
+                        jibunY = -1;
                     }
                 }
-                if(jibunX == 64 || jibunY == 129)return;
+                if(jibunX == 64 || jibunY == -1)return;
                 if(objectArray[jibunX,jibunY]==null)return;
                 //Location(jibunX,jibunY,-1);
                 //CurrentPlace.transform.position = Place;
                 CurrentColumn = jibunX;
                 CurrentRow = jibunY;
                 CurrentPosition();
-                //Debug.Log("update fin");
             }
-        }
-        
+        } 
     }
 
     void makeInstance()
@@ -240,7 +238,6 @@ public class ObjectCollection : MonoBehaviour
     //printfボタン
     public void PrintfButtonClicked()
     {
-        //Debug.Log("printfButton");
         //置こうとしている場所を一度保存しておく
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
@@ -255,7 +252,6 @@ public class ObjectCollection : MonoBehaviour
 
         CurrentPosition();
         whetherIf = false;
-        //Debug.Log("printf fin");
     }
 
     //ifボタン
@@ -292,79 +288,10 @@ public class ObjectCollection : MonoBehaviour
         ifArray[ifCount].ifEndColumn = CurrentColumn;
         ifArray[ifCount].ifEndRow = CurrentRow;
 
-        
-        /*//仮に置いとく、外にifがあると使えない
-        CurrentColumn++;
-        //横幅をどれだけにするか求める
-        //ifControl(ifFlag);
-
-        ObjectInstall(Corner2_prefab);
-        ifArray[ifCount].ifCornerColumn = CurrentColumn;
-        ifArray[ifCount].ifCornerRow = CurrentRow;
-        CurrentRow--;
-        while(CurrentRow>ifArray[ifCount].ifStartRow)
-        {
-            ObjectInstall(Blank_prefab);
-            CurrentRow--;
-        }
-        CurrentColumn = ifArray[ifCount].ifEndColumn;
-        CurrentRow = ifArray[ifCount].ifEndRow;*/
         IFMATOME();
         ifFlag = 0;
         ifCount++;
     }
-
-    //置こうとしてる場所がifの間かどうか
-    //そうなら外のifを重ならないように動かす
-    //columnの最大値を考えればいける
-    //置こうとしてる始点と終点の間にifがあるかどうか
-    //そうならCornerを内側のifと重ならないように動かす
-    void ifControl(int mode)
-    {
-        int column;
-        int row;
-        int i;
-        column=CurrentColumn;
-        switch(mode)
-        {
-            case 0:
-                break;
-            case 1:
-            //If_prefabが置こうとしているところより上にあるか
-            //ifArray[ifCount]は今置こうとしているオブジェクトについての情報
-            //ifArray[ifCount].ifEndRowはCurrentRowと同値
-                for(row=ifArray[ifCount].ifStartRow;row>=0;row--)
-                {
-                    if(objectArray[column,row]!=null)
-                    switch(objectArray[column,row].name)
-                    {
-                    case "If_prefab":
-                        for(i=0;i<=ifCount;i++)
-                        {
-                            if(row==ifArray[i].ifStartRow)
-                            {
-                                //置こうとしてるifEndの位置より下に検知したifのifEndが存在するか
-                                //存在するなら検知したifの組み合わせは外にあるはず
-                                if(ifArray[ifCount].ifEndRow<ifArray[i].ifEndRow)
-                                if(ifArray[i].ifCornerColumn-ifArray[ifCount].ifStartColumn==1)
-                               　{
-                                    //columnが隣同士ならifArray[i]をずらす
-                                }
-                            }
-                        }
-                        break;
-                    case "Corner1_prefab":
-                        break;
-                    default:
-                        break;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
 
     public void ForButtonClicked()
     {

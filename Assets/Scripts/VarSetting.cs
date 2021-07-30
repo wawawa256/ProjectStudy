@@ -346,7 +346,6 @@ public class VarSetting : MonoBehaviour
             default:
                 break;
         }
-        //Debug.Log("うひひ");
     }
 
 
