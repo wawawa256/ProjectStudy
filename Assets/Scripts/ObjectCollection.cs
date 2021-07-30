@@ -1056,7 +1056,7 @@ public class ObjectCollection : MonoBehaviour
         return;
     }
     /*public void ResetChoice6(){
-        varsettingcs.VarDropdownCalc3.value=0;
+        VarDropdownCalc3.value=0;
         return;
     }*/
 
@@ -1068,6 +1068,7 @@ public class ObjectCollection : MonoBehaviour
         switch(imanani){
             case 2://printf
                 string vartext;
+                Debug.Log(VarDropdownPrintf.value);
                 if(VarDropdownPrintf.value!=0){
                     vartext = VarSetting.whatisthis(VarDropdownPrintf.value);
                     kata[CurrentColumn,CurrentRow]=VarSetting.watchthis(VarDropdownPrintf.value);
@@ -1087,7 +1088,8 @@ public class ObjectCollection : MonoBehaviour
                 if(VarDropdownIf1.value!=0){
                     vartext1=VarSetting.youshouldrun(VarDropdownIf1.value);
                 }else{
-                    vartext1='"'+IfInputField1.text.ToString()+'"';
+                    //vartext1='"'+IfInputField1.text.ToString()+'"';
+                    vartext1=IfInputField1.text.ToString();
                 }
                 if(VarDropdownIf2.value!=0){
                     vartext2=VarSetting.youshouldrun(VarDropdownIf2.value);
