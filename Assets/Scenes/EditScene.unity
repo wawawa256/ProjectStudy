@@ -2580,7 +2580,7 @@ MonoBehaviour:
   PrintfDisplay: {fileID: 87840095}
   IfDisPlay: {fileID: 788694836}
   CalcDisplay: {fileID: 329318629}
-  ForDisplay: {fileID: 0}
+  ForDisplay: {fileID: 1077116226}
   VarDropdownPrintf: {fileID: 2006899445}
   VarDropdownCalc1: {fileID: 1035214470}
   VarDropdownCalc2: {fileID: 1642882170}
@@ -2591,6 +2591,7 @@ MonoBehaviour:
   dropdownenzansi2: {fileID: 1219248677}
   enzansi2: 
   originalX: 0
+  XonSentry: 0
 --- !u!4 &274685831
 Transform:
   m_ObjectHideFlags: 0
@@ -8137,7 +8138,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 28809885}
   m_HandleRect: {fileID: 28809884}
   m_Direction: 0
-  m_Value: -0.000034877234
+  m_Value: -0.000010899135
   m_Size: 0.9774194
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -14873,7 +14874,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1860016083}
   m_HandleRect: {fileID: 1860016082}
   m_Direction: 2
-  m_Value: 0.99999964
+  m_Value: 0.9999998
   m_Size: 0.66827804
   m_NumberOfSteps: 0
   m_OnValueChanged:
