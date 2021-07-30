@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ObjectCollection : MonoBehaviour
@@ -18,6 +19,12 @@ public class ObjectCollection : MonoBehaviour
 
     Ifreference[] ifArray = new Ifreference[128];
 
+    //次元を超える
+    public static GameObject[,,] objectArray3D = new GameObject[256, 64, 128];
+    public static string[,,] content3D = new string[256, 64, 128];
+    public static string[,,] kata3D = new string[256, 64, 128];
+    public static int[] DimensionalColumn = new int[256];
+    public static int[] DimensionalRow = new int[256];
 
     //オブジェクトのプロトタイプ宣言
     public GameObject CurrentPlace;
@@ -63,6 +70,9 @@ public class ObjectCollection : MonoBehaviour
 
     int preColumn;
     int preRow;
+
+    public static int Dimension = 0;
+    public static int MaxDimension = 0;
 
     //西田
     public float  StartPosX;
@@ -150,6 +160,15 @@ public class ObjectCollection : MonoBehaviour
             }
         }
         
+    }
+
+    public void RedoClicked()
+    {
+        Dimensional_Drift(1);
+    }
+    public void UndoClicked()
+    {
+        Dimensional_Drift(-1);
     }
 
     void makeInstance()
@@ -256,6 +275,7 @@ public class ObjectCollection : MonoBehaviour
         CurrentPosition();
         whetherIf = false;
         //Debug.Log("printf fin");
+        BeyondDimension();
     }
 
     //ifボタン
@@ -1476,6 +1496,94 @@ public class ObjectCollection : MonoBehaviour
     {
         Location(CurrentColumn,CurrentRow,-10);
         mainCamera.transform.position = Place + new Vector3(0f,-1.0f,0f);
+    }
+
+    public static void BeyondDimension()
+    {
+        for (int i = 0; i < maxColumn; i++)
+        {
+            for (int j = 0; j < maxRow; j++)
+            {
+                objectArray3D[Dimension, i, j] = objectArray[i, j];
+            }
+        }
+        for (int i = 0; i < maxColumn; i++)
+        {
+            for (int j = 0; j < maxRow; j++)
+            {
+                content3D[Dimension, i, j] = content[i, j];
+            }
+        }
+        for (int i = 0; i < maxColumn; i++)
+        {
+            for (int j = 0; j < maxRow; j++)
+            {
+                kata3D[Dimension, i, j] = kata[i, j];
+            }
+        }
+        DimensionalColumn[Dimension] = maxColumn;
+        DimensionalRow[Dimension] = maxRow;
+        Dimension++;
+        Debug.Log(Dimension);
+        MaxDimension++;
+    }
+
+    public void Dimensional_Drift(int Time)
+    {
+        Reset();
+        int TheDimension;
+        if ((MaxDimension < Dimension + Time) || (0 > Dimension + Time)) return ;
+        TheDimension = Dimension + Time;
+        //Debug.Log("ろーどかいしするよ");
+        for (int i = 0; i < DimensionalColumn[TheDimension]; i++)
+        {
+            for (int j = 0; j < DimensionalRow[TheDimension]; j++)
+            {
+                objectArray[i,j] = objectArray3D[TheDimension, i, j];
+                content[i, j] = content3D[TheDimension, i, j];
+                kata[i, j] = kata3D[TheDimension, i, j];
+                CurrentColumn = i;
+                CurrentRow = j;
+                GameObject Prefab;
+                Prefab = objectArray[i, j];
+                if (Prefab != null)
+                {
+                    //Debug.Log(Prefab);
+                    Location(i, j, 0);
+
+                    //オブジェクトをおこうとしている位置にオブジェクトがあれば削除
+                    //基本的にはBlankPrefab削除
+                    Destroy(objectArray[i, j]);
+
+                    //オブジェクトを配列に代入
+                    objectArray[i, j] =
+                        Instantiate(Prefab, Place, Quaternion.identity);
+
+                    //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
+                    objectArray[i, j].name = Prefab.name;
+                    textMake(CurrentColumn, CurrentRow, Prefab.name);
+                }
+            }
+        }
+        WireSetting();
+        CurrentColumn = 0;
+        CurrentRow = 0;
+    }
+
+    public void Reset()
+    {
+        ifCount = 0;
+        ifFlag = 0;
+        forFlag = 0;
+        maxColumn = 0;
+        maxRow = 0;
+        CurrentColumn = 0;
+        CurrentRow = 0;
+        preColumn = 0;
+        preRow = 0;
+        SceneManager.LoadScene("StartGame");
+        SceneManager.LoadScene("EditScene");
+        
     }
 }
 

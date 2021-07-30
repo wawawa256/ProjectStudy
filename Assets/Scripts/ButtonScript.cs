@@ -139,6 +139,7 @@ public class ButtonScript : MonoBehaviour
             ifFlag = 0;
             break;
         }
+        ObjectCollection.BeyondDimension();
     }
 
     public void ForButtonClicked()
@@ -155,6 +156,7 @@ public class ButtonScript : MonoBehaviour
             forFlag = 0;
             break;
         }
+        ObjectCollection.BeyondDimension();
     }
 
     void ButtonLock()
@@ -219,6 +221,7 @@ public class ButtonScript : MonoBehaviour
         {
             ObjectCollection.touch_flag = 1;
         }
+        ObjectCollection.BeyondDimension();
     }
 
     public void touch_flagtateruyo(){

@@ -145,7 +145,9 @@ public class Coding : MonoBehaviour
             case "Calc_prefab":
                 Code_Calc();
                 break;
-
+            case "ForStart_prefab":
+                Code_For();
+                break;
             default:
                 y++;
                 break;
@@ -208,6 +210,23 @@ public class Coding : MonoBehaviour
         Code.text += content[x,y];
         Code.text += ";\n";
         y++;
+    }
+
+    public void Code_For()
+    {
+        if (content[x, y] == null || content[x, y] == "") nullcheak = 1;
+        space(spacecount(1));
+        ifcount++;
+        Code.text += "for(" + content[x, y] + ")" + "{\n";
+        y++;
+        while (objectArray[x, y].name != "ForEnd_prefab")
+        {
+            CodingCheck();
+        }
+        y++;
+        space(spacecount(0));
+        Code.text += "}\n";
+        ifcount -= 1;
     }
 
     //任意の数だけ\tしてくれる
