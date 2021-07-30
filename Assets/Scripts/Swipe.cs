@@ -27,27 +27,26 @@ public class Swipe : MonoBehaviour
     int maxColumn;
     int maxRow;
     Camera mainCamera;
-    float i = 0f;
+    float i = 0.0f;
 
     void Start()
     {
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
         Debug.Log(mainCamera.orthographicSize);
     }
-    public void zoom_in(){
-        if(i>0f){
+    public void zoom_in()
+    {
+        if(i>0.0f)
+        {
             i = i - 0.5f;
             mainCamera.orthographicSize = 5.0f + i;  
         }
         
     }
-    public void zoom_out(){
-        if(i<3.5f){
-            i = i + 0.5f;
-            mainCamera.orthographicSize = 5.0f + i;
-        }
-        
-
+    public void zoom_out()
+    {
+        i = i + 0.5f;
+        mainCamera.orthographicSize = 5.0f + i;  
     }
     
 
