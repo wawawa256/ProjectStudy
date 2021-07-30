@@ -599,6 +599,12 @@ public class ObjectCollection : MonoBehaviour
             case "Calc_prefab":
                 SaveobjectArray[Column, Raw] = "Calc_prefab";
                 break;
+            case "Tatedake_prefab":
+                SaveobjectArray[Column, Raw] = "Tatedake_prefab";
+                break;
+            case "Yokodake_prefab":
+                SaveobjectArray[Column, Raw] = "Yokodake_prefab";
+                break;
 
         }
        // Debug.Log(SaveobjectArray[Column, Raw]);
@@ -718,6 +724,12 @@ public class ObjectCollection : MonoBehaviour
                         break;
                     case "Calc_prefab":
                         Prefab = Calc_prefab;
+                        break;
+                    case "Yokodake_prefab":
+                        Prefab = Yokodake_prefab;
+                        break;
+                    case "Tatedake_prefab":
+                        Prefab = Tatedake_prefab;
                         break;
                     default:
                         Prefab = null;

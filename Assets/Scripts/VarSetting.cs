@@ -444,6 +444,7 @@ public class VarSetting : MonoBehaviour
         return "char";
     }
 
+    //きるじょい
     static public string youshouldrun(int xth){
         if(xth>intCount){
             xth -= intCount;
