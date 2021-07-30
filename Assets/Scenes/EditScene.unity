@@ -2581,7 +2581,7 @@ MonoBehaviour:
   IfDisPlay: {fileID: 788694836}
   CalcDisplay: {fileID: 329318629}
   ForDisplay: {fileID: 1077116226}
-  VarDropdownPrintf: {fileID: 2006899445}
+  VarDropdownPrintf: {fileID: 761027531}
   VarDropdownCalc1: {fileID: 1035214470}
   VarDropdownCalc2: {fileID: 1642882170}
   VarDropdownCalc3: {fileID: 183891933}

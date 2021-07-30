@@ -980,7 +980,6 @@ public class ObjectCollection : MonoBehaviour
         switch(imanani){
             case 2://printf
                 string vartext;
-                Debug.Log(VarDropdownPrintf.value);
                 if(VarDropdownPrintf.value!=0){
                     vartext = VarSetting.whatisthis(VarDropdownPrintf.value);
                     kata[CurrentColumn,CurrentRow]=VarSetting.watchthis(VarDropdownPrintf.value);
@@ -990,6 +989,7 @@ public class ObjectCollection : MonoBehaviour
                     vartext = PrintfInputField.text.ToString();
                     content[CurrentColumn, CurrentRow] = vartext;
                 }
+                Debug.Log(vartext);
                 DataHere = vartext;
                 PrintfDisplay.text = DataHere;
                 textMake(CurrentColumn,CurrentRow,"Printf_prefab");
