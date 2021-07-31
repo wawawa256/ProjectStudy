@@ -1582,10 +1582,10 @@ public class ObjectCollection : MonoBehaviour
         }
         DimensionalColumn[Dimension] = maxColumn;
         DimensionalRow[Dimension] = maxRow;
-        Debug.Log(Dimension + "がセーブされた");
+    //  Debug.Log(Dimension + "がセーブされた");
     //    Debug.Log(objectArray3D[Dimension, 0, 0]);
-        Dimension++;
-        Debug.Log("現在の次元は"+Dimension);
+      Dimension++;
+    //    Debug.Log("現在の次元は"+Dimension);
         if(Dimension-1==MaxDimension) MaxDimension++;
         
     }
@@ -1594,7 +1594,7 @@ public class ObjectCollection : MonoBehaviour
     {
         if ((MaxDimension < Dimension + Time) || (0 > Dimension + Time))
         {
-            Debug.Log("You don't have privilege to change Dimension");
+            Debug.Log("You don't have privilege of changing Dimension");
             return;
         }
         Reset();
@@ -1621,6 +1621,14 @@ public class ObjectCollection : MonoBehaviour
         int TheDimension;
         TheDimension = Dimension + Time;
         Debug.Log(TheDimension + "がよみこまれてるよ");
+
+        for (int i = 0; i < DimensionalColumn[Dimension]; i++)
+        {
+            for (int j = 0; j < DimensionalRow[Dimension]; j++)
+            {
+                Destroy(objectArray[i, j]);
+            }
+        }
         for (int i = 0; i < DimensionalColumn[TheDimension]; i++)
         {
             for (int j = 0; j < DimensionalRow[TheDimension]; j++)
@@ -1696,8 +1704,8 @@ public class ObjectCollection : MonoBehaviour
         WireSetting();
         maxColumn = DimensionalColumn[TheDimension];
         maxRow = DimensionalRow[TheDimension];
-        CurrentColumn = 0;
-        CurrentRow = 0;
+      //  CurrentColumn = 0;
+      //  CurrentRow = 0;
         Dimension = TheDimension;
     }
 
@@ -1711,7 +1719,7 @@ public class ObjectCollection : MonoBehaviour
         CurrentColumn = 0;
         CurrentRow = 0;
         preColumn = 0;
-        preRow = 0;     
+        preRow = 0;
     }
 }
 
