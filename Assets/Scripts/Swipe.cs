@@ -32,7 +32,7 @@ public class Swipe : MonoBehaviour
     void Start()
     {
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
-        Debug.Log(mainCamera.orthographicSize);
+       // Debug.Log(mainCamera.orthographicSize);
     }
     public void zoom_in()
     {

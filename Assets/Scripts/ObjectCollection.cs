@@ -168,7 +168,10 @@ public class ObjectCollection : MonoBehaviour
         {
             for (int j = 0; j < maxRow; j++)
             {
-                objectArray3D[Dimension, i, j] = objectArray[i, j].name;
+                if (objectArray[i, j] != null)
+                {
+                    objectArray3D[Dimension, i, j] = objectArray[i, j].name;
+                }
             }
         }
         for (int i = 0; i < maxColumn; i++)
@@ -195,7 +198,10 @@ public class ObjectCollection : MonoBehaviour
         {
             for (int j = 0; j < maxRow; j++)
             {
-                objectArray3D[Dimension, i, j] = objectArray[i, j].name;
+                if (objectArray[i, j] != null)
+                {
+                    objectArray3D[Dimension, i, j] = objectArray[i, j].name;
+                }
             }
         }
         for (int i = 0; i < maxColumn; i++)
@@ -328,7 +334,7 @@ public class ObjectCollection : MonoBehaviour
     //ifボタン
     public void IfButtonClicked()
     {
-        BeyondDimension();
+      //  Debug.Log("よう");
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
         whetherIf = true;
@@ -347,7 +353,8 @@ public class ObjectCollection : MonoBehaviour
     }
 
     void IfStart()
-    {;
+    {
+        BeyondDimension();
         ObjectInstall(If_prefab);
         ifArray[ifCount].ifStartColumn = CurrentColumn;
         ifArray[ifCount].ifStartRow = CurrentRow;
@@ -455,6 +462,7 @@ public class ObjectCollection : MonoBehaviour
 
     void ForStart()
     {
+        BeyondDimension();
         ObjectInstall(ForStart_prefab);
         forFlag = 1;
     }
@@ -1208,9 +1216,9 @@ public class ObjectCollection : MonoBehaviour
                     enzansidocchi="<=";
                     enzansidocchi2="+=";
                 }
-                DataHere="for(int i="+txt1+";"+"i"+enzansidocchi+txt2+";i"+enzansidocchi2+txt3+")";//for(int i=init;i<=)
+                DataHere="int i="+txt1+";"+"i"+enzansidocchi+txt2+";i"+enzansidocchi2+txt3;//for(int i=init;i<=)
                 ForDisplay.text=DataHere;
-                content[CurrentColumn,CurrentRow]="DataHere";
+                content[CurrentColumn,CurrentRow]=DataHere;
                 break;
 
             case 7://calc
@@ -1551,7 +1559,11 @@ public class ObjectCollection : MonoBehaviour
         {
             for (int j = 0; j < maxRow; j++)
             {
-                objectArray3D[Dimension, i, j] = objectArray[i, j].name;
+                if (objectArray[i, j] != null)
+                {
+                    objectArray3D[Dimension, i, j] = objectArray[i, j].name;
+                }
+
             }
         }
         for (int i = 0; i < maxColumn; i++)
@@ -1580,12 +1592,32 @@ public class ObjectCollection : MonoBehaviour
 
     public void Dimensional_Drift(int Time)
     {
-        if ((MaxDimension < Dimension + Time) || (0 >= Dimension + Time))
+        if ((MaxDimension < Dimension + Time) || (0 > Dimension + Time))
         {
             Debug.Log("You don't have privilege to change Dimension");
             return;
         }
         Reset();
+        if (Dimension + Time == 0)
+        {
+            Location(0, 0, 0);
+            Destroy(objectArray[0, 0]);
+
+            //オブジェクトを配列に代入
+            objectArray[0, 0] =
+                Instantiate(Blank_prefab, Place, Quaternion.identity);
+
+            //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
+            objectArray[0, 0].name = "Blank_prefab";
+            textMake(CurrentColumn, CurrentRow, "Blank_prefab");
+            WireSetting();
+            maxColumn = DimensionalColumn[0];
+            maxRow = DimensionalRow[0];
+            CurrentColumn = 0;
+            CurrentRow = 0;
+            Dimension = 0;
+            return;
+        }
         int TheDimension;
         TheDimension = Dimension + Time;
         Debug.Log(TheDimension + "がよみこまれてるよ");

@@ -139,13 +139,13 @@ public class ButtonScript : MonoBehaviour
             ifFlag = 0;
             break;
         }
-        ObjectCollection.BeyondDimension();
     }
 
     public void ForButtonClicked()
     {
         switch(forFlag){
         case 0 :
+
             ButtonLock();
             IfEndButton.SetActive(false);
             ForEndButton.SetActive(true);
@@ -156,7 +156,6 @@ public class ButtonScript : MonoBehaviour
             forFlag = 0;
             break;
         }
-        ObjectCollection.BeyondDimension();
     }
 
     void ButtonLock()
