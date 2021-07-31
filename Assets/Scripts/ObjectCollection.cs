@@ -326,6 +326,13 @@ public class ObjectCollection : MonoBehaviour
     //ifボタン
     public void IfButtonClicked()
     {
+        switch(ifFlag){
+        case 0:
+            BeyondDimension();
+            break;
+        case 1:
+            break;
+        }
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
         whetherIf = true;
@@ -345,7 +352,6 @@ public class ObjectCollection : MonoBehaviour
 
     void IfStart()
     {
-        BeyondDimension();
         ObjectInstall(If_prefab);
         ifArray[ifCount].ifStartColumn = CurrentColumn;
         ifArray[ifCount].ifStartRow = CurrentRow;
@@ -365,6 +371,13 @@ public class ObjectCollection : MonoBehaviour
 
     public void ForButtonClicked()
     {
+        switch(forFlag){
+        case 0:
+            BeyondDimension();
+            break;
+        case 1:
+            break;
+        }
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
         whetherIf = false;
@@ -384,7 +397,6 @@ public class ObjectCollection : MonoBehaviour
 
     void ForStart()
     {
-        BeyondDimension();
         ObjectInstall(ForStart_prefab);
         forFlag = 1;
     }
