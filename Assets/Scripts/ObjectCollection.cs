@@ -1629,6 +1629,9 @@ public class ObjectCollection : MonoBehaviour
                 if (objectArray[i, j] != null)
                 {
                     Destroy(objectArray[i, j]);
+                    objectArray[i, j] = null; 
+                    Destroy(wireArray[i, j]);
+                    wireArray[i, j] = null;
                 }
             }
         }
