@@ -64,7 +64,6 @@ public class ObjectCollection : MonoBehaviour
     public static int ifFlag;
     public static int forFlag;
     public static Vector3 Place;
-    public VarSetting varsettingcs;
 
     int ifCount;
 
@@ -865,9 +864,9 @@ public class ObjectCollection : MonoBehaviour
 
     void WireSetting()
     {
-        for(CurrentRow=maxRow;CurrentRow>-1;CurrentRow--)
+        for(CurrentRow=maxRow+1;CurrentRow>-1;CurrentRow--)
         {
-            for(CurrentColumn=maxColumn;CurrentColumn>-1;CurrentColumn--)
+            for(CurrentColumn=maxColumn+1;CurrentColumn>-1;CurrentColumn--)
             {
                 if(wireArray[CurrentColumn, CurrentRow]!=null){
                     Destroy(wireArray[CurrentColumn,CurrentRow]);
@@ -1529,30 +1528,6 @@ public class ObjectCollection : MonoBehaviour
             return;
         }
         Reset();
-        if (Dimension + Time == 0)
-        {
-            Location(0, 0, 0);
-            Destroy(objectArray[0, 0]);
-
-            //オブジェクトを配列に代入
-            objectArray[0, 0] =
-                Instantiate(Blank_prefab, Place, Quaternion.identity);
-
-            //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
-            objectArray[0, 0].name = "Blank_prefab";
-            textMake(CurrentColumn, CurrentRow, "Blank_prefab");
-            WireSetting();
-            maxColumn = DimensionalColumn[0];
-            maxRow = DimensionalRow[0];
-            CurrentColumn = 0;
-            CurrentRow = 0;
-            Dimension = 0;
-            return;
-        }
-        int TheDimension;
-        TheDimension = Dimension + Time;
-        Debug.Log(TheDimension + "がよみこまれてるよ");
-
         for (int i = 0; i < 64; i++)
         {
             for (int j = 0; j < 128; j++)
@@ -1566,6 +1541,30 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
+        if (Dimension + Time == 0)
+        {
+            Location(0, 0, 0);
+            Destroy(objectArray[0, 0]);
+
+            //オブジェクトを配列に代入
+            objectArray[0, 0] =
+                Instantiate(Blank_prefab, Place, Quaternion.identity);
+
+            //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
+            objectArray[0, 0].name = "Blank_prefab";
+            textMake(CurrentColumn, CurrentRow, "Blank_prefab");
+            maxColumn = 1;
+            maxRow = 1;
+            WireSetting();
+            CurrentColumn = 0;
+            CurrentRow = 0;
+            Dimension = 0;
+            return;
+        }
+        int TheDimension;
+        TheDimension = Dimension + Time;
+        Debug.Log(TheDimension + "がよみこまれてるよ");
+
         for (int i = 0; i < DimensionalColumn[TheDimension]; i++)
         {
             for (int j = 0; j < DimensionalRow[TheDimension]; j++)
@@ -1638,9 +1637,9 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
-        WireSetting();
         maxColumn = DimensionalColumn[TheDimension];
         maxRow = DimensionalRow[TheDimension];
+        WireSetting();
       //  CurrentColumn = 0;
       //  CurrentRow = 0;
         Dimension = TheDimension;
@@ -1657,6 +1656,8 @@ public class ObjectCollection : MonoBehaviour
         CurrentRow = 0;
         preColumn = 0;
         preRow = 0;
+        tempColumn = -1;
+        tempRow = -1;
     }
 }
 
