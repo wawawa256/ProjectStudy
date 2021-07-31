@@ -127,12 +127,11 @@ public class ObjectCollection : MonoBehaviour
         if(touch_flag == 1){
             if(Input.GetMouseButtonDown(0))
             {
-                //Debug.Log("Update");
                 StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
                 StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
                 int i,j;
                 for(i = 0;i<maxColumn+1;i++){
-                    if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){//i列目にあるよ
+                    if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){
                         jibunX = i;
                         break;
                     }
@@ -141,22 +140,19 @@ public class ObjectCollection : MonoBehaviour
                     }
                 }
                 for(j = 0; j<maxRow+1;j++){
-                    if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){//j行目にあるよ
+                    if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){
                         jibunY = j;
                         break;
                     }
                     else if(j==maxRow){
-                        jibunY = 129;
+                        jibunY = -1;
                     }
                 }
-                if(jibunX == 64 || jibunY == 129)return;
+                if(jibunX == 64 || jibunY == -1)return;
                 if(objectArray[jibunX,jibunY]==null)return;
-                //Location(jibunX,jibunY,-1);
-                //CurrentPlace.transform.position = Place;
                 CurrentColumn = jibunX;
                 CurrentRow = jibunY;
                 CurrentPosition();
-                //Debug.Log("update fin");
             }
         }
         
@@ -276,7 +272,6 @@ public class ObjectCollection : MonoBehaviour
         case "Calc_prefab":
             ObjectText.text = "Calculate";
             break;
-
         }
         else
         {
@@ -312,7 +307,6 @@ public class ObjectCollection : MonoBehaviour
     public void PrintfButtonClicked()
     {
         BeyondDimension();
-        //Debug.Log("printfButton");
         //置こうとしている場所を一度保存しておく
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
@@ -327,14 +321,18 @@ public class ObjectCollection : MonoBehaviour
 
         CurrentPosition();
         whetherIf = false;
-        //Debug.Log("printf fin");
-        
     }
 
     //ifボタン
     public void IfButtonClicked()
     {
-      //  Debug.Log("よう");
+        switch(ifFlag){
+        case 0:
+            BeyondDimension();
+            break;
+        case 1:
+            break;
+        }
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
         whetherIf = true;
@@ -354,7 +352,6 @@ public class ObjectCollection : MonoBehaviour
 
     void IfStart()
     {
-        BeyondDimension();
         ObjectInstall(If_prefab);
         ifArray[ifCount].ifStartColumn = CurrentColumn;
         ifArray[ifCount].ifStartRow = CurrentRow;
@@ -367,82 +364,20 @@ public class ObjectCollection : MonoBehaviour
         ifArray[ifCount].ifEndColumn = CurrentColumn;
         ifArray[ifCount].ifEndRow = CurrentRow;
 
-        
-        /*//仮に置いとく、外にifがあると使えない
-        CurrentColumn++;
-        //横幅をどれだけにするか求める
-        //ifControl(ifFlag);
-
-        ObjectInstall(Corner2_prefab);
-        ifArray[ifCount].ifCornerColumn = CurrentColumn;
-        ifArray[ifCount].ifCornerRow = CurrentRow;
-        CurrentRow--;
-        while(CurrentRow>ifArray[ifCount].ifStartRow)
-        {
-            ObjectInstall(Blank_prefab);
-            CurrentRow--;
-        }
-        CurrentColumn = ifArray[ifCount].ifEndColumn;
-        CurrentRow = ifArray[ifCount].ifEndRow;*/
         IFMATOME();
         ifFlag = 0;
         ifCount++;
     }
 
-    //置こうとしてる場所がifの間かどうか
-    //そうなら外のifを重ならないように動かす
-    //columnの最大値を考えればいける
-    //置こうとしてる始点と終点の間にifがあるかどうか
-    //そうならCornerを内側のifと重ならないように動かす
-    void ifControl(int mode)
-    {
-        int column;
-        int row;
-        int i;
-        column=CurrentColumn;
-        switch(mode)
-        {
-            case 0:
-                break;
-            case 1:
-            //If_prefabが置こうとしているところより上にあるか
-            //ifArray[ifCount]は今置こうとしているオブジェクトについての情報
-            //ifArray[ifCount].ifEndRowはCurrentRowと同値
-                for(row=ifArray[ifCount].ifStartRow;row>=0;row--)
-                {
-                    if(objectArray[column,row]!=null)
-                    switch(objectArray[column,row].name)
-                    {
-                    case "If_prefab":
-                        for(i=0;i<=ifCount;i++)
-                        {
-                            if(row==ifArray[i].ifStartRow)
-                            {
-                                //置こうとしてるifEndの位置より下に検知したifのifEndが存在するか
-                                //存在するなら検知したifの組み合わせは外にあるはず
-                                if(ifArray[ifCount].ifEndRow<ifArray[i].ifEndRow)
-                                if(ifArray[i].ifCornerColumn-ifArray[ifCount].ifStartColumn==1)
-                               　{
-                                    //columnが隣同士ならifArray[i]をずらす
-                                }
-                            }
-                        }
-                        break;
-                    case "Corner1_prefab":
-                        break;
-                    default:
-                        break;
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
-
-
     public void ForButtonClicked()
     {
+        switch(forFlag){
+        case 0:
+            BeyondDimension();
+            break;
+        case 1:
+            break;
+        }
         tempRow = CurrentRow;
         tempColumn = CurrentColumn;
         whetherIf = false;
@@ -462,7 +397,6 @@ public class ObjectCollection : MonoBehaviour
 
     void ForStart()
     {
-        BeyondDimension();
         ObjectInstall(ForStart_prefab);
         forFlag = 1;
     }
@@ -515,7 +449,6 @@ public class ObjectCollection : MonoBehaviour
         countColumnRow();
         WireSetting();
         //illegalObjectCheck();
-        //ifArrayCheck();
     }
 
     //すでにオブジェクトがその位置にあるか
@@ -536,7 +469,6 @@ public class ObjectCollection : MonoBehaviour
     //一つ上のオブジェクトをコピーして下に移動
     void ObjectReplace()
     {
-        //bool p;
         int i;
         for(CurrentRow=maxRow;CurrentRow>tempRow-1;CurrentRow--)
         {
@@ -590,18 +522,6 @@ public class ObjectCollection : MonoBehaviour
         }
         CurrentRow = tempRow;
         CurrentColumn = tempColumn;
-    }
-
-    void ifArrayCheck()
-    {
-        int i;
-        for(i=0;i<ifCount;i++)
-        {
-           // Debug.Log(
-           //     "i="+i+
-           //     ",ifStartRow="+ifArray[i].ifStartRow+
-          //     );
-        }
     }
 
     void illegalObjectCheck()
@@ -860,13 +780,15 @@ public class ObjectCollection : MonoBehaviour
             {
                 CurrentColumn = preColumn;
                 CurrentRow=preRow;
-                messageText.text = "始点としたオブジェクトのある列以外に終点を配置できません";
+                messageText.text =
+                    "始点としたオブジェクトのある列以外に終点を配置できません";
             }
             else if(CurrentRow<=tempRow)
             {
                 CurrentColumn = preColumn;
                 CurrentRow = preRow;
-                messageText.text = "始点としたオブジェクトより上に終点を配置できません";
+                messageText.text =
+                    "始点としたオブジェクトより上に終点を配置できません";
             }
             else
             {
@@ -927,7 +849,8 @@ public class ObjectCollection : MonoBehaviour
                 {
                     CurrentColumn = preColumn;
                     CurrentRow = preRow;
-                    messageText.text = "ワイヤーが交差するようなオブジェクトの配置はできません";
+                    messageText.text =
+                        "ワイヤーが交差するようなオブジェクトの配置はできません";
                 }
             }
         }
@@ -1344,7 +1267,8 @@ public class ObjectCollection : MonoBehaviour
 
     }
 
-    public int SeekThemOut(){ //中は[どこから縦を伸ばしたらいいかな]を調べたいだけなのでmaxだけ返せばok.
+    public int SeekThemOut(){
+        //中は[どこから縦を伸ばしたらいいかな]を調べたいだけなのでmaxだけ返せばok.
         int ifkazu=0;
         int maxifkazu=0;
         bool ifaru=false;
@@ -1392,7 +1316,8 @@ public class ObjectCollection : MonoBehaviour
 
     public int originalX;
     public int XonSentry;
-    public void PlacingSentry(int nakax,int starty,int endy,int preflag){ //外は[スライドを何回、どこからどこまで、すればいいかな]を調べたいが...
+    public void PlacingSentry(int nakax,int starty,int endy,int preflag){
+        //外は[スライドを何回、どこからどこまで、すればいいかな]を調べたいが...
         int x=nakax+1;
         int y=starty;
         int flag=0;
@@ -1507,7 +1432,10 @@ public class ObjectCollection : MonoBehaviour
         ifArray[ifCount].ifCornerRow=CurrentRow;
         //左にyokoおいてく
         //CurrentColumn--;
-        for(CurrentColumn=CurrentColumn-1;CurrentColumn>ifArray[ifCount].ifStartColumn;CurrentColumn--){
+        for(CurrentColumn=CurrentColumn-1;
+            CurrentColumn>ifArray[ifCount].ifStartColumn;
+            CurrentColumn--)
+        {
             ObjectInstall(Yokodake_prefab);
          //   Debug.Log("よこおいた");
            // Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
@@ -1516,20 +1444,23 @@ public class ObjectCollection : MonoBehaviour
         WireSetting();
     }
 
-    public int SearchRight(int x,int y){ //ifにぶつかってからtatedakeをさがします
+    public int SearchRight(int x,int y){
+        //ifにぶつかってからtatedakeをさがします
         while(objectArray[x,y].name!="Tatedake_prefab"){
             x++;
         }
         return x;
     }
-    public int SearchLower(int x,int y){ //tatedakeにぶつかってからyokoを探してくれます
+    public int SearchLower(int x,int y){
+        //tatedakeにぶつかってからyokoを探してくれます
         while(objectArray[x,y].name!="Corner2_prefab"){
             y++;
         }
         return y;
     }
 
-    public int SearchUpper(int x,int y){ //tatedakeにぶつかってからyokoを探してくれます
+    public int SearchUpper(int x,int y){
+        //tatedakeにぶつかってからyokoを探してくれます
         while(objectArray[x,y].name!="Tatedake_prefab"){
             y--;
         }
