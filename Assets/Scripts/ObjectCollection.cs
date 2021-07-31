@@ -1538,6 +1538,8 @@ public class ObjectCollection : MonoBehaviour
                     objectArray[i, j] = null; 
                     Destroy(wireArray[i, j]);
                     wireArray[i, j] = null;
+                    Destroy(HorizontalwireArray[i, j]);
+                    HorizontalwireArray[i, j] = null;
                 }
             }
         }
