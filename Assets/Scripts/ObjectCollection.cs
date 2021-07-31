@@ -1622,11 +1622,14 @@ public class ObjectCollection : MonoBehaviour
         TheDimension = Dimension + Time;
         Debug.Log(TheDimension + "がよみこまれてるよ");
 
-        for (int i = 0; i < DimensionalColumn[Dimension]; i++)
+        for (int i = 0; i < 64; i++)
         {
-            for (int j = 0; j < DimensionalRow[Dimension]; j++)
+            for (int j = 0; j < 128; j++)
             {
-                Destroy(objectArray[i, j]);
+                if (objectArray[i, j] != null)
+                {
+                    Destroy(objectArray[i, j]);
+                }
             }
         }
         for (int i = 0; i < DimensionalColumn[TheDimension]; i++)
