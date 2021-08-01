@@ -512,6 +512,12 @@ public class ObjectCollection : MonoBehaviour
                             Destroy(objectArray[CurrentColumn,CurrentRow-1]);
                             objectArray[CurrentColumn,CurrentRow-1]=null;
                             break;
+
+                        case "Yokodake_prefab":
+                            Destroy(objectArray[CurrentColumn,CurrentRow-1]);
+                            objectArray[CurrentColumn,CurrentRow-1]=null;
+                            break;
+                            
                         default:
                             break;
                         }
