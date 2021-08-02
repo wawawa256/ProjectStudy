@@ -149,17 +149,6 @@ public class ObjectCollection : MonoBehaviour
                 }
                 if(jibunX == 64 || jibunY == -1)return;
                 if(objectArray[jibunX,jibunY]==null)return;
-                //TatedakeとYokodakeに行けないようにしようと思ったんです...
-                switch(objectArray[jibunX,jibunY].name){
-                    case "Yokodake_prefab":
-                        return;
-
-                    case "Tatedake_prefab":
-                        return;
-
-                    default:
-                        break;
-                }
                 CurrentColumn = jibunX;
                 CurrentRow = jibunY;
                 CurrentPosition();
@@ -409,8 +398,6 @@ public class ObjectCollection : MonoBehaviour
     {
         ObjectInstall(ForStart_prefab);
         forFlag = 1;
-        forLastcol=CurrentColumn;
-        forLastrow=CurrentRow;
     }
 
     void ForEnd()
@@ -530,7 +517,7 @@ public class ObjectCollection : MonoBehaviour
                             Destroy(objectArray[CurrentColumn,CurrentRow-1]);
                             objectArray[CurrentColumn,CurrentRow-1]=null;
                             break;
-
+                            
                         default:
                             break;
                         }
@@ -775,9 +762,6 @@ public class ObjectCollection : MonoBehaviour
         CurrentRow = 0;
     }
 
-    public static int forLastcol;
-    public static int forLastrow;
-
     //赤枠の位置決定
     void CurrentPosition()
     {
@@ -814,86 +798,56 @@ public class ObjectCollection : MonoBehaviour
             else
             {
                 //Debug.Log("ifCount = "+ifCount);
-                if(ifFlag==1){ //ifのとき。
-                    for(j=0;j<ifCount;j++)
-                    {
-                    //ifStartが他のifの内側かどうか
-                        if(ifArray[j].ifStartColumn==ifArray[ifCount].ifStartColumn)
-                        if(ifArray[j].ifStartRow<ifArray[ifCount].ifStartRow)
-                        if(ifArray[j].ifEndRow>=ifArray[ifCount].ifStartRow)
-                        {
-                            InOutCheck = true;
-                            if(ifArray[j].ifDistance()<length)
-                            {
-                                length = ifArray[j].ifDistance();
-                                temp = j;
-                            }
-                        }
-                    }
-                    //Debug.Log(length);
-                    if(length==128) InOutCheck = false;
-                    //内
-                    if(InOutCheck)
-                    {
-                        //Debug.Log("uchi");
-                        for(i=0;i<maxRow;i++)
-                        {
-                            if(ifArray[temp].ifStartRow<i)
-                            if(ifArray[temp].ifEndRow>=i)
-                            {
-                                place[i]=1;
-                            }
-                            else place[i]=0;
-                        }
-                    }
-                    //外
-                    else
-                    {
-                        //Debug.Log("soto");
-                        for(i=0;i<maxRow;i++)
-                        {
-                            act = false;
-                            for(j=0;j<=ifCount;j++)
-                            {
-                                if(ifArray[j].ifStartColumn == CurrentColumn)
-                                if(ifArray[j].ifStartRow<i && ifArray[j].ifEndRow>=i)
-                                {
-                                    //i行目は位置的に利用不可能
-                                    act = true;
-                                }
-                            }
-                            if(act) place[i] = 0;
-                            else place[i] = 1;
-
-                        }
-                    }
-                    }else //forのとき。
+                for(j=0;j<ifCount;j++)
                 {
-                    //すること。ifの中かどうか？のみ。？cor1を検知したらそこ（含む）までが可動域。上はもうやってくれてるはずで、行チェックもしてくれてて、だあここだけ。cor1いなかったら全部1にしとけばいいのか
-                    //cor2葉検知しなくて良さそう？やっぱだめ
-                    //ifの時はifcountで絶対座標を作れたけど...今回はそれだとダメみたい →適当に置いて解決した
-                    int y=forLastrow;
-                    int x=forLastcol;
-                    /*while((objectArray[x,y].name!="Corner1_prefab"&&objectArray[x,y].name!="Corner2_prefab")||(y<maxRow)){
-                        y++;
-                    }*/
-                    for(y=forLastrow;y<=maxRow;y++){
-                        if(objectArray[x,y]==null){
-                            break;
-                        }else{
-                            if(objectArray[x,y].name=="Corner2_prefab"||objectArray[x,y].name=="Corner1_prefab"){
-                                place[y]=1;
-                                break;
-                            }else{
-                                Debug.Log(y.ToString()+"ゆるす");
-                                place[y]=1;
-                            }
+                //ifStartが他のifの内側かどうか
+                    if(ifArray[j].ifStartColumn==ifArray[ifCount].ifStartColumn)
+                    if(ifArray[j].ifStartRow<ifArray[ifCount].ifStartRow)
+                    if(ifArray[j].ifEndRow>=ifArray[ifCount].ifStartRow)
+                    {
+                        InOutCheck = true;
+                        if(ifArray[j].ifDistance()<length)
+                        {
+                            length = ifArray[j].ifDistance();
+                            temp = j;
                         }
                     }
-                    if(y!=maxRow){ //↑だと不十分。だめなとこに0置いてない
-                        for(int p=y+1;p<=maxRow;p++){
-                            place[p]=0;
+                }
+                //Debug.Log(length);
+                if(length==128) InOutCheck = false;
+                //内
+                if(InOutCheck)
+                {
+                    //Debug.Log("uchi");
+                    for(i=0;i<maxRow;i++)
+                    {
+                        if(ifArray[temp].ifStartRow<i)
+                        if(ifArray[temp].ifEndRow>=i)
+                        {
+                            place[i]=1;
                         }
+                        else place[i]=0;
+                    }
+                }
+                //外
+                else
+                {
+                    //Debug.Log("soto");
+                    for(i=0;i<maxRow;i++)
+                    {
+                        act = false;
+                        for(j=0;j<=ifCount;j++)
+                        {
+                            if(ifArray[j].ifStartColumn == CurrentColumn)
+                            if(ifArray[j].ifStartRow<i && ifArray[j].ifEndRow>=i)
+                            {
+                                //i行目は位置的に利用不可能
+                                act = true;
+                            }
+                        }
+                        if(act) place[i] = 0;
+                        else place[i] = 1;
+
                     }
                 }
                 if(place[CurrentRow]==0)
