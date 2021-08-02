@@ -149,6 +149,17 @@ public class ObjectCollection : MonoBehaviour
                 }
                 if(jibunX == 64 || jibunY == -1)return;
                 if(objectArray[jibunX,jibunY]==null)return;
+                //TatedakeとYokodakeに行けないようにしようと思ったんです...
+                switch(objectArray[jibunX,jibunY].name){
+                    case "Yokodake_prefab":
+                        return;
+
+                    case "Tatedake_prefab":
+                        return;
+
+                    default:
+                        break;
+                }
                 CurrentColumn = jibunX;
                 CurrentRow = jibunY;
                 CurrentPosition();
