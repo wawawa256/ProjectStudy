@@ -6,13 +6,11 @@ using UnityEngine.UI;
 public class ButtonScript : MonoBehaviour
 {
     public GameObject AddPanel;
-    public GameObject SettingPanel;
     public GameObject CodePanel;
     public GameObject AddVarPanel;
     public GameObject VarListPanel;
     public GameObject UIButtons;
     bool AddpanelActivity;
-    bool SettingpanelActivity;
     bool CodepanelActivity;
     bool AddVarPanelActivity;
     bool VarListPanelActivity;
@@ -48,7 +46,6 @@ public class ButtonScript : MonoBehaviour
     public void Start()
     {
         //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
         AddVarPanel.SetActive(false);
         CodePanel.SetActive(false);
         VarListPanel.SetActive(false);
@@ -84,14 +81,11 @@ public class ButtonScript : MonoBehaviour
         AddVarPanel.SetActive(false);
         CodePanel.SetActive(false);
         VarListPanel.SetActive(false);
-        SettingpanelActivity = SettingPanel.activeInHierarchy;
-        SettingPanel.SetActive(!SettingpanelActivity);
     }
 
     public void AddVarPanelChange()
     { 
         //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
         CodePanel.SetActive(false);
         VarListPanel.SetActive(false);
         UIButtons.SetActive(false);
@@ -102,7 +96,6 @@ public class ButtonScript : MonoBehaviour
     public void CodePanelChange()
     {
         //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
         AddVarPanel.SetActive(false);
         VarListPanel.SetActive(false);
         CodepanelActivity = CodePanel.activeInHierarchy;
@@ -112,7 +105,6 @@ public class ButtonScript : MonoBehaviour
     public void VarListPanelChange()
     { 
         //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
         AddVarPanel.SetActive(false);
         CodePanel.SetActive(false);
         VarListPanelActivity = VarListPanel.activeInHierarchy;
