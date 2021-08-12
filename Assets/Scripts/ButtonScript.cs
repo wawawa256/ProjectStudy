@@ -220,7 +220,7 @@ public class ButtonScript : MonoBehaviour
         {
             ObjectCollection.touch_flag = 1;
         }
-        ObjectCollection.BeyondDimension();
+        //ObjectCollection.BeyondDimension();
     }
 
     public void touch_flagtateruyo(){

@@ -18,13 +18,16 @@ public class ObjectCollection : MonoBehaviour
     public Text messageText;
 
     Ifreference[] ifArray = new Ifreference[128];
+    Ifreference[,] ifArray2D = new Ifreference[256,128];
 
     //次元を超える
     public static string[,,] objectArray3D = new string[256, 64, 128];
     public static string[,,] content3D = new string[256, 64, 128];
     public static string[,,] kata3D = new string[256, 64, 128];
+
     public static int[] DimensionalColumn = new int[256];
     public static int[] DimensionalRow = new int[256];
+    public static int[] ifCount2D = new int[256];
 
     //オブジェクトのプロトタイプ宣言
     public GameObject CurrentPlace;
@@ -71,6 +74,7 @@ public class ObjectCollection : MonoBehaviour
     int preRow;
 
     public static int Dimension = 0;
+    public static int TheDimension;
     public static int MaxDimension = 0;
 
     //西田
@@ -97,10 +101,7 @@ public class ObjectCollection : MonoBehaviour
         messageText = messageText.GetComponent<Text>();
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
         makeInstance();
-
-        // 西田
-        // mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
-
+        
         //contentの型用
         for (int i = 0; i < 64; i++)
         {
@@ -123,32 +124,39 @@ public class ObjectCollection : MonoBehaviour
      //西田
     public void Update ()
     {
-        if(touch_flag == 1){
+        if(touch_flag == 1)
+        {
             if(Input.GetMouseButtonDown(0))
             {
                 StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
                 StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
                 int i,j;
-                for(i = 0;i<maxColumn+1;i++){
+                for(i = 0;i<maxColumn+1;i++)
+                {
                     if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){
                         jibunX = i;
                         break;
                     }
-                    else if(i == maxColumn){
+                    else if(i == maxColumn)
+                    {
                         jibunX = 64;
                     }
                 }
-                for(j = 0; j<maxRow+1;j++){
-                    if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY){
+                for(j = 0; j<maxRow+1;j++)
+                {
+                    if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY)
+                    {
                         jibunY = j;
                         break;
                     }
-                    else if(j==maxRow){
+                    else if(j==maxRow)
+                    {
                         jibunY = -1;
                     }
                 }
-                if(jibunX == 64 || jibunY == -1)return;
-                if(objectArray[jibunX,jibunY]==null)return;
+                if(jibunX == 64 || jibunY == -1) return;
+                if(objectArray[jibunX,jibunY]==null) return;
+
                 //TatedakeとYokodakeに行けないようにしようと思ったんです...
                 switch(objectArray[jibunX,jibunY].name){
                     case "Yokodake_prefab":
@@ -227,12 +235,19 @@ public class ObjectCollection : MonoBehaviour
         DimensionalColumn[Dimension] = maxColumn;
         DimensionalRow[Dimension] = maxRow;
         Dimensional_Drift(-1);
+        CurrentColumn = 0;
+        CurrentRow = maxRow-1;
+        CurrentPosition();
     }
 
     void makeInstance()
     {
         int i;
+        int j;
         for(i=0;i<128;i++) ifArray[i] = new Ifreference();
+        for(i=0;i<256;i++)
+        for(j=0;j<128;j++)
+        ifArray2D[i,j] = new Ifreference();
     }
 
     //オブジェクトの設置
@@ -790,6 +805,7 @@ public class ObjectCollection : MonoBehaviour
         InOutCheck = false;
         act = false;
         //Debug.Log(CurrentRow);
+        messageText.text = "";
         if(ifFlag==1 || forFlag==1)
         {
             if(CurrentColumn!=tempColumn)
@@ -1500,7 +1516,7 @@ public class ObjectCollection : MonoBehaviour
         mainCamera.transform.position = Place + new Vector3(0f,-1.0f,0f);
     }
 
-    public static void BeyondDimension()
+    public void BeyondDimension()
     {
         for (int i = 0; i < maxColumn; i++)
         {
@@ -1510,7 +1526,6 @@ public class ObjectCollection : MonoBehaviour
                 {
                     objectArray3D[Dimension, i, j] = objectArray[i, j].name;
                 }
-
             }
         }
         for (int i = 0; i < maxColumn; i++)
@@ -1527,21 +1542,39 @@ public class ObjectCollection : MonoBehaviour
                 kata3D[Dimension, i, j] = kata[i, j];
             }
         }
+        ifArrayBeyond();
         DimensionalColumn[Dimension] = maxColumn;
         DimensionalRow[Dimension] = maxRow;
     //  Debug.Log(Dimension + "がセーブされた");
     //    Debug.Log(objectArray3D[Dimension, 0, 0]);
-      Dimension++;
+        Dimension++;
     //    Debug.Log("現在の次元は"+Dimension);
         if(Dimension-1==MaxDimension) MaxDimension++;
-        
+    }
+
+    void ifArrayBeyond()
+    {
+        ifCount2D[Dimension] = ifCount;
+        for(int i=0;i<ifCount;i++)
+        {
+            ifArray2D[Dimension,i] = ifArray[i]; 
+        }
+    }
+
+    void ifArrayJump()
+    {
+        ifCount = ifCount2D[TheDimension];
+        for(int i=0;i<ifCount;i++)
+        {
+            ifArray[i] = ifArray2D[TheDimension,i];
+        }
     }
 
     public void Dimensional_Drift(int Time)
     {
         if ((MaxDimension < Dimension + Time) || (0 > Dimension + Time))
         {
-            Debug.Log("You don't have privilege of changing Dimension");
+            Debug.Log("You don't have privilege of changing the Dimensions");
             return;
         }
         Reset();
@@ -1560,6 +1593,11 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
+
+        TheDimension = Dimension + Time;
+        
+        ifArrayJump();
+
         if (Dimension + Time == 0)
         {
             Location(0, 0, 0);
@@ -1580,8 +1618,6 @@ public class ObjectCollection : MonoBehaviour
             Dimension = 0;
             return;
         }
-        int TheDimension;
-        TheDimension = Dimension + Time;
         Debug.Log(TheDimension + "がよみこまれてるよ");
 
         for (int i = 0; i < DimensionalColumn[TheDimension]; i++)
@@ -1661,6 +1697,9 @@ public class ObjectCollection : MonoBehaviour
         WireSetting();
       //  CurrentColumn = 0;
       //  CurrentRow = 0;
+        CurrentColumn = 0;
+        CurrentRow = maxRow-1;
+        CurrentPosition();
         Dimension = TheDimension;
     }
 
