@@ -11,6 +11,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject AddVarPanel;
     public GameObject VarListPanel;
     public GameObject UIButtons;
+
     bool AddpanelActivity;
     bool SettingpanelActivity;
     bool CodepanelActivity;
@@ -24,7 +25,12 @@ public class ButtonScript : MonoBehaviour
     public GameObject IfEndButton;
     public GameObject ForStartButton;
     public GameObject ForEndButton;
+    public GameObject WhileStartButton;
+    public GameObject WhileEndButton;
+    public GameObject BreakButton;
+    public GameObject SubroutineButton;
     public GameObject CalcButton;
+
     bool PrintButtonActivity;
     bool IfStartButtonActivity;
     bool IfEndButtonActivity;
@@ -44,6 +50,7 @@ public class ButtonScript : MonoBehaviour
 
     int ifFlag;
     int forFlag;
+    int whileFlag;
 
     public void Start()
     {
@@ -54,18 +61,12 @@ public class ButtonScript : MonoBehaviour
         VarListPanel.SetActive(false);
         UIButtons.SetActive(false);
 
-        PrintfButton.SetActive(true);
-        IfStartButton.SetActive(true);
-        ForStartButton.SetActive(true);
-        CalcButton.SetActive(true);
-        IfEndButton.SetActive(false);
-        ForEndButton.SetActive(false);
+        ButtonUnlock();
 
         ifFlag = 0;
         forFlag = 0;
+        whileFlag = 0;
     }
-
-    
 
     public void PaizaButtonClicked()
     {
@@ -127,34 +128,49 @@ public class ButtonScript : MonoBehaviour
 
     public void IfButtonClicked()
     {
-        switch(ifFlag){
-        case 0:
-            ButtonLock();
-            IfEndButton.SetActive(true);
-            ForEndButton.SetActive(false);
-            ifFlag = 1;
-            break;
-        case 1:
-            ButtonUnlock();
-            ifFlag = 0;
-            break;
+        switch(ifFlag)
+        {
+            case 0:
+                ButtonLock();
+                IfEndButton.SetActive(true);
+                ifFlag = 1;
+                break;
+            case 1:
+                ButtonUnlock();
+                ifFlag = 0;
+                break;
         }
     }
 
     public void ForButtonClicked()
     {
-        switch(forFlag){
-        case 0 :
+        switch(forFlag)
+        {
+            case 0 :
+                ButtonLock();
+                ForEndButton.SetActive(true);
+                forFlag = 1;
+                break;
+            case 1:
+                ButtonUnlock();
+                forFlag = 0;
+                break;
+        }
+    }
 
-            ButtonLock();
-            IfEndButton.SetActive(false);
-            ForEndButton.SetActive(true);
-            forFlag = 1;
-            break;
-        case 1:
-            ButtonUnlock();
-            forFlag = 0;
-            break;
+    public void WhileButtonClicked()
+    {
+        switch(whileFlag)
+        {
+            case 0 :
+                ButtonLock();
+                WhileEndButton.SetActive(true);
+                whileFlag = 1;
+                break;
+            case 1:
+                ButtonUnlock();
+                whileFlag = 0;
+                break;
         }
     }
 
@@ -163,7 +179,14 @@ public class ButtonScript : MonoBehaviour
         PrintfButton.SetActive(false);
         IfStartButton.SetActive(false);
         ForStartButton.SetActive(false);
+        WhileStartButton.SetActive(false);
         CalcButton.SetActive(false);
+        BreakButton.SetActive(false);
+        SubroutineButton.SetActive(false);
+
+        IfEndButton.SetActive(false);
+        ForEndButton.SetActive(false);
+        WhileEndButton.SetActive(false);
     }
 
     void ButtonUnlock()
@@ -171,9 +194,14 @@ public class ButtonScript : MonoBehaviour
         PrintfButton.SetActive(true);
         IfStartButton.SetActive(true);
         ForStartButton.SetActive(true);
+        WhileStartButton.SetActive(true);
         CalcButton.SetActive(true);
+        BreakButton.SetActive(true);
+        SubroutineButton.SetActive(true);
+
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
+        WhileEndButton.SetActive(false);
     } 
 
     //中身メニューを開こう。メニュー開くボタンにアタッチ

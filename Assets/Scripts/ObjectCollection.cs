@@ -40,7 +40,11 @@ public class ObjectCollection : MonoBehaviour
     public GameObject Corner2_prefab;
     public GameObject ForStart_prefab;
     public GameObject ForEnd_prefab;
+    public GameObject WhileStart_prefab;
+    public GameObject WhileEnd_prefab;
     public GameObject Calc_prefab;
+    public GameObject Break_prefab;
+    public GameObject Subroutine_prefab;
 
     Camera mainCamera;
 
@@ -66,6 +70,8 @@ public class ObjectCollection : MonoBehaviour
     public static int tempColumn;
     public static int ifFlag;
     public static int forFlag;
+    public static int whileFlag;
+
     public static Vector3 Place;
 
     int ifCount;
@@ -172,8 +178,7 @@ public class ObjectCollection : MonoBehaviour
                 CurrentRow = jibunY;
                 CurrentPosition();
             }
-        }
-        
+        } 
     }
 
     public void RedoClicked()
@@ -206,6 +211,7 @@ public class ObjectCollection : MonoBehaviour
         DimensionalRow[Dimension] = maxRow;
         Dimensional_Drift(1);
     }
+
     public void UndoClicked()
     {
         for (int i = 0; i < maxColumn; i++)
@@ -294,8 +300,14 @@ public class ObjectCollection : MonoBehaviour
         case "ForStart_prefab":
             ObjectText.text = "for";
             break;
+        case "WhileStart_prefab":
+            ObjectText.text = "while";
+            break;
         case "Calc_prefab":
             ObjectText.text = "Calculate";
+            break;
+        case "Subroutine_prefab":
+            ObjectText.text = "Subroutine";
             break;
         }
         else
@@ -432,6 +444,44 @@ public class ObjectCollection : MonoBehaviour
         forFlag = 0;
     }
 
+    public void WhileButtonClicked()
+    {
+        switch(whileFlag){
+        case 0:
+            BeyondDimension();
+            break;
+        case 1:
+            break;
+        }
+        tempRow = CurrentRow;
+        tempColumn = CurrentColumn;
+        whetherIf = false;
+        Replace();
+        switch(whileFlag){
+        case 0:
+            WhileStart();
+            break;
+        case 1:
+            WhileEnd();
+            break;
+        }
+        ButtonClicked();
+        CurrentRow++;
+        CurrentPosition();
+    }
+
+    void WhileStart()
+    {
+        ObjectInstall(WhileStart_prefab);
+        whileFlag = 1;
+    }
+
+    void WhileEnd()
+    {
+        ObjectInstall(WhileEnd_prefab);
+        whileFlag = 0;
+    }
+
     //calculateボタン
     public void CalcButtonClicked()
     {
@@ -451,7 +501,45 @@ public class ObjectCollection : MonoBehaviour
         whetherIf = false;
     }
 
-    //printf,if共通
+    public void BreakButtonClicked()
+    {
+        BeyondDimension();
+        //置こうとしている場所を一度保存しておく
+        tempRow = CurrentRow;
+        tempColumn = CurrentColumn;
+
+        //置こうとしている場所にオブジェクトがすでにあるかどうか
+        //あるならオブジェクトの挿入を行う
+        Replace();
+
+        ObjectInstall(Break_prefab);
+
+        ButtonClicked();
+
+        CurrentPosition();
+        whetherIf = false;
+    }
+
+    public void SubroutineButtonClicked()
+    {
+        BeyondDimension();
+        //置こうとしている場所を一度保存しておく
+        tempRow = CurrentRow;
+        tempColumn = CurrentColumn;
+
+        //置こうとしている場所にオブジェクトがすでにあるかどうか
+        //あるならオブジェクトの挿入を行う
+        Replace();
+
+        ObjectInstall(Subroutine_prefab);
+
+        ButtonClicked();
+
+        CurrentPosition();
+        whetherIf = false;
+    }
+
+    //全ボタン共通
     void ButtonClicked()
     {
         countColumnRow();
@@ -637,7 +725,6 @@ public class ObjectCollection : MonoBehaviour
     }
 
     public void Saveuhihihi()
-
     {
         //Debug.Log(maxColumn);
         //Debug.Log(maxRow);
@@ -688,6 +775,7 @@ public class ObjectCollection : MonoBehaviour
         PlayerPrefs.SetInt("maxRow", maxRow);
         PlayerPrefs.Save();
     }
+
     //ストレージから読み込み
     public void Loaduhihihi()
     {
@@ -719,7 +807,6 @@ public class ObjectCollection : MonoBehaviour
 
                 switch (SaveobjectArray[i, j])
                 {
-
                     case "Printf_prefab":
                         Prefab = Printf_prefab;
                         //Debug.Log(Prefab);
@@ -949,16 +1036,32 @@ public class ObjectCollection : MonoBehaviour
                         WireInstall(Wire_prefab);
                         break;
 
+                    case "WhileEnd_prefab":
+                        WireInstall(Wire_prefab);
+                        break;
+
+                    case "WhileStart_prefab":
+                        WireInstall(Wire_prefab);
+                        break;
+
+                    case "Calc_prefab":
+                        WireInstall(Wire_prefab);
+                        break;
+                    
+                    case "Break_prefab":
+                        WireInstall(Wire_prefab);
+                        break;
+                    
+                    case "Subroutine_prefab":
+                        WireInstall(Wire_prefab);
+                        break;
+
                     case "Corner1_prefab":
                         WireInstall(Wire_prefab);
                         HorizontalWireInstall(Wire_If_prefab);
                         break;
 
                     case "Corner2_prefab":
-                        break;
-
-                    case "Calc_prefab":
-                        WireInstall(Wire_prefab);
                         break;
 
                     case "Tatedake_prefab":
@@ -1381,7 +1484,8 @@ public class ObjectCollection : MonoBehaviour
         int x=CurrentColumn;
         int y=CurrentRow;
         CurrentColumn=startx;
-        for(CurrentRow=starty;CurrentRow<=endy;CurrentRow++){
+        for(CurrentRow=starty;CurrentRow<=endy;CurrentRow++)
+        {
             ObjectInstall(objectArray[CurrentColumn-1,CurrentRow]);
             Destroy(objectArray[CurrentColumn-1,CurrentRow]);
             objectArray[CurrentColumn-1,CurrentRow]=null;
@@ -1389,12 +1493,15 @@ public class ObjectCollection : MonoBehaviour
             content[CurrentColumn-1,CurrentRow]="";
             kata[CurrentColumn,CurrentRow]=kata[CurrentColumn-1,CurrentRow];
             kata[CurrentColumn-1,CurrentRow]=" ";
-            }
+        }
         CurrentRow=starty;
         CurrentColumn--;
         ObjectInstall(Yokodake_prefab);
         CurrentRow=endy;
-        for(int i=0;i<ifCount;i++){ //ifをずらしたのだからそれも教えてあげよう
+
+        //ifをずらしたのだからそれも教えてあげよう
+        for(int i=0;i<ifCount;i++)
+        {
             if(ifArray[i].ifCornerRow==CurrentRow&&ifArray[i].ifCornerColumn==CurrentColumn){
                 ifArray[i].ifCornerColumn++;
             }
@@ -1405,7 +1512,9 @@ public class ObjectCollection : MonoBehaviour
         WireSetting();
     }
 
-    public void ImaIfShori(int nakax){ // →、↓、← の順で処理するよ
+    // →、↓、← の順で処理するよ
+    public void ImaIfShori(int nakax)
+    {
         if(nakax==0){
             //仮に置いとく、外にifがあると使えない
             CurrentColumn=ifArray[ifCount].ifStartColumn+1;
@@ -1435,7 +1544,8 @@ public class ObjectCollection : MonoBehaviour
         nakax+=CurrentColumn;
         CurrentRow=ifArray[ifCount].ifStartRow;
         //右にyoko配置
-        for(CurrentColumn=ifArray[ifCount].ifStartColumn+1;CurrentColumn<nakax+1;CurrentColumn++){
+        for(CurrentColumn=ifArray[ifCount].ifStartColumn+1;CurrentColumn<nakax+1;CurrentColumn++)
+        {
             ObjectInstall(Yokodake_prefab);
        //     Debug.Log("よこおいた");
        //     Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
@@ -1448,7 +1558,8 @@ public class ObjectCollection : MonoBehaviour
       //  Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         //下までblankいれる
         //CurrentRow++;
-        for(CurrentRow=CurrentRow+1;CurrentRow<ifArray[ifCount].ifEndRow;CurrentRow++){
+        for(CurrentRow=CurrentRow+1;CurrentRow<ifArray[ifCount].ifEndRow;CurrentRow++)
+        {
             ObjectInstall(Blank_prefab);
             //Debug.Log("Blankいれた");
            // Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
@@ -1478,28 +1589,34 @@ public class ObjectCollection : MonoBehaviour
 
     public int SearchRight(int x,int y){
         //ifにぶつかってからtatedakeをさがします
-        while(objectArray[x,y].name!="Tatedake_prefab"){
+        while(objectArray[x,y].name!="Tatedake_prefab")
+        {
             x++;
         }
         return x;
     }
-    public int SearchLower(int x,int y){
+    public int SearchLower(int x,int y)
+    {
         //tatedakeにぶつかってからyokoを探してくれます
-        while(objectArray[x,y].name!="Corner2_prefab"){
+        while(objectArray[x,y].name!="Corner2_prefab")
+        {
             y++;
         }
         return y;
     }
 
-    public int SearchUpper(int x,int y){
+    public int SearchUpper(int x,int y)
+    {
         //tatedakeにぶつかってからyokoを探してくれます
-        while(objectArray[x,y].name!="Tatedake_prefab"){
+        while(objectArray[x,y].name!="Tatedake_prefab")
+        {
             y--;
         }
         return y;
     }
 
-    public void IFMATOME(){
+    public void IFMATOME()
+    {
         int ys=ifArray[ifCount].ifStartRow;
         int ye=ifArray[ifCount].ifEndRow;
 
