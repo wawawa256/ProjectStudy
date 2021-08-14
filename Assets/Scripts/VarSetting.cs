@@ -380,6 +380,8 @@ public class VarSetting : MonoBehaviour
     public Dropdown VarDropdownCalc3;
     public Dropdown VarDropdownIf1;
     public Dropdown VarDropdownIf2;
+    public Dropdown VarDropdownWhile1;
+    public Dropdown VarDropdownWhile2;
 
 
     public void UpdateVarDropdown(){ //vardropdownが呼び出されるたびに呼び出せばいいかなあ、、、の気持ち。 contentメニュー開くのと同時に呼び出す
@@ -390,6 +392,8 @@ public class VarSetting : MonoBehaviour
         VarDropdownCalc1.ClearOptions();
         VarDropdownCalc2.ClearOptions();
         VarDropdownCalc3.ClearOptions();
+        VarDropdownWhile1.ClearOptions();
+        VarDropdownWhile2.ClearOptions();
         List<string> list = new List<string>();
         list.Add("変数一覧");
         for(int i=0;i<intCount;i++){
@@ -413,6 +417,10 @@ public class VarSetting : MonoBehaviour
         VarDropdownCalc2.value=0;
         VarDropdownCalc3.AddOptions(list);
         VarDropdownCalc3.value=0;
+        VarDropdownWhile1.AddOptions(list);
+        VarDropdownWhile2.AddOptions(list);
+        VarDropdownWhile1.value=0;
+        VarDropdownWhile2.value=0;
     }
 
     static public string whatisthis(int xth){

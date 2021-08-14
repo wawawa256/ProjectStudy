@@ -1094,6 +1094,7 @@ public class ObjectCollection : MonoBehaviour
     public GameObject Tatedake_prefab;
     public GameObject Yokodake_prefab;
     public string enzansi;
+    public string enzansiw;
     //変数#2 inputfieldから入力を受け取るため、textにその今のあれをブチ込むためにどっちも取得
     public InputField PrintfInputField;
     public InputField IfInputField1;
@@ -1103,47 +1104,25 @@ public class ObjectCollection : MonoBehaviour
     public InputField ForInputField1; //starti
     public InputField ForInputField2; //endi
     public InputField ForInputField3; //d
+    public InputField WhileInputField1;
+    public InputField WhileInputField2;
     //textやつ
     public Text PrintfDisplay;
     public Text IfDisPlay;
     public Text CalcDisplay;
     public Text ForDisplay;
+    public Text WhileDisplay;
     public Dropdown VarDropdownPrintf;
     public Dropdown VarDropdownCalc1;
     public Dropdown VarDropdownCalc2;
     public Dropdown VarDropdownCalc3;
     public Dropdown VarDropdownIf1;
     public Dropdown VarDropdownIf2;
+    public Dropdown VarDropdownWhile1;
+    public Dropdown VarDropdownWhile2;
 
 
     //値取得パート。
-
-
-    //もう死ねよこの関数
-    /*public void GetContentOn(){
-        //見づらくなるから一瞬おく。あとで返してあげよう
-        int imanani=ItemCheck2();
-        switch(imanani){
-            case 2: //printfなとき
-                VarDropdownPrintf.value=0;
-                break;
-
-            case 3: //ifなとき...
-                VarDropdownIf1.value=0;
-                VarDropdownIf2.value=0;
-                //フォームクリアしない。複数あるから。
-                break;
-
-            //case 5: //forなとき、実装後回しにしてる・・・。
-
-            case 7: //calc!
-                VarDropdownCalc1.value=
-
-            default:
-                Debug.Log("GO SLEEP BITCH");
-                break;
-        }
-    }*/
 
     //ｋのへんは選択肢変更時に呼び出してinputfieldの中身リセット
     public void GetContentOn2(){
@@ -1170,6 +1149,15 @@ public class ObjectCollection : MonoBehaviour
         ForInputField1.text="";
         ForInputField2.text="";
         ForInputField3.text="";
+        return;
+    }
+    public void ResetFieldWhile1(){
+        WhileInputField1.text="";
+        return;
+    }
+    public void ResetFieldWhile2(){
+        WhileInputField2.text="";
+        return;
     }
     public void zenkesi(){
         GetContentOn2();
@@ -1200,10 +1188,14 @@ public class ObjectCollection : MonoBehaviour
         VarDropdownCalc2.value=0;
         return;
     }
-    /*public void ResetChoice6(){
-        VarDropdownCalc3.value=0;
+    public void ResetChoice6(){
+        VarDropdownWhile1.value=0;
         return;
-    }*/
+    }
+    public void ResetChoice7(){
+        VarDropdownWhile2.value=0;
+        return;
+    }
 
     //inputfieldの変更、選択肢変更の時の共通処理
     public void GetVarContent(){
@@ -1303,6 +1295,26 @@ public class ObjectCollection : MonoBehaviour
                 textMake(CurrentColumn, CurrentRow,"Calc_prefab");
                 break;
 
+            case 8://while
+                string vartextw1, vartextw2;
+                if(VarDropdownWhile1.value!=0){
+                    vartextw1=VarSetting.youshouldrun(VarDropdownWhile1.value);
+                }else{
+                    //vartext1='"'+IfInputField1.text.ToString()+'"';
+                    vartextw1=WhileInputField1.text.ToString();
+                }
+                if(VarDropdownWhile2.value!=0){
+                    vartextw2=VarSetting.youshouldrun(VarDropdownWhile2.value);
+                }else{
+                    //vartext2='"'+IfInputField2.text.ToString()+'"';
+                    vartextw2=WhileInputField2.text.ToString();
+                }
+                DataHere=vartextw1+enzansiw+vartextw2;
+                WhileDisplay.text = DataHere;
+                content[CurrentColumn, CurrentRow] = DataHere;
+                textMake(CurrentColumn,CurrentRow,"WhileStart_prefab");
+                break;
+
             default:
                 break;
         }
@@ -1334,6 +1346,35 @@ public class ObjectCollection : MonoBehaviour
                 break;
             case 6:
                 enzansi="!=";
+                break;
+            default:
+                break;
+        }
+        GetVarContent();
+    }
+    public Dropdown dropdownwhile;
+    public void GetDropDown1(){
+        switch(dropdownwhile.value){
+            case 0:
+                enzansiw="";
+                break;
+            case 1:
+                enzansiw=">";
+                break;
+            case 2:
+                enzansiw=">=";
+                break;
+            case 3:
+                enzansiw="<";
+                break;
+            case 4:
+                enzansiw="<=";
+                break;
+            case 5:
+                enzansiw="==";
+                break;
+            case 6:
+                enzansiw="!=";
                 break;
             default:
                 break;
@@ -1395,6 +1436,9 @@ public class ObjectCollection : MonoBehaviour
 
             case "Calc_prefab":
                 return 7;
+
+            case "WhileStart_prefab":
+                return 8;
 
             default:
                 return 0;
