@@ -18,7 +18,7 @@ public class ObjectCollection : MonoBehaviour
     public Text messageText;
 
     Ifreference[] ifArray = new Ifreference[128];
-    Ifreference[,] ifArray2D = new Ifreference[256,128];
+    Ifreference[,] ifArray2 = new Ifreference[256,128];
 
     //次元を超える
     public static string[,,] objectArray3D = new string[256, 64, 128];
@@ -90,35 +90,169 @@ public class ObjectCollection : MonoBehaviour
     public int jibunY = 0;
     public static int touch_flag = 1;
 
-    public static GameObject[,,] functionArray = new GameObject[64,128,256];
     public Dropdown FunctionDropdown;
+    public Text Label;
+    int CurrentFunction;
+    Ifreference[,] ifArray3 = new Ifreference[64,128];
+    public static string[,,] functionArray = new string[64,128,256];
+    public static string[,,] content2 = new string[256, 64, 128];
+    public static string[,,] kata2 = new string[256, 64, 128];
 
-    //functionを選んでもらう
-    //funcListでEnter押された時に呼び出し
+    //関数が選択されたときに呼び出し
+    //OnValueChengedで動かす
     public void Subroutine()
     {
+        if(CurrentFunction == FunctionDropdown.value)
+        {
+            Debug.Log("値変わってないよ");
+            return;
+        }
+
         int i,j;
         int dim;
-        int functionNum;
-        //Dropdownで選択されてるやつをfunctionArrayから呼び出し
-        functionNum = FunctionDropdown.value;
-        //それをobjectarrayに代入し、それをロードする
-        //objectArray3Dはリセット
-        for(i=0;i<128;i++)
-        for(j=0;j<256;j++)
+
+        Debug.Log("呼び出される前の関数は" + CurrentFunction);
+
+        //別の関数に切り替わるときに今の関数の情報を保存する
+        for(i=0;i<64;i++)
+        for(j=0;j<128;j++)
         {
-            if(functionArray[functionNum,i,j]!=null)
+            if(objectArray[i,j]!=null)
             {
-                objectArray[i,j] = functionArray[functionNum,i,j];
-                objectArray3D[0,i,j] = objectArray[i,j].name;
+                functionArray[CurrentFunction,i,j] = objectArray[i,j].name;
             }
-            for(dim=1;dim<256;dim++)
-            if(objectArray3D[dim,i,j] != null)
-                objectArray3D[dim,i,j] = null;
         }
+
+        //CurrentFunctionは今選択されている関数の番号
+        CurrentFunction = FunctionDropdown.value;
+        Debug.Log(CurrentFunction + "の関数が呼び出し中");
+
+
+        Reset();
+        for (i=0;i<64;i++)
+        {
+            for (j=0;j<128;j++)
+            {
+                if (objectArray[i, j] != null)
+                {
+                    Destroy(objectArray[i, j]);
+                    objectArray[i, j] = null; 
+                    Destroy(wireArray[i, j]);
+                    wireArray[i, j] = null;
+                    Destroy(HorizontalwireArray[i, j]);
+                    HorizontalwireArray[i, j] = null;
+                }
+            }
+        }
+
+        //objectArray3Dはリセット
+        for(dim=0;dim<=MaxDimension;dim++)
+        for(i=0;i<DimensionalColumn[dim];i++)
+        for(j=0;j<DimensionalRow[dim];j++)
+        if(objectArray3D[dim,i,j] != null)
+            objectArray3D[dim,i,j] = null;
+        
         //次元もリセットする
         Dimension = 0;
         MaxDimension = 0;
+
+        //ifArrayを飛ばす
+        //生成されて初めの関数は場合分けする
+
+        if(functionArray[CurrentFunction,0, 0]==null)
+        {
+            CurrentColumn = 0;
+            CurrentRow = 0;
+            ObjectInstall(Blank_prefab);
+        }
+        else
+        {
+            for(i=0;i<64;i++)
+            {
+                for(j=0;j<128;j++)
+                {
+                    content[i, j] = content2[CurrentFunction, i, j];
+                    kata[i, j] = kata2[CurrentFunction, i, j];
+                    GameObject Prefab;
+                    switch (functionArray[CurrentFunction,i, j])
+                    {
+                    case "Printf_prefab":
+                        Prefab = Printf_prefab;
+                        //Debug.Log(Prefab);
+                        break;
+                    case "Blank_prefab":
+                        Prefab = Blank_prefab;
+                        // Debug.Log(Prefab);
+                        break;
+                    case "If_prefab":
+                        Prefab = If_prefab;
+                        // Debug.Log(Prefab);
+                        break;
+                    case "ForEnd_prefab":
+                        Prefab = ForEnd_prefab;
+                        // Debug.Log(Prefab);
+                        break;
+                    case "ForStart_prefab":
+                        Prefab = ForStart_prefab;
+                        // Debug.Log(Prefab);
+                        break;
+                    case "Corner1_prefab":
+                        Prefab = Corner1_prefab;
+                        //Debug.Log(Prefab);
+                        break;
+                    case "Corner2_prefab":
+                        Prefab = Corner2_prefab;
+                        // Debug.Log(Prefab);
+                        break;
+                    case "Calc_prefab":
+                        Prefab = Calc_prefab;
+                        break;
+                    case "Yokodake_prefab":
+                        Prefab = Yokodake_prefab;
+                        break;
+                    case "Tatedake_prefab":
+                        Prefab = Tatedake_prefab;
+                        break;
+                    default:
+                        Prefab = null;
+                        break;
+                    }
+                    CurrentColumn = i;
+                    CurrentRow = j;
+                    if (Prefab != null)
+                    {
+                        //Debug.Log(Prefab);
+                        Location(i, j, 0);
+
+                        //オブジェクトをおこうとしている位置にオブジェクトがあれば削除
+                        //基本的にはBlankPrefab削除
+                        Destroy(objectArray[i, j]);
+
+                        //オブジェクトを配列に代入
+                        objectArray[i, j] =
+                            Instantiate(Prefab, Place, Quaternion.identity);
+
+                        //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
+                        objectArray[i, j].name = Prefab.name;
+                        textMake(CurrentColumn, CurrentRow, Prefab.name);
+                    }
+                }
+            }
+            CurrentColumn = -1;
+            CurrentRow = -1;
+            countColumnRow();
+            WireSetting();
+
+            CurrentColumn = 0;
+            CurrentRow = 0;
+        }
+        CurrentPosition();
+
+        //やること
+        //Label.text = 関数名;
+        //ifArrayも入れ替えする
+        //maxColumn,maxRowをほぞんする
+        //セーブ関連
     }
 
     //変数の初期化と初期設定
@@ -136,6 +270,7 @@ public class ObjectCollection : MonoBehaviour
         ObjectInstall(Blank_prefab);
         CurrentPlace.transform.position = new Vector3(startX,startY,-1.0f);
         messageText = messageText.GetComponent<Text>();
+        Label = Label.GetComponent<Text>();
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
         makeInstance();
         
@@ -176,7 +311,7 @@ public class ObjectCollection : MonoBehaviour
                     }
                     else if(i == maxColumn)
                     {
-                        jibunX = 64;
+                        jibunX = -1;
                     }
                 }
                 for(j = 0; j<maxRow+1;j++)
@@ -191,7 +326,7 @@ public class ObjectCollection : MonoBehaviour
                         jibunY = -1;
                     }
                 }
-                if(jibunX == 64 || jibunY == -1) return;
+                if(jibunX == -1 || jibunY == -1) return;
                 if(objectArray[jibunX,jibunY]==null) return;
 
                 //TatedakeとYokodakeに行けないようにしようと思ったんです...
@@ -284,7 +419,7 @@ public class ObjectCollection : MonoBehaviour
         for(i=0;i<128;i++) ifArray[i] = new Ifreference();
         for(i=0;i<256;i++)
         for(j=0;j<128;j++)
-        ifArray2D[i,j] = new Ifreference();
+        ifArray2[i,j] = new Ifreference();
     }
 
     //オブジェクトの設置
@@ -1749,7 +1884,7 @@ public class ObjectCollection : MonoBehaviour
         ifCount2D[Dimension] = ifCount;
         for(int i=0;i<ifCount;i++)
         {
-            ifArray2D[Dimension,i] = ifArray[i]; 
+            ifArray2[Dimension,i] = ifArray[i]; 
         }
     }
 
@@ -1758,7 +1893,7 @@ public class ObjectCollection : MonoBehaviour
         ifCount = ifCount2D[TheDimension];
         for(int i=0;i<ifCount;i++)
         {
-            ifArray[i] = ifArray2D[TheDimension,i];
+            ifArray[i] = ifArray2[TheDimension,i];
         }
     }
 
