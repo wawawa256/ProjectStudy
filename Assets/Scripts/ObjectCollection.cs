@@ -90,6 +90,37 @@ public class ObjectCollection : MonoBehaviour
     public int jibunY = 0;
     public static int touch_flag = 1;
 
+    public static GameObject[,,] functionArray = new GameObject[64,128,256];
+    public Dropdown FunctionDropdown;
+
+    //functionを選んでもらう
+    //funcListでEnter押された時に呼び出し
+    public void Subroutine()
+    {
+        int i,j;
+        int dim;
+        int functionNum;
+        //Dropdownで選択されてるやつをfunctionArrayから呼び出し
+        functionNum = FunctionDropdown.value;
+        //それをobjectarrayに代入し、それをロードする
+        //objectArray3Dはリセット
+        for(i=0;i<128;i++)
+        for(j=0;j<256;j++)
+        {
+            if(functionArray[functionNum,i,j]!=null)
+            {
+                objectArray[i,j] = functionArray[functionNum,i,j];
+                objectArray3D[0,i,j] = objectArray[i,j].name;
+            }
+            for(dim=1;dim<256;dim++)
+            if(objectArray3D[dim,i,j] != null)
+                objectArray3D[dim,i,j] = null;
+        }
+        //次元もリセットする
+        Dimension = 0;
+        MaxDimension = 0;
+    }
+
     //変数の初期化と初期設定
     public void Start()
     {
