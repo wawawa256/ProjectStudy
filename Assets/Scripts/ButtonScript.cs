@@ -9,6 +9,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject SettingPanel;
     public GameObject CodePanel;
     public GameObject AddVarPanel;
+    public GameObject AddFunctionPanel;
     public GameObject VarListPanel;
     public GameObject UIButtons;
 
@@ -16,6 +17,7 @@ public class ButtonScript : MonoBehaviour
     bool SettingpanelActivity;
     bool CodepanelActivity;
     bool AddVarPanelActivity;
+    bool AddFunctionPanelActivity;
     bool VarListPanelActivity;
     bool UIButtonsActivity;
 
@@ -57,11 +59,7 @@ public class ButtonScript : MonoBehaviour
 
     public void Start()
     {
-        //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        AddVarPanel.SetActive(false);
-        CodePanel.SetActive(false);
-        VarListPanel.SetActive(false);
+        PanelClose();
         UIButtons.SetActive(false);
 
         ButtonUnlock();
@@ -84,43 +82,46 @@ public class ButtonScript : MonoBehaviour
     
     public void OnClick2()
     {
-        //AddPanel.SetActive(false);
-        AddVarPanel.SetActive(false);
-        CodePanel.SetActive(false);
-        VarListPanel.SetActive(false);
         SettingpanelActivity = SettingPanel.activeInHierarchy;
+        PanelClose();
         SettingPanel.SetActive(!SettingpanelActivity);
     }
 
     public void AddVarPanelChange()
-    { 
-        //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        CodePanel.SetActive(false);
-        VarListPanel.SetActive(false);
-        UIButtons.SetActive(false);
+    {
         AddVarPanelActivity = AddVarPanel.activeInHierarchy;
+        PanelClose();
         AddVarPanel.SetActive(!AddVarPanelActivity);
+    }
+
+    public void AddFunctionPanelChange()
+    {
+        AddFunctionPanelActivity = AddFunctionPanel.activeInHierarchy;
+        PanelClose();
+        AddFunctionPanel.SetActive(!AddFunctionPanelActivity);
     }
 
     public void CodePanelChange()
     {
-        //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        AddVarPanel.SetActive(false);
-        VarListPanel.SetActive(false);
         CodepanelActivity = CodePanel.activeInHierarchy;
+        PanelClose();
         CodePanel.SetActive(!CodepanelActivity);
     }
 
     public void VarListPanelChange()
-    { 
-        //AddPanel.SetActive(false);
+    {
+        VarListPanelActivity = VarListPanel.activeInHierarchy;
+        PanelClose();
+        VarListPanel.SetActive(!VarListPanelActivity);
+    }
+
+    public void PanelClose()
+    {
         SettingPanel.SetActive(false);
         AddVarPanel.SetActive(false);
+        AddFunctionPanel.SetActive(false);
         CodePanel.SetActive(false);
-        VarListPanelActivity = VarListPanel.activeInHierarchy;
-        VarListPanel.SetActive(!VarListPanelActivity);
+        VarListPanel.SetActive(false);
     }
 
     public void UICallButtonClicked()

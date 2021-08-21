@@ -64,8 +64,6 @@ public class VarSetting : MonoBehaviour
         MakeVar(0, "3");
         varName = "b";
         MakeVar(1, "1.2");
-        varName = "c";
-        MakeVar(2, "c");
 
     }
 
@@ -169,8 +167,11 @@ public class VarSetting : MonoBehaviour
         {
             nameArray[varCount] = varName;
             varCount++;
+            messageText.text =
+                "変数" + varName + "が追加されました";
         }
         ResetInputField();
+        return;
     }
 
     void ResetInputField()
