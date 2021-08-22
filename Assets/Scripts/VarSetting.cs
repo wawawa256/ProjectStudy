@@ -10,6 +10,12 @@ public class VarSetting : MonoBehaviour
     public static VarCollection[] floatVarArray = new VarCollection[128];
     public static VarCollection[] stringVarArray = new VarCollection[128];
     public static string[] nameArray = new string[256];
+    public static int intCount;
+    public static int floatCount;
+    public static int stringCount;
+    public static int varCount;
+
+    //グローバル変数のセーブ
     public static string[] saveintvalueArray = new string[128];
     public static string[] saveintnameArray = new string[128];
     public static string[] savefloatvalueArray = new string[128];
@@ -22,12 +28,28 @@ public class VarSetting : MonoBehaviour
     public static VarCollection[,] floatVarArrayPlus = new VarCollection[64,32];
     public static VarCollection[,] stringVarArrayPlus = new VarCollection[64,32];
     public static string[,] nameArrayPlus = new string[64,128];
+    public static int[] intCountPlus = new int[64];
+    public static int[] floatCountPlus = new int[64];
+    public static int[] stringCountPlus = new int[64];
+    public static int[] varCountPlus = new int[64];
+
+    //引数
+    public static int[,] argsFormatArray = new int [64,128];
+    public static string[,] argsNameArray = new string[64,128];
+    public static int[] argsCount = new int[64];
+
 
     public InputField nameInputField;
     public InputField valueInputField;
-    public Dropdown formatDropDown;
+    public Dropdown formatDropdown;
     public Text nameText;
     public Text valueText;
+
+    public InputField argsNameInputField;
+    public Dropdown argsFormatDropdown;
+    public Text argsNameText;
+    public Text argsNumberText;
+    
     public Text varList;
     public Text messageText;
     public Text SwitchText;
@@ -39,16 +61,6 @@ public class VarSetting : MonoBehaviour
     public static string stringValue;
     public static int intValue;
     public static float floatValue;
-
-    public static int intCount;
-    public static int floatCount;
-    public static int stringCount;
-    public static int varCount;
-
-    public static int[] intCountPlus = new int[64];
-    public static int[] floatCountPlus = new int[64];
-    public static int[] stringCountPlus = new int[64];
-    public static int[] varCountPlus = new int[64];
 
     static int func;
 
@@ -69,12 +81,21 @@ public class VarSetting : MonoBehaviour
         valueInputField = valueInputField.GetComponent<InputField>();
         nameText = nameText.GetComponent<Text>();
         valueText = valueText.GetComponent<Text>();
+
+        argsNameInputField = argsNameInputField.GetComponent<InputField>();
+        argsNameText = argsNameText.GetComponent<Text>();
+        argsNumberText = argsNumberText.GetComponent<Text>();
+
         varList = varList.GetComponent<Text>();
         messageText = messageText.GetComponent<Text>();
         SwitchText = SwitchText.GetComponent<Text>();
 
         GlobalOrLocal = true;
         SwitchText.text = "Global";
+
+        ResetArgsNumber();
+        ResetInputField();
+        ResetArgsInputField();
 
         //変数を入れる配列のインスタンスを作る
         makeInstance();
@@ -91,10 +112,10 @@ public class VarSetting : MonoBehaviour
     void makeInstance()
     {
         int i,j;
-        for(i = 0;i < 128;i++)　intVarArray[i] = new VarCollection();
-        for(i = 0;i < 128;i++)　floatVarArray[i] = new VarCollection();
-        for(i = 0;i < 128;i++)　stringVarArray[i] = new VarCollection();
-        for(i = 0;i < 64;i++)
+        for(i=0;i<128;i++)　intVarArray[i] = new VarCollection();
+        for(i=0;i<128;i++)　floatVarArray[i] = new VarCollection();
+        for(i=0;i<128;i++)　stringVarArray[i] = new VarCollection();
+        for(i=0;i<64;i++)
         {
             for(j=0;j<32;j++)
             {
@@ -165,7 +186,7 @@ public class VarSetting : MonoBehaviour
         ValueChanged();
 
         //それぞれ入力された値を代入
-        varFormat = formatDropDown.value;
+        varFormat = formatDropdown.value;
         varName = nameText.text.ToString();
 
         //実際のところグローバル変数とローカル変数に同じ名前をつけることはできる
@@ -182,8 +203,7 @@ public class VarSetting : MonoBehaviour
                 else
                 {
                     messageText.text =
-                        "グローバル変数と同じ名前のローカル変数は作ることができません。" +
-                        "詳しくはウェブを参照してください";
+                        "グローバル変数と同じ名前のローカル変数は作ることができません";
                 }
                 ResetInputField();
                 return;
@@ -368,13 +388,121 @@ public class VarSetting : MonoBehaviour
                 return false;
         }
     }
+
+    public void ArgsValueChanged()
+    {
+        argsNameText.text = argsNameInputField.text;
+    } 
+    public void ResetArgsInputField()
+    {
+        argsNameInputField.text = "";
+    }
+    public void ResetArgsNumber()
+    {
+        argsNumberText.text = "第1引数 :";
+    }
+
     public void ArgsSet()
     {
-
         //とりあえずはtextごろごろ変えながらほぼAddVarと同じでいいっしょ
         //変数をargsArrayに登録させまくる
         //変数名が衝突しないか大事
         //将来的なことも考えてローカルと衝突しないかも確認
+        int i;
+        int argsFormat;
+        string argsName;
+        func = ObjectCollection.functionCount;
+        //inputfieldの入力を確定
+        ArgsValueChanged();
+
+        //それぞれ入力された値を代入
+        argsFormat = argsFormatDropdown.value;
+        argsName = argsNameText.text.ToString();
+
+        //実際のところグローバル変数とローカル変数に同じ名前をつけることはできる
+        //ただ衝突するとめっちゃわかりにくいので例外処理する
+        foreach(string a in nameArray)
+        {
+            if(argsName == a)
+            {
+                messageText.text =
+                    "グローバル変数と同じ名前の引数は設定できません";
+                ResetArgsInputField();
+                return;
+            }
+        }
+        for(i=0;i<argsCount[func];i++)
+        {
+            if(argsName == nameArrayPlus[func,i])
+            {
+                messageText.text =
+                    "同じ関数のローカル変数と同じ名前の引数を設定することはできません";
+                ResetArgsInputField();
+                return;
+            }
+        }
+        //引数に対してもサーチかける
+        foreach(string a in argsNameArray)
+        {
+            if(argsName == a)
+            {
+                messageText.text =
+                    "同じ関数の引数と同じ名前の引数を設定することはできません";
+                ResetArgsInputField();
+                return;
+            }
+        }
+
+        foreach(char c in argsName)
+        {
+            if(!checkLetter(c))
+            {
+                messageText.text =
+                    "引数には半角英数字または_(アンダーバー)のみ使用できます";
+                ResetArgsInputField();
+                return;
+            }
+        }
+        char init;
+        init = argsName[0];
+        if('0' <= init && init <= '9')
+        {
+            messageText.text =
+                "引数の頭文字に数字は使用できません";
+            ResetArgsInputField();
+            return;
+        }
+        foreach(string r in reservedWord)
+        {
+            if(argsName==r)
+            {
+                messageText.text =
+                    "引数に予約語を用いることはできません";
+                ResetArgsInputField();
+                return;
+            }
+        }
+
+        argsFormatArray[func,argsCount[func]] = argsFormat;
+        argsNameArray[func,argsCount[func]] = argsName;
+
+        argsCount[func]++;
+        argsNumberText.text = "第"+ (argsCount[func]+1) +"引数 :";
+        ResetArgsInputField();
+        return;
+    }
+    public void CancelButtonClicked()
+    {
+        int i;
+        func = ObjectCollection.functionCount;
+        ResetArgsNumber();
+        for(i=0;i<argsCount[func];i++)
+        {
+            argsFormatArray[func,argsCount[func]] = 0;
+            argsNameArray[func,argsCount[func]] = null;
+        }
+
+        argsCount[func] = 0;
     }
 
     public void saveVar()
@@ -478,6 +606,7 @@ public class VarSetting : MonoBehaviour
     {
         func = ObjectCollection.CurrentFunction;
         int i;
+        string type;
 
         varList.text = "\n\n";
         varList.text += "(Global)";
@@ -523,6 +652,33 @@ public class VarSetting : MonoBehaviour
             varList.text += "char[] " +
                 stringVarArrayPlus[func,i].varName + " = " +
                 stringVarArrayPlus[func,i].originalValue + "\n";
+        }
+
+        varList.text += "\n";
+        varList.text += "(Argument)";
+        varList.text += "\n";
+
+
+        for(i = 0;i < argsCount[func];i++)
+        {
+            switch(argsFormatArray[func,i])
+            {
+                case 0:
+                    type = "int";
+                    break;
+                case 1:
+                    type = "float";
+                    break;
+                case 2:
+                    type = "char";
+                    break;
+                default:
+                    type = "unknown";
+                    break;
+            }
+            varList.text +=
+                (i+1) + " : " + type + " " +
+                argsNameArray[func,i] + "\n";
         }
     }
 

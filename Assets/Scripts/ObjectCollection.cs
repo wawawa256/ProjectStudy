@@ -93,6 +93,7 @@ public class ObjectCollection : MonoBehaviour
     //ここから自作関数関連
     public Dropdown FunctionDropdown;
     public static int CurrentFunction;
+    public static int functionCount;
     int[] ifCountPlus = new int[64];
     Ifreference[,] ifArrayPlus = new Ifreference[64,128];
 
@@ -221,6 +222,7 @@ public class ObjectCollection : MonoBehaviour
             CurrentRow = 0;
         }
         CurrentPosition();
+        functionCount++;
     }
 
     //自作関数関連ここまで
@@ -259,6 +261,8 @@ public class ObjectCollection : MonoBehaviour
         CurrentRow = 0;
         preColumn = 0;
         preRow = 0;
+        CurrentFunction = 0;
+        functionCount = 1;
         ObjectInstall(Blank_prefab);
         CurrentPlace.transform.position = new Vector3(startX,startY,-1.0f);
         messageText = messageText.GetComponent<Text>();
