@@ -11,6 +11,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject AddVarPanel;
     public GameObject AddFunctionPanel;
     public GameObject VarListPanel;
+    public GameObject ArgsSetPanel;
     public GameObject UIButtons;
 
     bool AddpanelActivity;
@@ -19,6 +20,7 @@ public class ButtonScript : MonoBehaviour
     bool AddVarPanelActivity;
     bool AddFunctionPanelActivity;
     bool VarListPanelActivity;
+    bool ArgsSetPanelActivity;
     bool UIButtonsActivity;
 
     //if、for用
@@ -101,6 +103,13 @@ public class ButtonScript : MonoBehaviour
         AddFunctionPanel.SetActive(!AddFunctionPanelActivity);
     }
 
+    public void ArgsSetButtonChange()
+    {
+        ArgsSetPanelActivity = ArgsSetPanel.activeInHierarchy;
+        ArgsSetPanel.SetActive(!ArgsSetPanelActivity);
+    }
+
+
     public void CodePanelChange()
     {
         CodepanelActivity = CodePanel.activeInHierarchy;
@@ -122,6 +131,12 @@ public class ButtonScript : MonoBehaviour
         AddFunctionPanel.SetActive(false);
         CodePanel.SetActive(false);
         VarListPanel.SetActive(false);
+        ArgsSetPanel.SetActive(false);
+        PrintfMenu.SetActive(false);
+        IfMenu.SetActive(false);
+        ForMenu.SetActive(false);
+        CalcMenu.SetActive(false);
+        WhileMenu.SetActive(false);
     }
 
     public void UICallButtonClicked()

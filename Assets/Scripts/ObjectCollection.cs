@@ -75,7 +75,6 @@ public class ObjectCollection : MonoBehaviour
     public static Vector3 Place;
 
     int ifCount;
-    int[] ifCount2 = new int[256];
 
     int preColumn;
     int preRow;
@@ -91,15 +90,16 @@ public class ObjectCollection : MonoBehaviour
     public int jibunY = 0;
     public static int touch_flag = 1;
 
-    //自作関数関連
+    //ここから自作関数関連
     public Dropdown FunctionDropdown;
-    public Text Label;
-    int CurrentFunction;
-    int[] ifCount3 = new int[64];
-    Ifreference[,] ifArray3 = new Ifreference[64,128];
+    public static int CurrentFunction;
+    int[] ifCountPlus = new int[64];
+    Ifreference[,] ifArrayPlus = new Ifreference[64,128];
+
+    //セーブ必要[関数番号,column,row]
     string[,,] functionArray = new string[64,128,256];
-    string[,,] content3 = new string[256, 64, 128];
-    string[,,] kata3 = new string[256, 64, 128];
+    string[,,] contentPlus = new string[64, 64, 128];
+    string[,,] kataPlus = new string[64, 64, 128];
 
     //関数が選択されたときに呼び出し
     //OnValueChengedで動かす
@@ -108,13 +108,12 @@ public class ObjectCollection : MonoBehaviour
         int i,j;
         int dim;
 
-        if(CurrentFunction == FunctionDropdown.value)
+        if(ifFlag==1 || forFlag==1)
         {
-            Debug.Log("値変わってないよ");
+            messageText.text =
+                "関数を切り替える前に終点の設置を完了してください";
             return;
         }
-
-        Debug.Log("呼び出される前の関数は" + CurrentFunction);
 
         //別の関数に切り替わるときに今の関数の情報を保存する
         for(i=0;i<64;i++)
@@ -128,10 +127,10 @@ public class ObjectCollection : MonoBehaviour
         for(i=0;i<128;i++)
         {
             if(ifArray[i]==null)break;
-            ifArray3[CurrentFunction,i] = ifArray[i];
+            ifArrayPlus[CurrentFunction,i] = ifArray[i];
             ifArray[i] = null;
         }
-        ifCount3[CurrentFunction] = ifCount; 
+        ifCountPlus[CurrentFunction] = ifCount; 
 
         //CurrentFunctionは今選択されている関数の番号
         CurrentFunction = FunctionDropdown.value;
@@ -170,10 +169,10 @@ public class ObjectCollection : MonoBehaviour
         //ifArray飛ばす
         for(i=0;i<128;i++)
         {
-            if(ifArray3[CurrentFunction,i]==null)break;
-            ifArray[i] = ifArray3[CurrentFunction,i];
+            if(ifArrayPlus[CurrentFunction,i]==null)break;
+            ifArray[i] = ifArrayPlus[CurrentFunction,i];
         }
-        ifCount = ifCount3[CurrentFunction];
+        ifCount = ifCountPlus[CurrentFunction];
 
         //生成されて初めの関数は場合分けする
         if(functionArray[CurrentFunction,0, 0]==null)
@@ -188,8 +187,8 @@ public class ObjectCollection : MonoBehaviour
             {
                 for(j=0;j<128;j++)
                 {
-                    content[i, j] = content3[CurrentFunction, i, j];
-                    kata[i, j] = kata3[CurrentFunction, i, j];
+                    content[i, j] = contentPlus[CurrentFunction, i, j];
+                    kata[i, j] = kataPlus[CurrentFunction, i, j];
                     GameObject Prefab;
                     Prefab = ObjectSearch(functionArray[CurrentFunction,i, j]);
                     CurrentColumn = i;
@@ -223,6 +222,8 @@ public class ObjectCollection : MonoBehaviour
         }
         CurrentPosition();
     }
+
+    //自作関数関連ここまで
 
     private GameObject ObjectSearch(string objname)
     {
@@ -261,7 +262,6 @@ public class ObjectCollection : MonoBehaviour
         ObjectInstall(Blank_prefab);
         CurrentPlace.transform.position = new Vector3(startX,startY,-1.0f);
         messageText = messageText.GetComponent<Text>();
-        Label = Label.GetComponent<Text>();
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
         makeInstance();
         
@@ -412,7 +412,7 @@ public class ObjectCollection : MonoBehaviour
         for(j=0;j<128;j++)ifArray2[i,j] = new Ifreference();
 
         for(i=0;i<64;i++)
-        for(j=0;j<128;j++)ifArray3[i,j] = new Ifreference();
+        for(j=0;j<128;j++)ifArrayPlus[i,j] = new Ifreference();
     }
 
     //オブジェクトの設置

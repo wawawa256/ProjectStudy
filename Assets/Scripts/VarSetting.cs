@@ -5,16 +5,23 @@ using UnityEngine.UI;
 
 public class VarSetting : MonoBehaviour
 {
+    //グローバル変数
     public static VarCollection[] intVarArray = new VarCollection[128];
     public static VarCollection[] floatVarArray = new VarCollection[128];
     public static VarCollection[] stringVarArray = new VarCollection[128];
-    public string[] nameArray = new string[256];
+    public static string[] nameArray = new string[256];
     public static string[] saveintvalueArray = new string[128];
     public static string[] saveintnameArray = new string[128];
     public static string[] savefloatvalueArray = new string[128];
     public static string[] savefloatnameArray = new string[128];
     public static string[] savestringvalueArray = new string[128];
     public static string[] savestringnameArray = new string[128];
+
+    //ローカル変数
+    public static VarCollection[,] intVarArrayPlus = new VarCollection[64,32];
+    public static VarCollection[,] floatVarArrayPlus = new VarCollection[64,32];
+    public static VarCollection[,] stringVarArrayPlus = new VarCollection[64,32];
+    public static string[,] nameArrayPlus = new string[64,128];
 
     public InputField nameInputField;
     public InputField valueInputField;
@@ -23,6 +30,7 @@ public class VarSetting : MonoBehaviour
     public Text valueText;
     public Text varList;
     public Text messageText;
+    public Text SwitchText;
 
     public static int varFormat;
     public static string varName;
@@ -36,6 +44,15 @@ public class VarSetting : MonoBehaviour
     public static int floatCount;
     public static int stringCount;
     public static int varCount;
+
+    public static int[] intCountPlus = new int[64];
+    public static int[] floatCountPlus = new int[64];
+    public static int[] stringCountPlus = new int[64];
+    public static int[] varCountPlus = new int[64];
+
+    static int func;
+
+    bool GlobalOrLocal;
 
     List<string> reservedWord = new List<string>();
 
@@ -54,6 +71,10 @@ public class VarSetting : MonoBehaviour
         valueText = valueText.GetComponent<Text>();
         varList = varList.GetComponent<Text>();
         messageText = messageText.GetComponent<Text>();
+        SwitchText = SwitchText.GetComponent<Text>();
+
+        GlobalOrLocal = true;
+        SwitchText.text = "Global";
 
         //変数を入れる配列のインスタンスを作る
         makeInstance();
@@ -69,10 +90,19 @@ public class VarSetting : MonoBehaviour
 
     void makeInstance()
     {
-        int i;
+        int i,j;
         for(i = 0;i < 128;i++)　intVarArray[i] = new VarCollection();
         for(i = 0;i < 128;i++)　floatVarArray[i] = new VarCollection();
         for(i = 0;i < 128;i++)　stringVarArray[i] = new VarCollection();
+        for(i = 0;i < 64;i++)
+        {
+            for(j=0;j<32;j++)
+            {
+                intVarArrayPlus[i,j] = new VarCollection();
+                floatVarArrayPlus[i,j] = new VarCollection();
+                stringVarArrayPlus[i,j] = new VarCollection();
+            }
+        }
     }
 
     void reservedList()
@@ -111,8 +141,26 @@ public class VarSetting : MonoBehaviour
         reservedWord.Add("while");
     }
 
+    public void SwitchButtonClicked()
+    {
+        //true:Global
+        //false:Local
+
+        GlobalOrLocal = !GlobalOrLocal;
+        if(GlobalOrLocal)
+        {
+            SwitchText.text = "Global";
+        }
+        else
+        {
+            SwitchText.text = "Local";
+        }
+    }
+
     public void EnterButtonClicked()
     {
+        int i;
+        func = ObjectCollection.CurrentFunction;
         //inputfieldの入力を確定
         ValueChanged();
 
@@ -120,12 +168,33 @@ public class VarSetting : MonoBehaviour
         varFormat = formatDropDown.value;
         varName = nameText.text.ToString();
 
+        //実際のところグローバル変数とローカル変数に同じ名前をつけることはできる
+        //ただ衝突するとめっちゃわかりにくいので例外処理する
         foreach(string a in nameArray)
         {
             if(varName == a)
             {
+                if(GlobalOrLocal)
+                {
+                    messageText.text =
+                        "同じ名前のグローバル変数は作ることができません";
+                }
+                else
+                {
+                    messageText.text =
+                        "グローバル変数と同じ名前のローカル変数は作ることができません。" +
+                        "詳しくはウェブを参照してください";
+                }
+                ResetInputField();
+                return;
+            }
+        }
+        for(i=0;i<varCountPlus[func];i++)
+        {
+            if(varName == nameArrayPlus[func,i])
+            {
                 messageText.text =
-                    "同じ名前の変数は作ることができません";
+                    "同一の関数において同じ名前のローカル変数を複数作ることができません";
                 ResetInputField();
                 return;
             }
@@ -165,8 +234,6 @@ public class VarSetting : MonoBehaviour
         //変数の作成
         if(MakeVar(varFormat,varValue))
         {
-            nameArray[varCount] = varName;
-            varCount++;
             messageText.text =
                 "変数" + varName + "が追加されました";
         }
@@ -212,12 +279,28 @@ public class VarSetting : MonoBehaviour
                         value + "は整数型には変換できません";
                     return false;
                 }
-                intVarArray[intCount].originalValue = value;
-                intVarArray[intCount].intValue = intValue;
-                intVarArray[intCount].varName = varName;
-                saveintvalueArray[intCount] = value;
-                saveintnameArray[intCount] = varName;
-                intCount++;
+                if(GlobalOrLocal)
+                {
+                    intVarArray[intCount].originalValue = value;
+                    intVarArray[intCount].intValue = intValue;
+                    intVarArray[intCount].varName = varName;
+                    saveintvalueArray[intCount] = value;
+                    saveintnameArray[intCount] = varName;
+                    intCount++;
+
+                    nameArray[varCount] = varName;
+                    varCount++;
+                }
+                else
+                {
+                    intVarArrayPlus[func,intCountPlus[func]].originalValue = value;
+                    intVarArrayPlus[func,intCountPlus[func]].intValue = intValue;
+                    intVarArrayPlus[func,intCountPlus[func]].varName = varName;
+                    intCountPlus[func]++;
+
+                    nameArrayPlus[func,varCountPlus[func]] = varName;
+                    varCountPlus[func]++;
+                }
                 return true;
 
             //float型を選択した場合
@@ -230,27 +313,68 @@ public class VarSetting : MonoBehaviour
                         value + "は小数型には変換できません";
                     return false;
                 }
-                floatVarArray[floatCount].originalValue = value;
-                floatVarArray[floatCount].floatValue = floatValue;
-                floatVarArray[floatCount].varName = varName;
-                savefloatvalueArray[floatCount] = value;
-                savefloatnameArray[floatCount] = varName;
-                floatCount++;
+                if(GlobalOrLocal)
+                {
+                    floatVarArray[floatCount].originalValue = value;
+                    floatVarArray[floatCount].floatValue = floatValue;
+                    floatVarArray[floatCount].varName = varName;
+                    savefloatvalueArray[floatCount] = value;
+                    savefloatnameArray[floatCount] = varName;
+                    floatCount++;
+
+                    nameArray[varCount] = varName;
+                    varCount++;
+                }
+                else
+                {
+                    floatVarArrayPlus[func,floatCountPlus[func]].originalValue = value;
+                    floatVarArrayPlus[func,floatCountPlus[func]].floatValue = floatValue;
+                    floatVarArrayPlus[func,floatCountPlus[func]].varName = varName;
+                    floatCountPlus[func]++;
+
+                    nameArrayPlus[func,varCountPlus[func]] = varName;
+                    varCountPlus[func]++;
+                }
                 return true;
 
+            
             //char型を選択した場合
             case 2:
                 stringValue = value;
-                stringVarArray[stringCount].originalValue = value;
-                stringVarArray[stringCount].stringValue = stringValue;
-                stringVarArray[stringCount].varName = varName;
-                savestringvalueArray[stringCount] = value;
-                savestringnameArray[stringCount] = varName;
-                stringCount++;
+                if(GlobalOrLocal)
+                {
+                    stringVarArray[stringCount].originalValue = value;
+                    stringVarArray[stringCount].stringValue = stringValue;
+                    stringVarArray[stringCount].varName = varName;
+                    savestringvalueArray[stringCount] = value;
+                    savestringnameArray[stringCount] = varName;
+                    stringCount++;
+
+                    nameArray[varCount] = varName;
+                    varCount++;
+                }
+                else
+                {
+                    stringVarArrayPlus[func,stringCountPlus[func]].originalValue = value;
+                    stringVarArrayPlus[func,stringCountPlus[func]].stringValue = stringValue;
+                    stringVarArrayPlus[func,stringCountPlus[func]].varName = varName;
+                    stringCountPlus[func]++;
+
+                    nameArrayPlus[func,varCountPlus[func]] = varName;
+                    varCountPlus[func]++;
+                }
                 return true;
             default:
                 return false;
         }
+    }
+    public void ArgsSet()
+    {
+
+        //とりあえずはtextごろごろ変えながらほぼAddVarと同じでいいっしょ
+        //変数をargsArrayに登録させまくる
+        //変数名が衝突しないか大事
+        //将来的なことも考えてローカルと衝突しないかも確認
     }
 
     public void saveVar()
@@ -352,8 +476,13 @@ public class VarSetting : MonoBehaviour
 
     public void VarListButtonClicked()
     {
+        func = ObjectCollection.CurrentFunction;
         int i;
-        varList.text = "\n";
+
+        varList.text = "\n\n";
+        varList.text += "(Global)";
+        varList.text += "\n";
+
         for(i = 0;i < intCount;i++)
         {
             varList.text += "int " +
@@ -371,6 +500,29 @@ public class VarSetting : MonoBehaviour
             varList.text += "char[] " +
                 stringVarArray[i].varName + " = " +
                 stringVarArray[i].originalValue + "\n";
+        }
+
+        varList.text += "\n";
+        varList.text += "(Local)";
+        varList.text += "\n";
+
+        for(i = 0;i < intCountPlus[func];i++)
+        {
+            varList.text += "int " +
+                intVarArrayPlus[func,i].varName + " = " +
+                intVarArrayPlus[func,i].originalValue + "\n";
+        }
+        for(i = 0;i < floatCountPlus[func];i++)
+        {
+            varList.text += "float " +
+                floatVarArrayPlus[func,i].varName + " = " +
+                floatVarArrayPlus[func,i].originalValue + "\n";
+        }
+        for(i = 0;i < stringCountPlus[func];i++)
+        {
+            varList.text += "char[] " +
+                stringVarArrayPlus[func,i].varName + " = " +
+                stringVarArrayPlus[func,i].originalValue + "\n";
         }
     }
 
