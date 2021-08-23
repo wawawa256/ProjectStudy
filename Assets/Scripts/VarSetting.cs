@@ -254,8 +254,11 @@ public class VarSetting : MonoBehaviour
         //変数の作成
         if(MakeVar(varFormat,varValue))
         {
+            string type;
+            if(GlobalOrLocal) type = "グローバル変数";
+            else type = "ローカル変数";
             messageText.text =
-                "変数" + varName + "が追加されました";
+                type + varName + "が追加されました";
         }
         ResetInputField();
         return;
