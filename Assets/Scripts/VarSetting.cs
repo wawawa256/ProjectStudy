@@ -696,6 +696,7 @@ public class VarSetting : MonoBehaviour
     public Dropdown VarDropdownWhile2;
 
 
+
     public void UpdateVarDropdown(){ //vardropdownが呼び出されるたびに呼び出せばいいかなあ、、、の気持ち。 contentメニュー開くのと同時に呼び出す
         //削除が万が一追加されたときに備えて毎回変数リスト全読み込みしようかなあの気持ち
         VarDropdownPrintf.ClearOptions();
@@ -717,6 +718,7 @@ public class VarSetting : MonoBehaviour
         for(int i=0;i<stringCount;i++){
             list.Add("char[] "+stringVarArray[i].varName);
         }
+
         VarDropdownPrintf.AddOptions(list);
         VarDropdownPrintf.value = 0; //set default...
         VarDropdownIf1.AddOptions(list);
@@ -733,6 +735,7 @@ public class VarSetting : MonoBehaviour
         VarDropdownWhile2.AddOptions(list);
         VarDropdownWhile1.value=0;
         VarDropdownWhile2.value=0;
+        
     }
 
     static public string whatisthis(int xth){

@@ -1585,6 +1585,9 @@ public class ObjectCollection : MonoBehaviour
             case "WhileStart_prefab":
                 return 8;
 
+            case "Subroutine_prefab":
+                return 9;
+
             default:
                 return 0;
         }

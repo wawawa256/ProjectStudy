@@ -48,12 +48,14 @@ public class ButtonScript : MonoBehaviour
     public GameObject ForMenu;
     public GameObject CalcMenu;
     public GameObject WhileMenu;
+    public GameObject SubrMenu;
 
     public Text PrintfDisplay;
     public Text IfDisPlay;
     public Text ForDisplay;
     public Text CalcDisplay;
     public Text WhileDisplay;
+    public Text SubrDisplay;
 
     int ifFlag;
     int forFlag;
@@ -232,12 +234,14 @@ public class ButtonScript : MonoBehaviour
         ForDisplay = ForDisplay.GetComponent<Text>();
         CalcDisplay = CalcDisplay.GetComponent<Text>();
         WhileDisplay = WhileDisplay.GetComponent<Text>();
+        SubrDisplay = SubrDisplay.GetComponent<Text>();
         int imanani = ObjectCollection.ItemCheck2();
         bool IfMenuActivity = IfMenu.activeInHierarchy;
         bool PrintfMenuActivity = PrintfMenu.activeInHierarchy;
         bool ForMenuActivity = ForMenu.activeInHierarchy;
         bool CalcMenuActivity = CalcMenu.activeInHierarchy;
         bool WhileMenuActivity = WhileMenu.activeInHierarchy;
+        bool SubrMenuActivity = SubrMenu.activeInHierarchy;
         string DataHere = 
             ObjectCollection.content[ObjectCollection.CurrentColumn,ObjectCollection.CurrentRow];
 
@@ -270,6 +274,12 @@ public class ButtonScript : MonoBehaviour
         {
             WhileDisplay.text=DataHere;
             WhileMenu.SetActive(!WhileMenuActivity);
+            ObjectCollection.touch_flag=0;
+        }
+        else if(imanani==9)
+        {
+            //SubrDisplay.text=DataHere;
+            SubrMenu.SetActive(!SubrMenuActivity);
             ObjectCollection.touch_flag=0;
         }
         else

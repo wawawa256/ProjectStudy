@@ -16,7 +16,7 @@ public class Subroutine : MonoBehaviour
 
     int functionFormat;
     string functionName;
-    int functionCount;
+    public int functionCount;
 
     List<string> reservedWord = new List<string>();
     List<string> optionsList = new List<string>();
@@ -165,5 +165,44 @@ public class Subroutine : MonoBehaviour
     {
         //inputfieldの入力を反映
         nameText.text = NameInputField.text;
+    }
+
+    //VarDropdownの時と同様アプデはここでしようかな
+
+    public Dropdown FuncDropdownSubr;
+    public string formatToStr;
+
+    public void UpdateFuncDropdown(){
+        FuncDropdownSubr.ClearOptions();
+
+        List<string> list = new List<string>();
+        if(functionCount<2){
+            list.Add("関数を作成しよう!");
+            FuncDropdownSubr.value=0;
+            messageText.text = "定義された関数がありません!";
+            return;
+        }
+        list.Add("関数一覧");
+        for(int i=1;i<functionCount;i++){
+            switch(formatArray[i]){
+                case 0:
+                    formatToStr="int ";
+                    break;
+                case 1:
+                    formatToStr="float ";
+                    break;
+                case 2:
+                    formatToStr="bool ";
+                    break;
+                case 3:
+                    formatToStr="void ";
+                    break;
+                default:
+                    break;
+            }
+            list.Add(formatToStr + nameArray[i]);
+        }
+        FuncDropdownSubr.AddOptions(list);
+        FuncDropdownSubr.value=0;
     }
 }
