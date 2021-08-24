@@ -123,6 +123,8 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[i,j]!=null)
             {
                 functionArray[CurrentFunction,i,j] = objectArray[i,j].name;
+                contentPlus[CurrentFunction, i, j] = content[i, j];
+                kataPlus[CurrentFunction, i, j] = content[i, j];
             }
         }
         for(i=0;i<128;i++)
