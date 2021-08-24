@@ -45,6 +45,9 @@ public class ObjectCollection : MonoBehaviour
     public GameObject Calc_prefab;
     public GameObject Break_prefab;
     public GameObject Subroutine_prefab;
+    public GameObject Args_prefab;
+    public GameObject argsViewContent;
+
 
     Camera mainCamera;
 
@@ -1267,6 +1270,7 @@ public class ObjectCollection : MonoBehaviour
     public Dropdown VarDropdownIf2;
     public Dropdown VarDropdownWhile1;
     public Dropdown VarDropdownWhile2;
+    public Dropdown FuncDropdownSubr;
 
 
     //値取得パート。
@@ -1819,6 +1823,27 @@ public class ObjectCollection : MonoBehaviour
         XonSentry=originalX-1;
         PlacingSentry(XonSentry,ys,ye,0);
         ImaIfShori(p);
+    }
+
+    //えらばれたのは綾鷹でした...。
+    Vector3 Zerochan= new Vector3(0f,0f,0f);
+    public GameObject[] TempArgumentArray = new GameObject[64];
+
+    public void ayataka(){
+        Transform oyachan = argsViewContent.GetComponent<Transform>();
+        int choice = FuncDropdownSubr.value;
+        string[,] argsnamearray = new string[64,128]; //だめだったらintのほうつかお。。。
+        argsnamearray = VarSetting.argsNameArray;
+        int i=0;
+        foreach(GameObject q in TempArgumentArray){
+            Destroy(q);
+        }
+        while(argsnamearray[choice,i]!=null){
+            TempArgumentArray[i] = Instantiate(Args_prefab,Zerochan,Quaternion.identity,oyachan);
+            TempArgumentArray[i].name="ARGSPREFAB"+i;
+            Debug.Log("uwaaa");
+            i++;
+        }
     }
 
     public void reload()
