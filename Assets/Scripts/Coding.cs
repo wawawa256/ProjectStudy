@@ -19,12 +19,21 @@ public class Coding : MonoBehaviour
     public static int intCount;
     public static int floatCount;
     public static int stringCount;
+    public static int functionCount;
     public static string[] saveintvalueArray = new string[128];
     public static string[] saveintnameArray = new string[128];
     public static string[] savefloatvalueArray = new string[128];
     public static string[] savefloatnameArray = new string[128];
     public static string[] savestringvalueArray = new string[128];
     public static string[] savestringnameArray = new string[128];
+    public static string[,,] functionArray = new string[64, 128, 256];
+    public static string[,,] contentPlus = new string[64, 64, 128];
+    public static string[,,] kataPlus = new string[64, 64, 128];
+    public static string[] nameArray = new string[256];
+    public static int[] formatArray = new int[256];
+    public static int[,] argsFormatArray = new int[64, 128];
+    public static string[,] argsNameArray = new string[64, 128];
+    public static int[] argsCount = new int[64];
     public Text Code;
 
     public void CodeButtonClicked()
@@ -48,12 +57,23 @@ public class Coding : MonoBehaviour
         savefloatvalueArray = VarSetting.savefloatvalueArray;
         savestringnameArray = VarSetting.savestringnameArray;
         savestringvalueArray = VarSetting.savestringvalueArray;
+        functionArray = ObjectCollection.functionArray;
+        contentPlus = ObjectCollection.contentPlus;
+        kataPlus = ObjectCollection.kataPlus;
+        functionCount = Subroutine.functionCount;
+        nameArray = Subroutine.nameArray;
+        formatArray = Subroutine.formatArray;
+        argsFormatArray = VarSetting.argsFormatArray;
+        argsNameArray = VarSetting.argsNameArray;
+        argsCount = VarSetting.argsCount;
+
         Code = Code.GetComponent<Text>();
 
         //最初の決り文句みたいなやつ入れる
         Code.text = null;
-        Code.text = "#include<stdio.h>\n" +
-                    "int main(void){\n";
+        Code.text += "\n\n";
+        Code.text += "#include<stdio.h>\n";
+
 
         for (int i = 0; i < intCount; i++)
         {
@@ -76,8 +96,19 @@ public class Coding : MonoBehaviour
             savestringnameArray[i] + "[] = " +'"'+
             savestringvalueArray[i]+'"' + ";\n";
         }
-            //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
-            while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
+        for (int i = 1; i < functionCount; i++)
+        {
+            Subroutine_Coding(i);
+        }
+
+
+        Code.text += "int main(void){\n";
+        x = 0;
+        y = 0;
+        nullcheak = 0;
+        ifcount = 0;
+        //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
+        while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
         {
             CodingCheck();
         }
@@ -97,6 +128,143 @@ public class Coding : MonoBehaviour
         GUIUtility.systemCopyBuffer = Code.text;
     }
 
+    public void Subroutine_Coding(int function)
+    {
+        x = 0;
+        y = 0;
+        nullcheak = 0;
+        ifcount = 0;
+        Code.text += FormatToStr(formatArray[function]) + " " + nameArray[function] + "(" + argset(function) + "){\n";
+        SubCodingCheck(function);
+        space(spacecount(0));
+        Code.text += "}\n";
+    }
+
+    string argset(int function)
+    {
+        string args = null;
+        for (int i=0; i < argsCount[function]; i++)
+        {
+            args += FormatToStr(argsFormatArray[function,i]) + " " + argsNameArray[function, i];      
+        }
+        return args;
+    }
+    string FormatToStr(int format)
+    {
+        switch (format)
+        {
+            case 0:
+                return "int";
+            case 1:
+                return "float";
+            case 2:
+                return "bool";
+            case 3:
+                return "void";
+        }
+        return "void";
+    }
+
+    public void SubCodingCheck(int i)
+    {
+        switch (functionArray[i,x,y])
+        {
+            case "Printf_prefab":
+                SubCode_Printf(i);
+                 Debug.Log("ptrinfだよ");
+                break;
+
+            case "If_prefab":
+                SubCode_If(i);
+                break;
+            case "Calc_prefab":
+                SubCode_Calc(i);
+                break;
+            case "ForStart_prefab":
+                SubCode_For(i);
+                break;
+            case "Subrutine_prefab":
+             //   Code_Subrutine();
+                break;
+            default:
+                y++;
+                break;
+
+        }
+    }
+
+    void SubCode_For(int i)
+    {
+        if (contentPlus[i,x, y] == null || contentPlus[i,x, y] == "") nullcheak = 1;
+        space(spacecount(1));
+        ifcount++;
+        Code.text += "for(" + contentPlus[i,x, y] + ")" + "{\n";
+        y++;
+        while (functionArray[i,x, y] != "ForEnd_prefab")
+        {
+            CodingCheck();
+        }
+        y++;
+        space(spacecount(0));
+        Code.text += "}\n";
+        ifcount -= 1;
+    }
+
+    void SubCode_Calc(int i)
+    {
+        if (contentPlus[i,x, y] == null || contentPlus[i,x, y] == "") nullcheak = 1;
+        space(spacecount(1));
+        Code.text += contentPlus[i,x, y];
+        Code.text += ";\n";
+        y++;
+    }
+    public void SubCode_If(int i)
+    {
+        // 条件が空欄じゃないことを確認する
+        if (contentPlus[i,x, y] == null || contentPlus[i,x, y] == "") nullcheak = 1;
+        //ifの開始座標を記録する変数を用意
+        int imaif;
+        imaif = y;
+        //コーディングのときの見栄えを良くする
+        space(spacecount(1));
+        ifcount++;
+        y++;
+        Code.text += "if(" + contentPlus[i,x, y - 1] + ")" + "{\n";
+
+        //まずはtrueの方を調べる、コーナ1prefabが見つかるまで探索する
+
+        while (functionArray[i,x, y]!= "Corner1_prefab")
+        {
+            //コーディングチェックで下方向に探索、またifが見つかったら再帰呼び出しみたいになる
+            CodingCheck();
+        }
+        //コーナ1まで行ったら、最初の開始地点まで戻る
+        y = imaif;
+        space(spacecount(0));
+        Code.text += "}else{\n";
+        //ifの開始地点から否定側の分が横にどのくらいずれているかを確認する
+        int scatterx = 1;
+        //否定側は、（横だけ→縦だけ）または(ifprefab→たてだけ）のどっちか
+        while (!((functionArray[i,x + 1, y] == "Tatedake_prefab") && ((functionArray[i,x, y] == "If_prefab") || (functionArray[i,x, y] == "Yokodake_prefab"))))
+        {
+            scatterx++;
+            x++;
+        }
+        x++;
+        y++;
+        //コーナ2が見つかるまで下方向に探索
+        while (functionArray[i,x, y] != "Corner2_prefab")
+        {
+            CodingCheck();
+        }
+        //最初のifのx座標をあわせるためにオーメンに任せる
+        x = x - scatterx;
+        //1マス下に行くと、ifを離脱する
+        y++;
+        space(spacecount(0));
+        Code.text += "}\n";
+        ifcount -= 1;
+    }
     //中身見て出力するだけ
     public void Code_Printf()
     {
@@ -129,6 +297,39 @@ public class Coding : MonoBehaviour
                 break;
         }
     }
+
+    public void SubCode_Printf(int i)
+    {
+        space(spacecount(1));
+        switch (kataPlus[i,x, y])
+        {
+            case " ":
+                Code.text += "printf(" + '"' + contentPlus[i,x, y] + '"' + ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
+
+            case "int":
+                Code.text += "printf(" + '"' + "%d" + '"' + "," + contentPlus[i,x, y] + ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
+            case "float":
+                Code.text += "printf(" + '"' + "%f" + '"' + "," + contentPlus[i,x, y] + ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
+            case "char":
+                Code.text += "printf(" + '"' + "%s" + '"' + "," + contentPlus[i,x, y] + ")" + ";";
+                Code.text += "\n";
+                y++;
+                break;
+            default:
+                Debug.Log("kataplisがだめだよ");
+                y++;
+                break;
+        }
+    }
     //下方向にどんどん進んで、何があるか調べる
     public void CodingCheck()
     {
@@ -148,6 +349,9 @@ public class Coding : MonoBehaviour
             case "ForStart_prefab":
                 Code_For();
                 break;
+            case "Subrutine_prefab":
+                Code_Subrutine();
+                break;
             default:
                 y++;
                 break;
@@ -155,6 +359,10 @@ public class Coding : MonoBehaviour
         }
     }
 
+    public void Code_Subrutine()
+    {
+      //  Code.text += ;
+    }
     public void Code_If()
     {
         // 条件が空欄じゃないことを確認する

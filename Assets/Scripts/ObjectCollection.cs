@@ -98,9 +98,9 @@ public class ObjectCollection : MonoBehaviour
     Ifreference[,] ifArrayPlus = new Ifreference[64,128];
 
     //セーブ必要[関数番号,column,row]
-    string[,,] functionArray = new string[64,128,256];
-    string[,,] contentPlus = new string[64, 64, 128];
-    string[,,] kataPlus = new string[64, 64, 128];
+    public static string[,,] functionArray = new string[64,128,256];
+    public static string[,,] contentPlus = new string[64, 64, 128];
+    public static string[,,] kataPlus = new string[64, 64, 128];
 
     //関数が選択されたときに呼び出し
     //OnValueChengedで動かす
@@ -222,7 +222,7 @@ public class ObjectCollection : MonoBehaviour
             CurrentRow = 0;
         }
         CurrentPosition();
-        functionCount++;
+        
     }
 
     //自作関数関連ここまで

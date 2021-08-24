@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class Subroutine : MonoBehaviour
 {
-    public string[] nameArray = new string[256];
-    public int[] formatArray = new int[256];
+    public static string[] nameArray = new string[256];
+    public static int[] formatArray = new int[256];
 
     public InputField NameInputField;
     public Dropdown FormatDropdown;
@@ -16,7 +16,7 @@ public class Subroutine : MonoBehaviour
 
     int functionFormat;
     string functionName;
-    public int functionCount;
+    public static int functionCount;
 
     List<string> reservedWord = new List<string>();
     List<string> optionsList = new List<string>();
