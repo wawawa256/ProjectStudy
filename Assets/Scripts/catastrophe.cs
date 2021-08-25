@@ -12,6 +12,5 @@ public class catastrophe : MonoBehaviour
         {
 	        Destroy(objects[i].gameObject);
         }
-	
     }
 }

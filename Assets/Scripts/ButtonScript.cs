@@ -9,12 +9,15 @@ public class ButtonScript : MonoBehaviour
     public GameObject SettingPanel;
     public GameObject CodePanel;
     public GameObject AddVarPanel;
+    public GameObject AddFunctionPanel;
     public GameObject VarListPanel;
     public GameObject UIButtons;
+
     bool AddpanelActivity;
     bool SettingpanelActivity;
     bool CodepanelActivity;
     bool AddVarPanelActivity;
+    bool AddFunctionPanelActivity;
     bool VarListPanelActivity;
     bool UIButtonsActivity;
 
@@ -24,48 +27,47 @@ public class ButtonScript : MonoBehaviour
     public GameObject IfEndButton;
     public GameObject ForStartButton;
     public GameObject ForEndButton;
+    public GameObject WhileStartButton;
+    public GameObject WhileEndButton;
+    public GameObject BreakButton;
+    public GameObject SubroutineButton;
     public GameObject CalcButton;
+
     bool PrintButtonActivity;
     bool IfStartButtonActivity;
     bool IfEndButtonActivity;
     bool ForStartButtonActivity;
     bool ForEndButtonActivity;
     bool CalcButtonActivity;
+    bool WhileMenuActivity;
 
     public GameObject IfMenu;
     public GameObject PrintfMenu;
     public GameObject ForMenu;
     public GameObject CalcMenu;
+    public GameObject WhileMenu;
 
     public Text PrintfDisplay;
     public Text IfDisPlay;
     public Text ForDisplay;
     public Text CalcDisplay;
+    public Text WhileDisplay;
 
     int ifFlag;
     int forFlag;
+    int whileFlag;
 
     public void Start()
     {
-        //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        AddVarPanel.SetActive(false);
-        CodePanel.SetActive(false);
-        VarListPanel.SetActive(false);
+        PanelClose();
         UIButtons.SetActive(false);
 
-        PrintfButton.SetActive(true);
-        IfStartButton.SetActive(true);
-        ForStartButton.SetActive(true);
-        CalcButton.SetActive(true);
-        IfEndButton.SetActive(false);
-        ForEndButton.SetActive(false);
+        ButtonUnlock();
 
         ifFlag = 0;
         forFlag = 0;
+        whileFlag = 0;
     }
-
-    
 
     public void PaizaButtonClicked()
     {
@@ -80,43 +82,48 @@ public class ButtonScript : MonoBehaviour
     
     public void OnClick2()
     {
-        //AddPanel.SetActive(false);
-        AddVarPanel.SetActive(false);
-        CodePanel.SetActive(false);
-        VarListPanel.SetActive(false);
         SettingpanelActivity = SettingPanel.activeInHierarchy;
+        PanelClose();
         SettingPanel.SetActive(!SettingpanelActivity);
     }
 
+    
+
     public void AddVarPanelChange()
-    { 
-        //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        CodePanel.SetActive(false);
-        VarListPanel.SetActive(false);
-        UIButtons.SetActive(false);
+    {
         AddVarPanelActivity = AddVarPanel.activeInHierarchy;
+        PanelClose();
         AddVarPanel.SetActive(!AddVarPanelActivity);
+    }
+
+    public void AddFunctionPanelChange()
+    {
+        AddFunctionPanelActivity = AddFunctionPanel.activeInHierarchy;
+        PanelClose();
+        AddFunctionPanel.SetActive(!AddFunctionPanelActivity);
     }
 
     public void CodePanelChange()
     {
-        //AddPanel.SetActive(false);
-        SettingPanel.SetActive(false);
-        AddVarPanel.SetActive(false);
-        VarListPanel.SetActive(false);
         CodepanelActivity = CodePanel.activeInHierarchy;
+        PanelClose();
         CodePanel.SetActive(!CodepanelActivity);
     }
 
     public void VarListPanelChange()
-    { 
-        //AddPanel.SetActive(false);
+    {
+        VarListPanelActivity = VarListPanel.activeInHierarchy;
+        PanelClose();
+        VarListPanel.SetActive(!VarListPanelActivity);
+    }
+
+    public void PanelClose()
+    {
         SettingPanel.SetActive(false);
         AddVarPanel.SetActive(false);
+        AddFunctionPanel.SetActive(false);
         CodePanel.SetActive(false);
-        VarListPanelActivity = VarListPanel.activeInHierarchy;
-        VarListPanel.SetActive(!VarListPanelActivity);
+        VarListPanel.SetActive(false);
     }
 
     public void UICallButtonClicked()
@@ -127,34 +134,49 @@ public class ButtonScript : MonoBehaviour
 
     public void IfButtonClicked()
     {
-        switch(ifFlag){
-        case 0:
-            ButtonLock();
-            IfEndButton.SetActive(true);
-            ForEndButton.SetActive(false);
-            ifFlag = 1;
-            break;
-        case 1:
-            ButtonUnlock();
-            ifFlag = 0;
-            break;
+        switch(ifFlag)
+        {
+            case 0:
+                ButtonLock();
+                IfEndButton.SetActive(true);
+                ifFlag = 1;
+                break;
+            case 1:
+                ButtonUnlock();
+                ifFlag = 0;
+                break;
         }
     }
 
     public void ForButtonClicked()
     {
-        switch(forFlag){
-        case 0 :
+        switch(forFlag)
+        {
+            case 0 :
+                ButtonLock();
+                ForEndButton.SetActive(true);
+                forFlag = 1;
+                break;
+            case 1:
+                ButtonUnlock();
+                forFlag = 0;
+                break;
+        }
+    }
 
-            ButtonLock();
-            IfEndButton.SetActive(false);
-            ForEndButton.SetActive(true);
-            forFlag = 1;
-            break;
-        case 1:
-            ButtonUnlock();
-            forFlag = 0;
-            break;
+    public void WhileButtonClicked()
+    {
+        switch(whileFlag)
+        {
+            case 0 :
+                ButtonLock();
+                WhileEndButton.SetActive(true);
+                whileFlag = 1;
+                break;
+            case 1:
+                ButtonUnlock();
+                whileFlag = 0;
+                break;
         }
     }
 
@@ -163,7 +185,14 @@ public class ButtonScript : MonoBehaviour
         PrintfButton.SetActive(false);
         IfStartButton.SetActive(false);
         ForStartButton.SetActive(false);
+        WhileStartButton.SetActive(false);
         CalcButton.SetActive(false);
+        BreakButton.SetActive(false);
+        SubroutineButton.SetActive(false);
+
+        IfEndButton.SetActive(false);
+        ForEndButton.SetActive(false);
+        WhileEndButton.SetActive(false);
     }
 
     void ButtonUnlock()
@@ -171,9 +200,14 @@ public class ButtonScript : MonoBehaviour
         PrintfButton.SetActive(true);
         IfStartButton.SetActive(true);
         ForStartButton.SetActive(true);
+        WhileStartButton.SetActive(true);
         CalcButton.SetActive(true);
+        BreakButton.SetActive(true);
+        SubroutineButton.SetActive(true);
+
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
+        WhileEndButton.SetActive(false);
     } 
 
     //中身メニューを開こう。メニュー開くボタンにアタッチ
@@ -183,11 +217,14 @@ public class ButtonScript : MonoBehaviour
         PrintfDisplay = PrintfDisplay.GetComponent<Text>();
         IfDisPlay = IfDisPlay.GetComponent<Text>();
         ForDisplay = ForDisplay.GetComponent<Text>();
+        CalcDisplay = CalcDisplay.GetComponent<Text>();
+        WhileDisplay = WhileDisplay.GetComponent<Text>();
         int imanani = ObjectCollection.ItemCheck2();
         bool IfMenuActivity = IfMenu.activeInHierarchy;
         bool PrintfMenuActivity = PrintfMenu.activeInHierarchy;
         bool ForMenuActivity = ForMenu.activeInHierarchy;
         bool CalcMenuActivity = CalcMenu.activeInHierarchy;
+        bool WhileMenuActivity = WhileMenu.activeInHierarchy;
         string DataHere = 
             ObjectCollection.content[ObjectCollection.CurrentColumn,ObjectCollection.CurrentRow];
 
@@ -216,11 +253,17 @@ public class ButtonScript : MonoBehaviour
             CalcMenu.SetActive(!CalcMenuActivity);
             ObjectCollection.touch_flag = 0;
         }
+        else if(imanani==8)
+        {
+            WhileDisplay.text=DataHere;
+            WhileMenu.SetActive(!WhileMenuActivity);
+            ObjectCollection.touch_flag=0;
+        }
         else
         {
             ObjectCollection.touch_flag = 1;
         }
-        ObjectCollection.BeyondDimension();
+        //ObjectCollection.BeyondDimension();
     }
 
     public void touch_flagtateruyo(){
