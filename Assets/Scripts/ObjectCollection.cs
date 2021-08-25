@@ -1834,14 +1834,23 @@ public class ObjectCollection : MonoBehaviour
         int choice = FuncDropdownSubr.value;
         string[,] argsnamearray = new string[64,128]; //だめだったらintのほうつかお。。。
         argsnamearray = VarSetting.argsNameArray;
+        int[,] argsformarray = new int[64,128];
+        argsformarray = VarSetting.argsFormatArray;
         int i=0;
         foreach(GameObject q in TempArgumentArray){
             Destroy(q);
         }
         while(argsnamearray[choice,i]!=null){
+            int dispi=i+1;
             TempArgumentArray[i] = Instantiate(Args_prefab,Zerochan,Quaternion.identity,oyachan);
-            TempArgumentArray[i].name="ARGSPREFAB"+i;
-            Debug.Log("uwaaa");
+            TempArgumentArray[i].name="第"+dispi+"引数";
+            Transform Xtransform = TempArgumentArray[i].GetComponent<Transform>();
+            GameObject childtextchan = Xtransform.Find("NumberText").gameObject;
+            GameObject DropdownOya = Xtransform.Find("ArgsVarDropdown").gameObject;
+            Dropdown dropdown = DropdownOya.GetComponent<Dropdown>();
+            Text label = childtextchan.GetComponent<Text>();
+            label.text = TempArgumentArray[i].name;
+            VarSetting.UpdateSubrArgDropdown(argsformarray[choice,i],dropdown);
             i++;
         }
     }
