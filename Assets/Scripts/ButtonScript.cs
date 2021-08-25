@@ -87,6 +87,8 @@ public class ButtonScript : MonoBehaviour
         SettingPanel.SetActive(!SettingpanelActivity);
     }
 
+    
+
     public void AddVarPanelChange()
     {
         AddVarPanelActivity = AddVarPanel.activeInHierarchy;

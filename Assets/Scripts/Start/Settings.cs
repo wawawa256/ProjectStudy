@@ -17,8 +17,8 @@ public class Settings : MonoBehaviour
         
     }
 
-    public void OnStart()
+    public void OnClickWeb()
     {
-        SceneManager.LoadScene("Settings");
+        Application.OpenURL("http://ucchon.php.xdomain.jp/wiki.php");//""の中には開きたいWebページのURLを入力します
     }
 }
