@@ -171,7 +171,7 @@ public class Coding : MonoBehaviour
         {
             case "Printf_prefab":
                 SubCode_Printf(i);
-                 Debug.Log("ptrinfだよ");
+                Debug.Log("ptrinfだよ");
                 break;
 
             case "If_prefab":

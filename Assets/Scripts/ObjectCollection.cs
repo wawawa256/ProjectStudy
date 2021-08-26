@@ -126,8 +126,8 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[i,j]!=null)
             {
                 functionArray[CurrentFunction,i,j] = objectArray[i,j].name;
-                contentPlus[CurrentFunction, i, j] = content[i, j];
-                kataPlus[CurrentFunction, i, j] = content[i, j];
+                contentPlus[CurrentFunction,i,j] = content[i, j];
+                kataPlus[CurrentFunction,i,j] = kata[i, j];
             }
         }
         for(i=0;i<128;i++)
@@ -251,7 +251,7 @@ public class ObjectCollection : MonoBehaviour
         case "Break_prefab":return Break_prefab;
         case "Subroutine_prefab":return Subroutine_prefab;
         default: return null;
-        }   
+        }
     }
 
     //変数の初期化と初期設定
@@ -441,6 +441,8 @@ public class ObjectCollection : MonoBehaviour
 
         //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
         objectArray[CurrentColumn, CurrentRow].name = Prefab.name;
+
+        functionArray[CurrentFunction,CurrentColumn,CurrentRow] = objectArray[CurrentColumn,CurrentRow].name; 
 
         textMake(CurrentColumn,CurrentRow,Prefab.name);
     }
@@ -749,9 +751,14 @@ public class ObjectCollection : MonoBehaviour
                 else
                 {
                     content[CurrentColumn,CurrentRow]=content[CurrentColumn,CurrentRow-1];
+                    contentPlus[CurrentFunction,CurrentColumn,CurrentRow]=content[CurrentColumn,CurrentRow];
                     content[CurrentColumn,CurrentRow-1]="";
+                    contentPlus[CurrentFunction,CurrentColumn,CurrentRow-1]="";
+
                     kata[CurrentColumn,CurrentRow]=kata[CurrentColumn,CurrentRow-1];
+                    kataPlus[CurrentFunction,CurrentColumn,CurrentRow] = kata[CurrentColumn,CurrentRow];
                     kata[CurrentColumn,CurrentRow-1]=" ";
+                    kataPlus[CurrentFunction,CurrentColumn,CurrentRow-1]=" ";
 
                     if(objectArray[CurrentColumn,CurrentRow-1]!=null)
                     {
@@ -774,11 +781,13 @@ public class ObjectCollection : MonoBehaviour
                         case "Tatedake_prefab":
                             Destroy(objectArray[CurrentColumn,CurrentRow-1]);
                             objectArray[CurrentColumn,CurrentRow-1]=null;
+                            functionArray[CurrentFunction,CurrentColumn,CurrentRow-1] = null;
                             break;
 
                         case "Yokodake_prefab":
                             Destroy(objectArray[CurrentColumn,CurrentRow-1]);
                             objectArray[CurrentColumn,CurrentRow-1]=null;
+                            functionArray[CurrentFunction,CurrentColumn,CurrentRow-1] = null;
                             break;
                             
                         default:
@@ -806,6 +815,7 @@ public class ObjectCollection : MonoBehaviour
         {
             Destroy(objectArray[column,row]);
             objectArray[column,row]=null;
+            functionArray[CurrentFunction,column,row] = null;
         }
     }
 
@@ -1016,6 +1026,9 @@ public class ObjectCollection : MonoBehaviour
 
                     //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
                     objectArray[i, j].name = Prefab.name;
+
+                    functionArray[CurrentFunction,i,j] = objectArray[i, j].name;
+
                     textMake(CurrentColumn, CurrentRow, Prefab.name);
                 }
             }
@@ -1687,10 +1700,15 @@ public class ObjectCollection : MonoBehaviour
             ObjectInstall(objectArray[CurrentColumn-1,CurrentRow]);
             Destroy(objectArray[CurrentColumn-1,CurrentRow]);
             objectArray[CurrentColumn-1,CurrentRow]=null;
+            functionArray[CurrentFunction,CurrentColumn-1,CurrentRow]=null;
             content[CurrentColumn,CurrentRow]=content[CurrentColumn-1,CurrentRow];
+            contentPlus[CurrentFunction,CurrentColumn,CurrentRow] = content[CurrentColumn,CurrentRow];
             content[CurrentColumn-1,CurrentRow]="";
+            contentPlus[CurrentFunction,CurrentColumn-1,CurrentRow] = "";
             kata[CurrentColumn,CurrentRow]=kata[CurrentColumn-1,CurrentRow];
+            kataPlus[CurrentFunction,CurrentColumn,CurrentRow] = kata[CurrentColumn,CurrentRow];
             kata[CurrentColumn-1,CurrentRow]=" ";
+            kataPlus[CurrentFunction,CurrentColumn-1,CurrentRow]=" ";
         }
         CurrentRow=starty;
         CurrentColumn--;
@@ -1922,6 +1940,7 @@ public class ObjectCollection : MonoBehaviour
                 {
                     Destroy(objectArray[i, j]);
                     objectArray[i, j] = null; 
+                    functionArray[CurrentFunction,i,j] = null;
                     Destroy(wireArray[i, j]);
                     wireArray[i, j] = null;
                     Destroy(HorizontalwireArray[i, j]);
@@ -1945,6 +1964,7 @@ public class ObjectCollection : MonoBehaviour
 
             //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
             objectArray[0, 0].name = "Blank_prefab";
+            functionArray[CurrentFunction,0,0] = objectArray[0,0].name;
             textMake(CurrentColumn, CurrentRow, "Blank_prefab");
             maxColumn = 1;
             maxRow = 1;
@@ -2024,6 +2044,9 @@ public class ObjectCollection : MonoBehaviour
 
                     //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
                     objectArray[i, j].name = Prefab.name;
+
+                    functionArray[CurrentFunction,i,j] = objectArray[i,j].name;
+
                     textMake(CurrentColumn, CurrentRow, Prefab.name);
                 }
             }
