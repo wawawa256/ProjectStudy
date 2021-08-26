@@ -738,6 +738,31 @@ public class VarSetting : MonoBehaviour
         
     }
 
+
+    public static void UpdateSubrArgDropdown(int format, Dropdown dropdown){
+        List<string> ireruList = new List<string>();
+        int x=0;
+        switch(format){
+                case 0:
+                    ireruList.Add("変数(int型)一覧");
+                    while(intVarArray[x].varName!=null){
+                        ireruList.Add("int "+intVarArray[x].varName);
+                        x++;
+                    }
+                    break;
+                case 1:
+                    ireruList.Add("変数(float型)一覧");
+                    while(floatVarArray[x].varName!=null){
+                        ireruList.Add("float "+floatVarArray[x].varName);
+                        x++;
+                    }
+                    break;
+                default:
+                    break;
+            }
+            dropdown.AddOptions(ireruList);
+    }
+
     static public string whatisthis(int xth){
         if(xth>intCount){
             xth -= intCount;
