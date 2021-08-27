@@ -1038,7 +1038,6 @@ public class ObjectCollection : MonoBehaviour
         CurrentColumn = 0;
         CurrentRow = 0;
     }
-
     //赤枠の位置決定
     void CurrentPosition()
     {
@@ -1075,56 +1074,104 @@ public class ObjectCollection : MonoBehaviour
             }
             else
             {
-                //Debug.Log("ifCount = "+ifCount);
-                for(j=0;j<ifCount;j++)
-                {
-                //ifStartが他のifの内側かどうか
-                    if(ifArray[j].ifStartColumn==ifArray[ifCount].ifStartColumn)
-                    if(ifArray[j].ifStartRow<ifArray[ifCount].ifStartRow)
-                    if(ifArray[j].ifEndRow>=ifArray[ifCount].ifStartRow)
+                if(ifFlag==1){ //ifとforはがっつり分けることにした。にわの
+                    //Debug.Log("ifCount = "+ifCount);
+                    for(j=0;j<ifCount;j++)
                     {
-                        InOutCheck = true;
-                        if(ifArray[j].ifDistance()<length)
+                    //ifStartが他のifの内側かどうか
+                        if(ifArray[j].ifStartColumn==ifArray[ifCount].ifStartColumn)
+                        if(ifArray[j].ifStartRow<ifArray[ifCount].ifStartRow)
+                        if(ifArray[j].ifEndRow>=ifArray[ifCount].ifStartRow)
                         {
-                            length = ifArray[j].ifDistance();
-                            temp = j;
-                        }
-                    }
-                }
-                //Debug.Log(length);
-                if(length==128) InOutCheck = false;
-                //内
-                if(InOutCheck)
-                {
-                    //Debug.Log("uchi");
-                    for(i=0;i<maxRow;i++)
-                    {
-                        if(ifArray[temp].ifStartRow<i)
-                        if(ifArray[temp].ifEndRow>=i)
-                        {
-                            place[i]=1;
-                        }
-                        else place[i]=0;
-                    }
-                }
-                //外
-                else
-                {
-                    //Debug.Log("soto");
-                    for(i=0;i<maxRow;i++)
-                    {
-                        act = false;
-                        for(j=0;j<=ifCount;j++)
-                        {
-                            if(ifArray[j].ifStartColumn == CurrentColumn)
-                            if(ifArray[j].ifStartRow<i && ifArray[j].ifEndRow>=i)
+                            InOutCheck = true;
+                            if(ifArray[j].ifDistance()<length)
                             {
-                                //i行目は位置的に利用不可能
-                                act = true;
+                                length = ifArray[j].ifDistance();
+                                temp = j;
                             }
                         }
-                        if(act) place[i] = 0;
-                        else place[i] = 1;
+                    }
+                    //Debug.Log(length);
+                    if(length==128) InOutCheck = false;
+                    //内
+                    if(InOutCheck)
+                    {
+                        //Debug.Log("uchi");
+                        for(i=0;i<maxRow;i++)
+                        {
+                            if(ifArray[temp].ifStartRow<i)
+                            if(ifArray[temp].ifEndRow>=i)
+                            {
+                                place[i]=1;
+                            }
+                            else place[i]=0;
+                        }
+                    }
+                    //外
+                    else
+                    {
+                        //Debug.Log("soto");
+                        for(i=0;i<maxRow;i++)
+                        {
+                            act = false;
+                            for(j=0;j<=ifCount;j++)
+                            {
+                                if(ifArray[j].ifStartColumn == CurrentColumn)
+                                if(ifArray[j].ifStartRow<i && ifArray[j].ifEndRow>=i)
+                                {
+                                    //i行目は位置的に利用不可能
+                                    act = true;
+                                }
+                            }
+                            if(act) place[i] = 0;
+                            else place[i] = 1;
+
+                        }
+                    }
+                }else{
+                    //この時点で上と横はしばいてるはず。下だけチェックしよう
+                    //一方通行でいい。true置きまくって、cor1の次からは×(内部ケア)、ifからcor1まで×(野良ifケア)、forからforEまで×(野良forケア)。
+                    bool permanentdame=false;
+                    int sibarakudamefor=0;
+                    int sibarakudameif=0;
+                    for(int k=tempRow+1;k<maxRow;k++){
+                        if(permanentdame){
+                            place[k]=0;
+                        }else if(objectArray[CurrentColumn,k].name=="Corner1_prefab"){ //cor1 -> 野良if終点? OR 実はもともと中にいた?
+                            if(sibarakudameif>0){
+                                sibarakudameif--;
+                                place[k]=0;
+                            }else{
+                                permanentdame=true;
+                                place[k]=1;
+                            }
+                        }else if(objectArray[CurrentColumn,k].name=="ForEnd_prefab"){
+                            if(sibarakudamefor>0){
+                                sibarakudamefor--;
+                                place[k]=0;
+                            }else{
+                                permanentdame=true;
+                                place[k]=1;
+                            }
+                        }else if(sibarakudamefor>0 || sibarakudameif>0){
+                            place[k]=0;
+                        }else if(objectArray[CurrentColumn,k].name=="If_prefab"){
+                            if(sibarakudameif==0){
+                                place[k]=1;
+                            }else{
+                                place[k]=0;
+                            }
+                            sibarakudameif++;
+                        }else if(objectArray[CurrentColumn,k].name=="ForStart_prefab"){
+                            if(sibarakudamefor==0){
+                                place[k]=1;
+                            }else{
+                                place[k]=0;
+                            }
+                            sibarakudamefor++;
+                        }else{
+                            place[k]=1;
+                        }
 
                     }
                 }
