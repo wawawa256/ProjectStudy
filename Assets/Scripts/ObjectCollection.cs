@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class ObjectCollection : MonoBehaviour
 {
@@ -1275,6 +1276,7 @@ public class ObjectCollection : MonoBehaviour
     public Text CalcDisplay;
     public Text ForDisplay;
     public Text WhileDisplay;
+    public Text SubrDisplay;
     public Dropdown VarDropdownPrintf;
     public Dropdown VarDropdownCalc1;
     public Dropdown VarDropdownCalc2;
@@ -1845,32 +1847,83 @@ public class ObjectCollection : MonoBehaviour
 
     //えらばれたのは綾鷹でした...。
     Vector3 Zerochan= new Vector3(0f,0f,0f);
-    public GameObject[] TempArgumentArray = new GameObject[64];
-
+    public static GameObject[] TempArgumentArray = new GameObject[64];
+    public int TempArgCount =0;
     public void ayataka(){
+        foreach(GameObject q in TempArgumentArray){
+            Destroy(q);
+        }
+        SubrDisplay.text="";
         Transform oyachan = argsViewContent.GetComponent<Transform>();
         int choice = FuncDropdownSubr.value;
+        if(choice==0){
+            return;
+        }
         string[,] argsnamearray = new string[64,128]; //だめだったらintのほうつかお。。。
         argsnamearray = VarSetting.argsNameArray;
         int[,] argsformarray = new int[64,128];
         argsformarray = VarSetting.argsFormatArray;
         int i=0;
-        foreach(GameObject q in TempArgumentArray){
-            Destroy(q);
-        }
+        
+        TempArgCount=0;
         while(argsnamearray[choice,i]!=null){
             int dispi=i+1;
             TempArgumentArray[i] = Instantiate(Args_prefab,Zerochan,Quaternion.identity,oyachan);
-            TempArgumentArray[i].name="第"+dispi+"引数";
+            TempArgumentArray[i].name=dispi.ToString();
             Transform Xtransform = TempArgumentArray[i].GetComponent<Transform>();
             GameObject childtextchan = Xtransform.Find("NumberText").gameObject;
             GameObject DropdownOya = Xtransform.Find("ArgsVarDropdown").gameObject;
+            GameObject InputFieldOya = Xtransform.Find("InputFieldArgs").gameObject; 
             Dropdown dropdown = DropdownOya.GetComponent<Dropdown>();
+            InputField inputfield = InputFieldOya.GetComponent<InputField>();
             Text label = childtextchan.GetComponent<Text>();
-            label.text = TempArgumentArray[i].name;
+            label.text = "第" +dispi.ToString()+ "引数";
             VarSetting.UpdateSubrArgDropdown(argsformarray[choice,i],dropdown);
             i++;
+            UnityAction<int> OnEditActionDropdown = FakeUpdateDD;
+            UnityAction<string> OnEditActionInputfield = FakeUpdateIF;
+            dropdown.onValueChanged.AddListener(OnEditActionDropdown);
+            inputfield.onEndEdit.AddListener(OnEditActionInputfield);
         }
+        TempArgCount=i-1; //i番目がnullなのだから、i-1番目まで
+    }
+
+    public void FakeUpdateDD(int value){
+        UpdateArgDropdowns();
+    }
+    public void FakeUpdateIF(string value){
+        UpdateArgDropdowns();
+    }
+    public static void soukenbicha(){
+        foreach(GameObject q in TempArgumentArray){
+            Destroy(q);
+        }
+    }
+    public void UpdateArgDropdowns(){
+        string[] arrayforcontent = new string[64];
+        for(int k=0;k<=TempArgCount;k++){
+            Transform Xtransform = TempArgumentArray[k].GetComponent<Transform>();
+            GameObject DropdownOya = Xtransform.Find("ArgsVarDropdown").gameObject;
+            GameObject InputFieldOya = Xtransform.Find("InputFieldArgs").gameObject;
+            Dropdown dropdown = DropdownOya.GetComponent<Dropdown>();
+            InputField inputfield = InputFieldOya.GetComponent<InputField>();
+            if(dropdown.value!=0){
+                Text itemlabel = dropdown.captionText;
+                arrayforcontent[k] = itemlabel.text;
+            }else{
+                arrayforcontent[k] = inputfield.text;
+                dropdown.value=0;
+            }
+        }
+        string UwU="";
+        for(int x=0;arrayforcontent[x]!=null;x++){
+            UwU += arrayforcontent[x];
+            if(arrayforcontent[x+1]!=null){
+                UwU +=", ";
+            }
+        }
+        SubrDisplay.text=UwU;
+        content[CurrentColumn,CurrentRow]=UwU;
     }
 
     public void reload()

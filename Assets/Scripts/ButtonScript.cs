@@ -278,8 +278,9 @@ public class ButtonScript : MonoBehaviour
         }
         else if(imanani==9)
         {
-            //SubrDisplay.text=DataHere;
+            SubrDisplay.text=DataHere;
             SubrMenu.SetActive(!SubrMenuActivity);
+            ObjectCollection.soukenbicha();
             ObjectCollection.touch_flag=0;
         }
         else
