@@ -110,7 +110,7 @@ public class Coding : MonoBehaviour
         //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
         while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
         {
-            CodingCheck();
+            CodingCheck(0);
         }
         //決り文句入れて終了
 
@@ -135,7 +135,7 @@ public class Coding : MonoBehaviour
         nullcheak = 0;
         ifcount = 0;
         Code.text += FormatToStr(formatArray[function]) + " " + nameArray[function] + "(" + argset(function) + "){\n";
-        SubCodingCheck(function);
+        CodingCheck(function);
         space(spacecount(0));
         Code.text += "}\n";
     }
@@ -145,7 +145,9 @@ public class Coding : MonoBehaviour
         string args = null;
         for (int i=0; i < argsCount[function]; i++)
         {
-            args += FormatToStr(argsFormatArray[function,i]) + " " + argsNameArray[function, i];      
+            if (i==0)  args += FormatToStr(argsFormatArray[function,i]) + " " + argsNameArray[function, i];      
+            else args +=", " + FormatToStr(argsFormatArray[function, i]) + " " + argsNameArray[function, i];
+
         }
         return args;
     }
@@ -165,23 +167,23 @@ public class Coding : MonoBehaviour
         return "void";
     }
 
-    public void SubCodingCheck(int i)
+    public void CodingCheck(int i)
     {
         switch (functionArray[i,x,y])
         {
             case "Printf_prefab":
-                SubCode_Printf(i);
+                Code_Printf(i);
                 Debug.Log("ptrinfだよ");
                 break;
 
             case "If_prefab":
-                SubCode_If(i);
+                Code_If(i);
                 break;
             case "Calc_prefab":
-                SubCode_Calc(i);
+                Code_Calc(i);
                 break;
             case "ForStart_prefab":
-                SubCode_For(i);
+                Code_For(i);
                 break;
             case "Subrutine_prefab":
              //   Code_Subrutine();
@@ -193,7 +195,7 @@ public class Coding : MonoBehaviour
         }
     }
 
-    void SubCode_For(int i)
+    void Code_For(int i)
     {
         if (contentPlus[i,x, y] == null || contentPlus[i,x, y] == "") nullcheak = 1;
         space(spacecount(1));
@@ -202,7 +204,7 @@ public class Coding : MonoBehaviour
         y++;
         while (functionArray[i,x, y] != "ForEnd_prefab")
         {
-            CodingCheck();
+            CodingCheck(i);
         }
         y++;
         space(spacecount(0));
@@ -210,7 +212,7 @@ public class Coding : MonoBehaviour
         ifcount -= 1;
     }
 
-    void SubCode_Calc(int i)
+    void Code_Calc(int i)
     {
         if (contentPlus[i,x, y] == null || contentPlus[i,x, y] == "") nullcheak = 1;
         space(spacecount(1));
@@ -218,7 +220,7 @@ public class Coding : MonoBehaviour
         Code.text += ";\n";
         y++;
     }
-    public void SubCode_If(int i)
+    public void Code_If(int i)
     {
         // 条件が空欄じゃないことを確認する
         if (contentPlus[i,x, y] == null || contentPlus[i,x, y] == "") nullcheak = 1;
@@ -236,7 +238,7 @@ public class Coding : MonoBehaviour
         while (functionArray[i,x, y]!= "Corner1_prefab")
         {
             //コーディングチェックで下方向に探索、またifが見つかったら再帰呼び出しみたいになる
-            CodingCheck();
+            CodingCheck(i);
         }
         //コーナ1まで行ったら、最初の開始地点まで戻る
         y = imaif;
@@ -255,7 +257,7 @@ public class Coding : MonoBehaviour
         //コーナ2が見つかるまで下方向に探索
         while (functionArray[i,x, y] != "Corner2_prefab")
         {
-            CodingCheck();
+            CodingCheck(i);
         }
         //最初のifのx座標をあわせるためにオーメンに任せる
         x = x - scatterx;
@@ -266,39 +268,8 @@ public class Coding : MonoBehaviour
         ifcount -= 1;
     }
     //中身見て出力するだけ
-    public void Code_Printf()
-    {
-        space(spacecount(1));
-        switch (kata[x, y])
-        {
-            case " ":
-                Code.text += "printf(" + '"' + content[x, y] + '"' + ")" + ";";
-                Code.text += "\n";
-                y++;
-                break;
 
-            case "int":
-                Code.text += "printf(" + '"' + "%d" + '"' +","+content[x,y]+ ")" + ";";
-                Code.text += "\n";
-                y++;
-                break;
-            case "float":
-                Code.text += "printf(" + '"' + "%f" + '"' + "," + content[x, y] + ")" + ";";
-                Code.text += "\n";
-                y++;
-                break;
-            case "char":
-                Code.text += "printf(" + '"' + "%s" + '"' + "," + content[x, y] + ")" + ";";
-                Code.text += "\n";
-                y++;
-                break;
-            default:
-                y++;
-                break;
-        }
-    }
-
-    public void SubCode_Printf(int i)
+    public void Code_Printf(int i)
     {
         space(spacecount(1));
         switch (kataPlus[i,x, y])
@@ -330,111 +301,10 @@ public class Coding : MonoBehaviour
                 break;
         }
     }
-    //下方向にどんどん進んで、何があるか調べる
-    public void CodingCheck()
-    {
-        switch (objectArray[x, y].name)
-        {
-            case "Printf_prefab":
-                Code_Printf();
-                // Debug.Log(maxRow);
-                break;
-
-            case "If_prefab":
-                Code_If();
-                break;
-            case "Calc_prefab":
-                Code_Calc();
-                break;
-            case "ForStart_prefab":
-                Code_For();
-                break;
-            case "Subrutine_prefab":
-                Code_Subrutine();
-                break;
-            default:
-                y++;
-                break;
-
-        }
-    }
 
     public void Code_Subrutine()
     {
       //  Code.text += ;
-    }
-    public void Code_If()
-    {
-        // 条件が空欄じゃないことを確認する
-        if (content[x, y] == null || content[x, y] == "") nullcheak = 1;
-        //ifの開始座標を記録する変数を用意
-        int imaif;
-        imaif = y;
-        //コーディングのときの見栄えを良くする
-        space(spacecount(1));
-        ifcount++;
-        y++;
-        Code.text += "if(" + content[x, y - 1] + ")" + "{\n";
-
-        //まずはtrueの方を調べる、コーナ1prefabが見つかるまで探索する
-
-        while (objectArray[x, y].name != "Corner1_prefab")
-        {
-            //コーディングチェックで下方向に探索、またifが見つかったら再帰呼び出しみたいになる
-            CodingCheck();
-        }
-        //コーナ1まで行ったら、最初の開始地点まで戻る
-        y = imaif;
-        space(spacecount(0));
-        Code.text += "}else{\n";
-        //ifの開始地点から否定側の分が横にどのくらいずれているかを確認する
-        int scatterx = 1;        
-        //否定側は、（横だけ→縦だけ）または(ifprefab→たてだけ）のどっちか
-        while (!((objectArray[x + 1, y].name == "Tatedake_prefab") && ((objectArray[x, y].name == "If_prefab") || (objectArray[x, y].name == "Yokodake_prefab"))))
-        {
-            scatterx++;
-            x++;
-        }
-        x++;
-        y++;
-        //コーナ2が見つかるまで下方向に探索
-            while (objectArray[x, y].name != "Corner2_prefab")
-        {
-            CodingCheck();
-        }
-        //最初のifのx座標をあわせるためにオーメンに任せる
-        x=x-scatterx;
-        //1マス下に行くと、ifを離脱する
-        y++;
-        space(spacecount(0));
-        Code.text += "}\n";
-        ifcount -=1;
-    }
-
-    public void Code_Calc()
-    {
-        if (content[x, y] == null || content[x, y] == "") nullcheak = 1;
-        space(spacecount(1));
-        Code.text += content[x,y];
-        Code.text += ";\n";
-        y++;
-    }
-
-    public void Code_For()
-    {
-        if (content[x, y] == null || content[x, y] == "") nullcheak = 1;
-        space(spacecount(1));
-        ifcount++;
-        Code.text += "for(" + content[x, y] + ")" + "{\n";
-        y++;
-        while (objectArray[x, y].name != "ForEnd_prefab")
-        {
-            CodingCheck();
-        }
-        y++;
-        space(spacecount(0));
-        Code.text += "}\n";
-        ifcount -= 1;
     }
 
     //任意の数だけ\tしてくれる
