@@ -188,8 +188,8 @@ public class Coding : MonoBehaviour
             case "ForStart_prefab":
                 Code_For(i);
                 break;
-            case "Subrutine_prefab":
-             //   Code_Subrutine();
+            case "Subroutine_prefab":
+                Code_Subrutine(i);
                 break;
             default:
                 y++;
@@ -307,7 +307,10 @@ public class Coding : MonoBehaviour
 
     public void Code_Subrutine(int i)
     {
-      //Code.text += ""
+        space(spacecount(1));
+        Code.text += contentPlus[i, x, y];
+        Code.text += "\n";
+        y++;
     }
 
     //任意の数だけ\tしてくれる

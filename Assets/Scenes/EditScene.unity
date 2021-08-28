@@ -3910,7 +3910,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxColumn: 0
-  maxRow: 0
   column: 0
   row: 0
   objectName: 
@@ -4102,7 +4101,6 @@ MonoBehaviour:
   XonSentry: 0
   TempArgCount: 0
   tempfunctionname: 
-  Subroutinecs: {fileID: 1750697114}
 --- !u!4 &274685831
 Transform:
   m_ObjectHideFlags: 0
@@ -12981,7 +12979,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 28809885}
   m_HandleRect: {fileID: 28809884}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -26570,7 +26568,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 274685830}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
-        m_MethodName: Subroutine
+        m_MethodName: SubroutineZ
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
