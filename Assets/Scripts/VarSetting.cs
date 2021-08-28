@@ -746,14 +746,14 @@ public class VarSetting : MonoBehaviour
                 case 0:
                     ireruList.Add("変数(int型)一覧");
                     while(intVarArray[x].varName!=null){
-                        ireruList.Add("int "+intVarArray[x].varName);
+                        ireruList.Add(intVarArray[x].varName);
                         x++;
                     }
                     break;
                 case 1:
                     ireruList.Add("変数(float型)一覧");
                     while(floatVarArray[x].varName!=null){
-                        ireruList.Add("float "+floatVarArray[x].varName);
+                        ireruList.Add(floatVarArray[x].varName);
                         x++;
                     }
                     break;

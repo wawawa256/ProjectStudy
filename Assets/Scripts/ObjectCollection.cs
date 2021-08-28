@@ -108,7 +108,7 @@ public class ObjectCollection : MonoBehaviour
 
     //関数が選択されたときに呼び出し
     //OnValueChengedで動かす
-    public void Subroutine()
+    public void SubroutineZ()
     {
         int i,j;
         int dim;
@@ -1896,6 +1896,9 @@ public class ObjectCollection : MonoBehaviour
     Vector3 Zerochan= new Vector3(0f,0f,0f);
     public static GameObject[] TempArgumentArray = new GameObject[64];
     public int TempArgCount =0;
+    public static string[] NameArray = new string[64];
+    public string tempfunctionname;
+    //public GameObject Subroutinecs; // subroutine,関数名にもあって変数取り出しできなかったから、やむを得ず、また、この、クソカスなやつ、やります。。。
     public void ayataka(){
         foreach(GameObject q in TempArgumentArray){
             Destroy(q);
@@ -1933,6 +1936,10 @@ public class ObjectCollection : MonoBehaviour
             inputfield.onEndEdit.AddListener(OnEditActionInputfield);
         }
         TempArgCount=i-1; //i番目がnullなのだから、i-1番目まで
+        NameArray=Subroutine.nameArray;
+        tempfunctionname=NameArray[choice];
+        content[CurrentColumn,CurrentRow]=tempfunctionname+"();";
+        SubrDisplay.text=content[CurrentColumn,CurrentRow];
     }
 
     public void FakeUpdateDD(int value){
@@ -1969,8 +1976,8 @@ public class ObjectCollection : MonoBehaviour
                 UwU +=", ";
             }
         }
-        SubrDisplay.text=UwU;
-        content[CurrentColumn,CurrentRow]=UwU;
+        SubrDisplay.text=tempfunctionname+"("+ UwU +");";
+        content[CurrentColumn,CurrentRow]=tempfunctionname+"("+ UwU +");";
     }
 
     public void reload()
