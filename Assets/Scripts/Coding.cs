@@ -11,7 +11,7 @@ public class Coding : MonoBehaviour
     public static string[,] content;
     public static string[,] kata;
     public int maxColumn;
-    public int maxRow;
+    public static int[] maxRow = new int[128];
     public int column;
     public int row;
     int x, y,ifcount,nullcheak;
@@ -108,7 +108,7 @@ public class Coding : MonoBehaviour
         nullcheak = 0;
         ifcount = 0;
         //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
-        while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
+        while ((((x != 0) || (y != maxRow[0])) && (nullcheak == 0)))
         {
             CodingCheck(0);
         }
@@ -135,7 +135,10 @@ public class Coding : MonoBehaviour
         nullcheak = 0;
         ifcount = 0;
         Code.text += FormatToStr(formatArray[function]) + " " + nameArray[function] + "(" + argset(function) + "){\n";
-        CodingCheck(function);
+        while ((((x != 0) || (y != maxRow[function])) && (nullcheak == 0)))
+        {
+            CodingCheck(function);
+        }
         space(spacecount(0));
         Code.text += "}\n";
     }
@@ -302,9 +305,9 @@ public class Coding : MonoBehaviour
         }
     }
 
-    public void Code_Subrutine()
+    public void Code_Subrutine(int i)
     {
-      //  Code.text += ;
+      //Code.text += ""
     }
 
     //任意の数だけ\tしてくれる
