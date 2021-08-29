@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 1572995649540253563}
   - component: {fileID: 1572995649540253562}
   m_Layer: 5
-  m_Name: "\u5F15\u6570\u3044\u3063\u3071\u3044\u3077\u308C\u3075\u3041\u3076\u3061\u3083\u305D"
+  m_Name: hikisuuippai
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

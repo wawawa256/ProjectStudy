@@ -80,6 +80,8 @@ public class ObjectCollection : MonoBehaviour
 
     int ifCount;
 
+    public static int codingflag = 0;
+
     int preColumn;
     int preRow;
 
@@ -108,17 +110,25 @@ public class ObjectCollection : MonoBehaviour
 
     //関数が選択されたときに呼び出し
     //OnValueChengedで動かす
+
+    public void CodingRoad()
+    {
+        codingflag = 1;
+        SubroutineZ();
+
+    }
     public void SubroutineZ()
     {
         int i,j;
         int dim;
-
+        int preCurrentFunction = CurrentFunction;
         if(ifFlag==1 || forFlag==1)
         {
             messageText.text =
                 "関数を切り替える前に終点の設置を完了してください";
             return;
         }
+
 
         //別の関数に切り替わるときに今の関数の情報を保存する
         for(i=0;i<64;i++)
@@ -143,6 +153,12 @@ public class ObjectCollection : MonoBehaviour
         CurrentFunction = FunctionDropdown.value;
         Debug.Log(CurrentFunction + "の関数が呼び出し中");
 
+        if (codingflag == 1)
+        {
+            Debug.Log("再読み込み");
+            CurrentFunction = preCurrentFunction;
+        }
+        codingflag = 0;
         Reset();
         for (i=0;i<64;i++)
         {

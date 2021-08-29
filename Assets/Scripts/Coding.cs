@@ -20,6 +20,7 @@ public class Coding : MonoBehaviour
     public static int floatCount;
     public static int stringCount;
     public static int functionCount;
+    public static int codingflag = 0;
     public static string[] saveintvalueArray = new string[128];
     public static string[] saveintnameArray = new string[128];
     public static string[] savefloatvalueArray = new string[128];
@@ -43,6 +44,7 @@ public class Coding : MonoBehaviour
         y = 0;
         ifcount = 0;
         nullcheak = 0;
+        codingflag = ObjectCollection.codingflag;
         objectArray = ObjectCollection.objectArray;
         maxColumn = ObjectCollection.maxColumn;
         maxRow = ObjectCollection.maxRow;
@@ -117,7 +119,7 @@ public class Coding : MonoBehaviour
         if (nullcheak == 1)
         {
             Code.text = null;
-            Code.text =( "入力された情報が不十分なブロックが存在します");
+            Code.text =( "\n\n入力された情報が不十分なブロックが存在します\nif,calc,forを確認してください");
         }
         else
         {
@@ -126,6 +128,7 @@ public class Coding : MonoBehaviour
         }
 
         GUIUtility.systemCopyBuffer = Code.text;
+        
     }
 
     public void Subroutine_Coding(int function)
@@ -176,7 +179,6 @@ public class Coding : MonoBehaviour
         {
             case "Printf_prefab":
                 Code_Printf(i);
-                Debug.Log("ptrinfだよ");
                 break;
 
             case "If_prefab":
