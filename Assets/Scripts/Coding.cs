@@ -123,7 +123,6 @@ public class Coding : MonoBehaviour
         }
         else
         {
-            Code.text += "\t\treturn 0;\n";
             Code.text += "}";
         }
 
@@ -180,7 +179,9 @@ public class Coding : MonoBehaviour
             case "Printf_prefab":
                 Code_Printf(i);
                 break;
-
+            case "WhileStart_prefab":
+                Code_While(i);
+                break;
             case "If_prefab":
                 Code_If(i);
                 break;
@@ -193,11 +194,21 @@ public class Coding : MonoBehaviour
             case "Subroutine_prefab":
                 Code_Subrutine(i);
                 break;
+            case "Return_prefab":
+                Code_Return(i);
+                break;
             default:
                 y++;
                 break;
 
         }
+    }
+
+    public void Code_Return(int i)
+    {
+        space(spacecount(1));
+        Code.text += contentPlus[i, x, y] + "\n";
+        y++;
     }
 
     void Code_For(int i)
@@ -208,6 +219,23 @@ public class Coding : MonoBehaviour
         Code.text += "for(" + contentPlus[i,x, y] + ")" + "{\n";
         y++;
         while (functionArray[i,x, y] != "ForEnd_prefab")
+        {
+            CodingCheck(i);
+        }
+        y++;
+        space(spacecount(0));
+        Code.text += "}\n";
+        ifcount -= 1;
+    }
+
+    void Code_While(int i)
+    {
+        if (contentPlus[i, x, y] == null || contentPlus[i, x, y] == "") nullcheak = 1;
+        space(spacecount(1));
+        ifcount++;
+        Code.text += "while(" + contentPlus[i, x, y] + ")" + "{\n";
+        y++;
+        while (functionArray[i, x, y] != "WhileEnd_prefab")
         {
             CodingCheck(i);
         }

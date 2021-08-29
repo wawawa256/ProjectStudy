@@ -34460,7 +34460,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1682481288}
         m_TargetAssemblyTypeName: ButtonScript, Assembly-CSharp
-        m_MethodName: ArgsSetButtonChange
+        m_MethodName: WhileButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -724,6 +724,7 @@ public class ObjectCollection : MonoBehaviour
 
         Replace();
         ObjectInstall(Return_prefab);
+        content[CurrentColumn, CurrentRow] = "return 0";
         ButtonClicked();
         CurrentPosition();
         whetherIf = false;
