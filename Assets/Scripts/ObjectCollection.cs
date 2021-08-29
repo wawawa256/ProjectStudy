@@ -46,6 +46,7 @@ public class ObjectCollection : MonoBehaviour
     public GameObject Calc_prefab;
     public GameObject Break_prefab;
     public GameObject Subroutine_prefab;
+    public GameObject Return_prefab;
     public GameObject Args_prefab;
     public GameObject argsViewContent;
 
@@ -251,6 +252,7 @@ public class ObjectCollection : MonoBehaviour
         case "WhileEnd_prefab":return WhileEnd_prefab;
         case "Break_prefab":return Break_prefab;
         case "Subroutine_prefab":return Subroutine_prefab;
+        case "Return_prefab":return Return_prefab;
         default: return null;
         }
     }
@@ -272,6 +274,7 @@ public class ObjectCollection : MonoBehaviour
         ObjectInstall(Blank_prefab);
         CurrentPlace.transform.position = new Vector3(startX,startY,-1.0f);
         messageText = messageText.GetComponent<Text>();
+        messageText.text = "";
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
         makeInstance();
         
@@ -344,6 +347,7 @@ public class ObjectCollection : MonoBehaviour
                 CurrentColumn = jibunX;
                 CurrentRow = jibunY;
                 CurrentPosition();
+                messageText.text = "";
             }
         } 
     }
@@ -479,6 +483,9 @@ public class ObjectCollection : MonoBehaviour
             break;
         case "Subroutine_prefab":
             ObjectText.text = "Subroutine";
+            break;
+        case "Return_prefab":
+            ObjectText.text = "return";
             break;
         }
         else
@@ -693,17 +700,29 @@ public class ObjectCollection : MonoBehaviour
         whetherIf = false;
     }
 
+    public void ReturnButtonClicked()
+    {
+        BeyondDimension();
+        tempRow = CurrentRow;
+        tempColumn = CurrentColumn;
+
+        Replace();
+        ObjectInstall(Return_prefab);
+        ButtonClicked();
+        CurrentPosition();
+        whetherIf = false;
+    }
+
     //全ボタン共通
     void ButtonClicked()
     {
         countColumnRow();
         WireSetting();
-
         //オブジェクトを途中で挿入しないかどうか
         //(新しい空白を必要とするかどうか)
         if (objectArray[CurrentColumn,CurrentRow+1]!= null)
         {
-            if(objectArray[CurrentColumn,CurrentRow+1].name=="Corner2_prefab") return;
+            if(objectArray[CurrentColumn,CurrentRow+1].name == "Corner2_prefab") return;
         }
         else if(CheckResult) return;
         else if(objectArray[CurrentColumn,CurrentRow+1] == null)
@@ -864,6 +883,12 @@ public class ObjectCollection : MonoBehaviour
             case "ForStart_prefab":
                 SaveobjectArray[Column, Raw] = "ForStart_prefab";
                 break;
+            case "WhileEnd_prefab":
+                SaveobjectArray[Column, Raw] = "WhileEnd_prefab";
+                break;
+            case "WhileStart_prefab":
+                SaveobjectArray[Column, Raw] = "WhileStart_prefab";
+                break;
             case "Corner1_prefab":
                 SaveobjectArray[Column, Raw] = "Corner1_prefab";
                 break;
@@ -873,12 +898,22 @@ public class ObjectCollection : MonoBehaviour
             case "Calc_prefab":
                 SaveobjectArray[Column, Raw] = "Calc_prefab";
                 break;
+            case "Break_prefab":
+                SaveobjectArray[Column, Raw] = "Break_prefab";
+                break;
+            case "Subroutine_prefab":
+                SaveobjectArray[Column, Raw] = "Subroutine_prefab";
+                break;
+            case "Return_prefab":
+                SaveobjectArray[Column, Raw] = "Return_prefab";
+                break;
             case "Tatedake_prefab":
                 SaveobjectArray[Column, Raw] = "Tatedake_prefab";
                 break;
             case "Yokodake_prefab":
                 SaveobjectArray[Column, Raw] = "Yokodake_prefab";
                 break;
+            
 
         }
        // Debug.Log(SaveobjectArray[Column, Raw]);
@@ -899,7 +934,9 @@ public class ObjectCollection : MonoBehaviour
             {
                 if (objectArray[i, j] != null)
                 {
-                    ObjectToString(objectArray[i, j].name, i, j);
+                    //勝手に実験、わざわざ自作関数に入れる必要ある？？？
+                    //ObjectToString(objectArray[i, j].name, i, j);
+                    SaveobjectArray[i,j] = objectArray[i, j].name;
                 }
             }
         }
@@ -966,50 +1003,6 @@ public class ObjectCollection : MonoBehaviour
                 GameObject Prefab;
 
                 Prefab = ObjectSearch(SaveobjectArray[i,j]);
-                /*switch (SaveobjectArray[i, j])
-                {
-                    case "Printf_prefab":
-                        Prefab = Printf_prefab;
-                        //Debug.Log(Prefab);
-                        break;
-                    case "Blank_prefab":
-                        Prefab = Blank_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "If_prefab":
-                        Prefab = If_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "ForEnd_prefab":
-                        Prefab = ForEnd_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "ForStart_prefab":
-                        Prefab = ForStart_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "Corner1_prefab":
-                        Prefab = Corner1_prefab;
-                        //Debug.Log(Prefab);
-                        break;
-                    case "Corner2_prefab":
-                        Prefab = Corner2_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "Calc_prefab":
-                        Prefab = Calc_prefab;
-                        break;
-                    case "Yokodake_prefab":
-                        Prefab = Yokodake_prefab;
-                        break;
-                    case "Tatedake_prefab":
-                        Prefab = Tatedake_prefab;
-                        break;
-                    default:
-                        Prefab = null;
-                        break;
-                }*/
-                //nullはinstantiate不可
                 CurrentColumn = i;
                 CurrentRow = j;
                 if (Prefab != null)
@@ -1055,7 +1048,6 @@ public class ObjectCollection : MonoBehaviour
         InOutCheck = false;
         act = false;
         //Debug.Log(CurrentRow);
-        messageText.text = "";
         if(ifFlag==1 || forFlag==1)
         {
             if(CurrentColumn!=tempColumn)
@@ -1264,6 +1256,11 @@ public class ObjectCollection : MonoBehaviour
                         break;
                     
                     case "Subroutine_prefab":
+                        WireInstall(Wire_prefab);
+                        break;
+
+                    case "Return_prefab":
+                        //いらないかも
                         WireInstall(Wire_prefab);
                         break;
 
@@ -2092,9 +2089,10 @@ public class ObjectCollection : MonoBehaviour
                 content[i, j] = content3D[TheDimension, i, j];
                 kata[i, j] = kata3D[TheDimension, i, j];
                 GameObject Prefab;
+                Prefab = ObjectSearch(objectArray3D[TheDimension,i, j]);
+                /*
                 switch (objectArray3D[TheDimension,i, j])
                 {
-
                     case "Printf_prefab":
                         Prefab = Printf_prefab;
                         //Debug.Log(Prefab);
@@ -2136,6 +2134,7 @@ public class ObjectCollection : MonoBehaviour
                         Prefab = null;
                         break;
                 }
+                */
                 CurrentColumn = i;
                 CurrentRow = j;
                 if (Prefab != null)
