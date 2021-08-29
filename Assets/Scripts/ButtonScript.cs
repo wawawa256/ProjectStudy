@@ -34,6 +34,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject BreakButton;
     public GameObject SubroutineButton;
     public GameObject CalcButton;
+    public GameObject ReturnButton;
 
     bool PrintButtonActivity;
     bool IfStartButtonActivity;
@@ -204,6 +205,7 @@ public class ButtonScript : MonoBehaviour
         CalcButton.SetActive(false);
         BreakButton.SetActive(false);
         SubroutineButton.SetActive(false);
+        ReturnButton.SetActive(false);
 
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
@@ -219,6 +221,7 @@ public class ButtonScript : MonoBehaviour
         CalcButton.SetActive(true);
         BreakButton.SetActive(true);
         SubroutineButton.SetActive(true);
+        ReturnButton.SetActive(true);
 
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
