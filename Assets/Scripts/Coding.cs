@@ -207,7 +207,7 @@ public class Coding : MonoBehaviour
     public void Code_Return(int i)
     {
         space(spacecount(1));
-        Code.text += contentPlus[i, x, y] + "\n";
+        Code.text += contentPlus[i, x, y] + ";\n";
         y++;
     }
 
