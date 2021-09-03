@@ -11,6 +11,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject AddVarPanel;
     public GameObject AddFunctionPanel;
     public GameObject VarListPanel;
+    public GameObject ArgsSetPanel;
     public GameObject UIButtons;
 
     bool AddpanelActivity;
@@ -19,6 +20,7 @@ public class ButtonScript : MonoBehaviour
     bool AddVarPanelActivity;
     bool AddFunctionPanelActivity;
     bool VarListPanelActivity;
+    bool ArgsSetPanelActivity;
     bool UIButtonsActivity;
 
     //if、for用
@@ -46,12 +48,14 @@ public class ButtonScript : MonoBehaviour
     public GameObject ForMenu;
     public GameObject CalcMenu;
     public GameObject WhileMenu;
+    public GameObject SubrMenu;
 
     public Text PrintfDisplay;
     public Text IfDisPlay;
     public Text ForDisplay;
     public Text CalcDisplay;
     public Text WhileDisplay;
+    public Text SubrDisplay;
 
     int ifFlag;
     int forFlag;
@@ -103,6 +107,13 @@ public class ButtonScript : MonoBehaviour
         AddFunctionPanel.SetActive(!AddFunctionPanelActivity);
     }
 
+    public void ArgsSetButtonChange()
+    {
+        ArgsSetPanelActivity = ArgsSetPanel.activeInHierarchy;
+        ArgsSetPanel.SetActive(!ArgsSetPanelActivity);
+    }
+
+
     public void CodePanelChange()
     {
         CodepanelActivity = CodePanel.activeInHierarchy;
@@ -124,6 +135,12 @@ public class ButtonScript : MonoBehaviour
         AddFunctionPanel.SetActive(false);
         CodePanel.SetActive(false);
         VarListPanel.SetActive(false);
+        ArgsSetPanel.SetActive(false);
+        PrintfMenu.SetActive(false);
+        IfMenu.SetActive(false);
+        ForMenu.SetActive(false);
+        CalcMenu.SetActive(false);
+        WhileMenu.SetActive(false);
     }
 
     public void UICallButtonClicked()
@@ -219,12 +236,14 @@ public class ButtonScript : MonoBehaviour
         ForDisplay = ForDisplay.GetComponent<Text>();
         CalcDisplay = CalcDisplay.GetComponent<Text>();
         WhileDisplay = WhileDisplay.GetComponent<Text>();
+        SubrDisplay = SubrDisplay.GetComponent<Text>();
         int imanani = ObjectCollection.ItemCheck2();
         bool IfMenuActivity = IfMenu.activeInHierarchy;
         bool PrintfMenuActivity = PrintfMenu.activeInHierarchy;
         bool ForMenuActivity = ForMenu.activeInHierarchy;
         bool CalcMenuActivity = CalcMenu.activeInHierarchy;
         bool WhileMenuActivity = WhileMenu.activeInHierarchy;
+        bool SubrMenuActivity = SubrMenu.activeInHierarchy;
         string DataHere = 
             ObjectCollection.content[ObjectCollection.CurrentColumn,ObjectCollection.CurrentRow];
 
@@ -257,6 +276,13 @@ public class ButtonScript : MonoBehaviour
         {
             WhileDisplay.text=DataHere;
             WhileMenu.SetActive(!WhileMenuActivity);
+            ObjectCollection.touch_flag=0;
+        }
+        else if(imanani==9)
+        {
+            SubrDisplay.text=DataHere;
+            SubrMenu.SetActive(!SubrMenuActivity);
+            ObjectCollection.soukenbicha();
             ObjectCollection.touch_flag=0;
         }
         else
