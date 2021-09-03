@@ -11,7 +11,7 @@ public class Coding : MonoBehaviour
     public static string[,] content;
     public static string[,] kata;
     public int maxColumn;
-    public int maxRow;
+    public static int[] maxRow = new int[128];
     public int column;
     public int row;
     int x, y,ifcount,nullcheak;
@@ -20,6 +20,7 @@ public class Coding : MonoBehaviour
     public static int floatCount;
     public static int stringCount;
     public static int functionCount;
+    public static int codingflag = 0;
     public static string[] saveintvalueArray = new string[128];
     public static string[] saveintnameArray = new string[128];
     public static string[] savefloatvalueArray = new string[128];
@@ -43,6 +44,7 @@ public class Coding : MonoBehaviour
         y = 0;
         ifcount = 0;
         nullcheak = 0;
+        codingflag = ObjectCollection.codingflag;
         objectArray = ObjectCollection.objectArray;
         maxColumn = ObjectCollection.maxColumn;
         maxRow = ObjectCollection.maxRow;
@@ -108,7 +110,7 @@ public class Coding : MonoBehaviour
         nullcheak = 0;
         ifcount = 0;
         //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
-        while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
+        while ((((x != 0) || (y != maxRow[0])) && (nullcheak == 0)))
         {
             CodingCheck(0);
         }
@@ -117,15 +119,15 @@ public class Coding : MonoBehaviour
         if (nullcheak == 1)
         {
             Code.text = null;
-            Code.text =( "入力された情報が不十分なブロックが存在します");
+            Code.text =( "\n\n入力された情報が不十分なブロックが存在します\nif,calc,forを確認してください");
         }
         else
         {
-            Code.text += "\t\treturn 0;\n";
             Code.text += "}";
         }
 
         GUIUtility.systemCopyBuffer = Code.text;
+        
     }
 
     public void Subroutine_Coding(int function)
@@ -135,7 +137,10 @@ public class Coding : MonoBehaviour
         nullcheak = 0;
         ifcount = 0;
         Code.text += FormatToStr(formatArray[function]) + " " + nameArray[function] + "(" + argset(function) + "){\n";
-        CodingCheck(function);
+        while ((((x != 0) || (y != maxRow[function])) && (nullcheak == 0)))
+        {
+            CodingCheck(function);
+        }
         space(spacecount(0));
         Code.text += "}\n";
     }
@@ -173,9 +178,10 @@ public class Coding : MonoBehaviour
         {
             case "Printf_prefab":
                 Code_Printf(i);
-                Debug.Log("ptrinfだよ");
                 break;
-
+            case "WhileStart_prefab":
+                Code_While(i);
+                break;
             case "If_prefab":
                 Code_If(i);
                 break;
@@ -185,14 +191,24 @@ public class Coding : MonoBehaviour
             case "ForStart_prefab":
                 Code_For(i);
                 break;
-            case "Subrutine_prefab":
-             //   Code_Subrutine();
+            case "Subroutine_prefab":
+                Code_Subrutine(i);
+                break;
+            case "Return_prefab":
+                Code_Return(i);
                 break;
             default:
                 y++;
                 break;
 
         }
+    }
+
+    public void Code_Return(int i)
+    {
+        space(spacecount(1));
+        Code.text += contentPlus[i, x, y] + ";\n";
+        y++;
     }
 
     void Code_For(int i)
@@ -203,6 +219,23 @@ public class Coding : MonoBehaviour
         Code.text += "for(" + contentPlus[i,x, y] + ")" + "{\n";
         y++;
         while (functionArray[i,x, y] != "ForEnd_prefab")
+        {
+            CodingCheck(i);
+        }
+        y++;
+        space(spacecount(0));
+        Code.text += "}\n";
+        ifcount -= 1;
+    }
+
+    void Code_While(int i)
+    {
+        if (contentPlus[i, x, y] == null || contentPlus[i, x, y] == "") nullcheak = 1;
+        space(spacecount(1));
+        ifcount++;
+        Code.text += "while(" + contentPlus[i, x, y] + ")" + "{\n";
+        y++;
+        while (functionArray[i, x, y] != "WhileEnd_prefab")
         {
             CodingCheck(i);
         }
@@ -302,9 +335,12 @@ public class Coding : MonoBehaviour
         }
     }
 
-    public void Code_Subrutine()
+    public void Code_Subrutine(int i)
     {
-      //  Code.text += ;
+        space(spacecount(1));
+        Code.text += contentPlus[i, x, y];
+        Code.text += "\n";
+        y++;
     }
 
     //任意の数だけ\tしてくれる

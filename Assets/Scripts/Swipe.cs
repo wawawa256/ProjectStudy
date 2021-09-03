@@ -25,7 +25,8 @@ public class Swipe : MonoBehaviour
     int CurrentRow;
 
     int maxColumn;
-    int maxRow;
+    public static int[] maxRow = new int[128];
+    public static int CurrentFunction;
     Camera mainCamera;
     float i = 0.0f;
 
@@ -54,11 +55,12 @@ public class Swipe : MonoBehaviour
     {
 
         if(Input.GetMouseButtonDown(0))
-        {    
+        {
+            CurrentFunction = ObjectCollection.CurrentFunction;
             maxColumn = ObjectCollection.maxColumn;
             maxRow = ObjectCollection.maxRow;
             maxPosX = HorizontalSpace * maxColumn;
-            maxPosY = VerticalSpace * maxRow;
+            maxPosY = VerticalSpace * maxRow[CurrentFunction];
 
             StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
             StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
