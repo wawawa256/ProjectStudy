@@ -16,6 +16,7 @@ public class Subroutine : MonoBehaviour
 
     int functionFormat;
     string functionName;
+    
     public static int functionCount;
 
     List<string> reservedWord = new List<string>();
