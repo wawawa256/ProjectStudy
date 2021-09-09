@@ -10,7 +10,7 @@ public class Coding : MonoBehaviour
     public static GameObject[,] objectArray;
     public static string[,] content;
     public static string[,] kata;
-    public int maxColumn;
+    public static int[] maxColumn= new int[128];
     public static int[] maxRow = new int[128];
     public int column;
     public int row;
