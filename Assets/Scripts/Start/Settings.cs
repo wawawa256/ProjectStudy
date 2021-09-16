@@ -5,20 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class Settings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public void wiki()
     {
-        
+        Application.OpenURL("http://ucchon.php.xdomain.jp/wiki.php");
     }
-
-    // Update is called once per frame
-    void Update()
+    public void question()
     {
-        
-    }
-
-    public void OnStart()
-    {
-        SceneManager.LoadScene("Settings");
+        Application.OpenURL("http://ucchon.php.xdomain.jp/newindex.php");
     }
 }
