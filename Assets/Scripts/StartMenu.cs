@@ -7,6 +7,7 @@ public class StartMenu : MonoBehaviour
 {
     public GameObject StartPanel;
     public GameObject SettingPanel;
+    public GameObject SavePanel;
 
     public void OnStart()
     {
@@ -23,5 +24,13 @@ public class StartMenu : MonoBehaviour
     public void SettingClose()
     {
         SettingPanel.SetActive(false);
+    }
+    public void SaveOpen()
+    {
+        SavePanel.SetActive(true);
+    }
+    public void SaveClose()
+    {
+        SavePanel.SetActive(false);
     }
 }
