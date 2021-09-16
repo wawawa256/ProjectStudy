@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 //ふぉっきち
 
@@ -36,7 +37,7 @@ public class Coding : MonoBehaviour
     public static string[,] argsNameArray = new string[64, 128];
     public static int[] argsCount = new int[64];
     public Text Code;
-
+    DateTime TodayNow;
     public void CodeButtonClicked()
     {
         //変数の初期化、ColumnとRow嫌いだからxyに変える
@@ -72,8 +73,9 @@ public class Coding : MonoBehaviour
         Code = Code.GetComponent<Text>();
 
         //最初の決り文句みたいなやつ入れる
+        TodayNow = DateTime.Now;
         Code.text = null;
-        Code.text += "\n\n";
+        Code.text += "//"+TodayNow.Year.ToString() + "年 " + TodayNow.Month.ToString() + "月" + TodayNow.Day.ToString() + "日" + DateTime.Now.ToLongTimeString() +"\n\n\n";
         Code.text += "#include<stdio.h>\n";
 
 
