@@ -5,14 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class StartMenu : MonoBehaviour
 {
-    public GameObject StartPanel;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
 
     public void OnStart()
     {
-        StartPanel.SetActive(false);
-    }
-    public void StartClose()
-    {
-        StartPanel.SetActive(true);
+        SceneManager.LoadScene("EditScene");
     }
 }
