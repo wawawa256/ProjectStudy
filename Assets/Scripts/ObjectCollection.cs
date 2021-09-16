@@ -30,6 +30,7 @@ public class ObjectCollection : MonoBehaviour
     public static int[] DimensionalRow = new int[256];
     public static int[] ifCount2D = new int[256];
 
+
     //オブジェクトのプロトタイプ宣言
     public GameObject CurrentPlace;
     public GameObject Printf_prefab;
@@ -103,6 +104,11 @@ public class ObjectCollection : MonoBehaviour
     public static int functionCount;
     int[] ifCountPlus = new int[64];
     Ifreference[,] ifArrayPlus = new Ifreference[64,128];
+
+    //セーブしたい!!!!!!
+    public static string[] nameArray = new string[256];
+    public static int[] formatArray = new int[256];
+    public List<string> optionsList = new List<string>();
 
     //セーブ必要[関数番号,column,row]
     public static string[,,] functionArray = new string[64,128,256];
@@ -286,14 +292,14 @@ public class ObjectCollection : MonoBehaviour
         preColumn = 0;
         preRow = 0;
         CurrentFunction = 0;
-        functionCount = 1;
         ObjectInstall(Blank_prefab);
         CurrentPlace.transform.position = new Vector3(startX,startY,-1.0f);
         messageText = messageText.GetComponent<Text>();
         messageText.text = "";
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
         makeInstance();
-        
+        nameArray = Subroutine.nameArray;
+        formatArray = Subroutine.formatArray;
         //contentの型用
         for (int i = 0; i < 64; i++)
         {
@@ -938,53 +944,60 @@ public class ObjectCollection : MonoBehaviour
 
     public void Saveuhihihi()
     {
+        functionCount = Subroutine.functionCount;
         //Debug.Log(maxColumn[CurrentFunction]);
         //Debug.Log(maxRow[CurrentFunction]);
         int i, j;
         i = 0;
         j = 0;
         //gameobject型をstringの配列に変える
+        Debug.Log("maxRow=" +  maxRow[0]);
+        Debug.Log("maxColumn=" + maxColumn[0]);
+        Debug.Log("存在する関数の数=" + functionCount);
         for (int function = 0; function < functionCount; function++)
         {
-            for (i = 0; i < maxColumn[CurrentFunction]; i++)
+            for (i = 0; i < maxColumn[function]; i++)
             {
                 for (j = 0; j < maxRow[function]; j++)
                 {
-                    if (objectArray[i, j] != null)
-                    {
                         PlayerPrefs.SetString("ObjectArray" + function + i + j, functionArray[function, i, j]);
                         PlayerPrefs.SetString("contentArray" + function + i + j, contentPlus[function, i, j]);
                         PlayerPrefs.SetString("kataArray" + function + i + j, kataPlus[function, i, j]);
                         PlayerPrefs.SetInt("maxRow[CurrentFunction]" + function, maxRow[function]);
                         PlayerPrefs.SetInt("maxColumn[CurrentFunction]"+ function, maxColumn[function]);
-
-
-                    }
+                        PlayerPrefs.SetString("nameArray" + function, nameArray[function]);
+                        PlayerPrefs.SetInt("formatArray" + function, formatArray[function]);
+                        
                 }
             }
         }
-
-
+        PlayerPrefs.SetInt("functionCount", functionCount);
         PlayerPrefs.Save();
     }
 
     //ストレージから読み込み
     public void Loaduhihihi()
     {
+        functionCount=PlayerPrefs.GetInt("functionCount", 1);
+        Debug.Log("セーブ後"+functionCount);
         for (int function = 0; function < functionCount; function++) {
-            for (int i = 0; i < PlayerPrefs.GetInt("maxColumn[CurrentFunction]" + function , 0) + 1; i++)
+
+            maxColumn[function] = PlayerPrefs.GetInt("maxColumn[CurrentFunction]" + function, 0);
+            maxRow[function] = PlayerPrefs.GetInt("maxRow[CurrentFunction]" + function, 0);
+            for (int i = 0; i < maxColumn[function] + 1; i++)
             {
-                for (int j = 0; j < PlayerPrefs.GetInt("maxRow[CurrentFunction]"+ function , 0) + 1; j++)
+                for (int j = 0; j < maxRow[function] + 1; j++)
                 {
-                    SaveobjectArray[i, j] = PlayerPrefs.GetString("ObjectArray" + function + i + j, null);
-                    content[i, j] = PlayerPrefs.GetString("contentArray" + function + i + j, null);
-                    kata[i, j] = PlayerPrefs.GetString("kataArray" + function + i + j, null);
-                    maxColumn[CurrentFunction] = PlayerPrefs.GetInt("maxColumn[CurrentFunction]" + function, 0);
-                    maxRow[0] = PlayerPrefs.GetInt("maxRow[CurrentFunction]" + function, 0);
-                    // Debug.Log(content[i, j]);
+                    functionArray[function,i, j] = PlayerPrefs.GetString("ObjectArray" + function + i + j, null);
+                    contentPlus[function,i, j] = PlayerPrefs.GetString("contentArray" + function + i + j, null);
+                    kataPlus[function,i, j] = PlayerPrefs.GetString("kataArray" + function + i + j, null);
+
+                    nameArray[function] = PlayerPrefs.GetString("nameArray" + function, null);
+                    formatArray[function] = PlayerPrefs.GetInt("formatArray" + function, 0);
                 }
             }
-        }
+    
+    }
         tempColumn = -1;
         tempRow = -1;
         LoadObject();
@@ -993,13 +1006,13 @@ public class ObjectCollection : MonoBehaviour
     void LoadObject()
     {
         //Debug.Log("ろーどかいしするよ");
-        for (int i = 0; i < maxColumn[CurrentFunction]; i++)
+        for (int i = 0; i < maxColumn[0]; i++)
         {
             for (int j = 0; j < maxRow[0]; j++)
             {
                 GameObject Prefab;
 
-                Prefab = ObjectSearch(SaveobjectArray[i,j]);
+                Prefab = ObjectSearch(functionArray[0,i,j]);
                 CurrentColumn = i;
                 CurrentRow = j;
                 if (Prefab != null)
@@ -1018,7 +1031,7 @@ public class ObjectCollection : MonoBehaviour
                     //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
                     objectArray[i, j].name = Prefab.name;
 
-                    functionArray[CurrentFunction,i,j] = objectArray[i, j].name;
+                    functionArray[0,i,j] = objectArray[i, j].name;
 
                     textMake(CurrentColumn, CurrentRow, Prefab.name);
                 }
