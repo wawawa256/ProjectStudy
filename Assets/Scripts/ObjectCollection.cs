@@ -1013,7 +1013,7 @@ public class ObjectCollection : MonoBehaviour
             for (int j = 0; j < maxRow[0]; j++)
             {
                 GameObject Prefab;
-
+                content[i, j] = contentPlus[0, i, j];
                 Prefab = ObjectSearch(functionArray[0,i,j]);
                 CurrentColumn = i;
                 CurrentRow = j;
