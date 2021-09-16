@@ -3989,7 +3989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba2c7da0f189a44a1a7edc19b2db6229, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxColumn: 0
   column: 0
   row: 0
   objectName: 
@@ -4177,6 +4176,7 @@ MonoBehaviour:
   jibunX: 0
   jibunY: 0
   FunctionDropdown: {fileID: 1481378365}
+  optionsList: []
   Tatedake_prefab: {fileID: 7880586597996365381, guid: 6f5ba704e2196f54c904081c27a6a6d1, type: 3}
   Yokodake_prefab: {fileID: 5943651443365725486, guid: 971144e0e4f2ab64a942df5046544c63, type: 3}
   enzansi: 
@@ -25178,8 +25178,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 4.002014, y: 0}
+  m_SizeDelta: {x: 471.724, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1288553039
 MonoBehaviour:
@@ -33568,6 +33568,7 @@ MonoBehaviour:
   FunctionDropdown: {fileID: 1481378365}
   nameText: {fileID: 2071366418}
   messageText: {fileID: 1714211588}
+  optionsList: []
   FuncDropdownSubr: {fileID: 1760423187}
   formatToStr: 
 --- !u!1 &1751183856
