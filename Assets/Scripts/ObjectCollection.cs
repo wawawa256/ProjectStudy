@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 public class ObjectCollection : MonoBehaviour
 {
+    public GameObject StartPanel;
     //オブジェクト配列の宣言
     public static GameObject[,] objectArray = new GameObject[64,128];
     public static string[,] SaveobjectArray = new string[64,128];
@@ -1008,6 +1009,7 @@ public class ObjectCollection : MonoBehaviour
         tempColumn = -1;
         tempRow = -1;
         LoadObject();
+        StartPanel.SetActive(false);
     }
     //再配置
     void LoadObject()
