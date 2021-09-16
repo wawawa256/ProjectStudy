@@ -19,7 +19,7 @@ public class Subroutine : MonoBehaviour
     public static int functionCount;
 
     List<string> reservedWord = new List<string>();
-    List<string> optionsList = new List<string>();
+    public List<string> optionsList = new List<string>();
 
     void Start()
     {
@@ -135,6 +135,7 @@ public class Subroutine : MonoBehaviour
             "関数" + functionName + "が追加されました";
 
         functionCount++;
+        Debug.Log("ふえたよ" + functionCount);
         ResetInputField();
         RefreshOptions();
         return;
