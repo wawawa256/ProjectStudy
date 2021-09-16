@@ -43,6 +43,7 @@ public class ButtonScript : MonoBehaviour
     bool ForEndButtonActivity;
     bool CalcButtonActivity;
     bool WhileMenuActivity;
+    bool ReturnMenuActivity;
 
     public GameObject IfMenu;
     public GameObject PrintfMenu;
@@ -50,6 +51,7 @@ public class ButtonScript : MonoBehaviour
     public GameObject CalcMenu;
     public GameObject WhileMenu;
     public GameObject SubrMenu;
+    public GameObject ReturnMenu;
 
     public Text PrintfDisplay;
     public Text IfDisPlay;
@@ -57,6 +59,7 @@ public class ButtonScript : MonoBehaviour
     public Text CalcDisplay;
     public Text WhileDisplay;
     public Text SubrDisplay;
+    public Text ReturnDisplay;
 
     int ifFlag;
     int forFlag;
@@ -238,6 +241,7 @@ public class ButtonScript : MonoBehaviour
         CalcDisplay = CalcDisplay.GetComponent<Text>();
         WhileDisplay = WhileDisplay.GetComponent<Text>();
         SubrDisplay = SubrDisplay.GetComponent<Text>();
+        ReturnDisplay = ReturnDisplay.GetComponent<Text>();
         int imanani = ObjectCollection.ItemCheck2();
         bool IfMenuActivity = IfMenu.activeInHierarchy;
         bool PrintfMenuActivity = PrintfMenu.activeInHierarchy;
@@ -245,6 +249,7 @@ public class ButtonScript : MonoBehaviour
         bool CalcMenuActivity = CalcMenu.activeInHierarchy;
         bool WhileMenuActivity = WhileMenu.activeInHierarchy;
         bool SubrMenuActivity = SubrMenu.activeInHierarchy;
+        bool ReturnMenuActivity = ReturnMenu.activeInHierarchy;
         string DataHere = 
             ObjectCollection.content[ObjectCollection.CurrentColumn,ObjectCollection.CurrentRow];
 
@@ -284,6 +289,11 @@ public class ButtonScript : MonoBehaviour
             SubrDisplay.text=DataHere;
             SubrMenu.SetActive(!SubrMenuActivity);
             ObjectCollection.soukenbicha();
+            ObjectCollection.touch_flag=0;
+        }
+        else if(imanani==10){
+            ReturnDisplay.text=DataHere;
+            ReturnMenu.SetActive(!ReturnMenuActivity);
             ObjectCollection.touch_flag=0;
         }
         else

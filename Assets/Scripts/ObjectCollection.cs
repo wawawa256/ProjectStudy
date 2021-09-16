@@ -1324,6 +1324,7 @@ public class ObjectCollection : MonoBehaviour
     public InputField ForInputField3; //d
     public InputField WhileInputField1;
     public InputField WhileInputField2;
+    public InputField ReturnInputField;
     //textやつ
     public Text PrintfDisplay;
     public Text IfDisPlay;
@@ -1331,6 +1332,7 @@ public class ObjectCollection : MonoBehaviour
     public Text ForDisplay;
     public Text WhileDisplay;
     public Text SubrDisplay;
+    public Text ReturnDisplay;
     public Dropdown VarDropdownPrintf;
     public Dropdown VarDropdownCalc1;
     public Dropdown VarDropdownCalc2;
@@ -1340,6 +1342,7 @@ public class ObjectCollection : MonoBehaviour
     public Dropdown VarDropdownWhile1;
     public Dropdown VarDropdownWhile2;
     public Dropdown FuncDropdownSubr;
+    public Dropdown VarDropdownReturn;
 
 
     //値取得パート。
@@ -1379,6 +1382,10 @@ public class ObjectCollection : MonoBehaviour
         WhileInputField2.text="";
         return;
     }
+    public void ResetFieldReturn(){
+        ReturnInputField.text="";
+        return;
+    }
     public void zenkesi(){
         GetContentOn2();
         GetContentOn3();
@@ -1414,6 +1421,10 @@ public class ObjectCollection : MonoBehaviour
     }
     public void ResetChoice7(){
         VarDropdownWhile2.value=0;
+        return;
+    }
+    public void ResetChoiceReturn(){
+        VarDropdownReturn.value=0;
         return;
     }
 
@@ -1533,6 +1544,30 @@ public class ObjectCollection : MonoBehaviour
                 WhileDisplay.text = DataHere;
                 content[CurrentColumn, CurrentRow] = DataHere;
                 textMake(CurrentColumn,CurrentRow,"WhileStart_prefab");
+                break;
+
+            case 10://return
+                string vartextreturn;
+                if(VarDropdownReturn.value!=0){
+                    vartextreturn=VarSetting.youshouldrun(VarDropdownReturn.value);
+                }else{
+                    string returninputf=ReturnInputField.text.ToString();
+                    try{
+                        int txt=int.Parse(returninputf);
+                    }catch{
+                        try{
+                            float txtf=float.Parse(returninputf);
+                        }catch{
+                            messageText.text="数値を入力しろ";
+                            break;
+                        }
+                    }
+                    vartextreturn=returninputf;
+                }
+                DataHere=vartextreturn;
+                ReturnDisplay.text=DataHere;
+                content[CurrentColumn,CurrentRow]=DataHere;
+                textMake(CurrentColumn,CurrentRow,"Return_prefab");
                 break;
 
             default:
@@ -1662,6 +1697,9 @@ public class ObjectCollection : MonoBehaviour
 
             case "Subroutine_prefab":
                 return 9;
+
+            case "Return_prefab":
+                return 10;
 
             default:
                 return 0;
