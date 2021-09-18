@@ -129,7 +129,8 @@ public class Coding : MonoBehaviour
         }
 
         GUIUtility.systemCopyBuffer = Code.text;
-        
+        Debug.Log(Code.text);
+        WebPost.sourceCODE=Code.text;
     }
 
     public void Subroutine_Coding(int function)

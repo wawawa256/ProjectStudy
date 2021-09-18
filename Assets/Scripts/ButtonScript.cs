@@ -60,6 +60,10 @@ public class ButtonScript : MonoBehaviour
     public Text SubrDisplay;
     public Text ReturnDisplay;
 
+    //codingpanel用
+    public Text CoderesultDisplay;
+    public GameObject kurukuru;
+
     int ifFlag;
     int forFlag;
     int whileFlag;
@@ -117,6 +121,8 @@ public class ButtonScript : MonoBehaviour
 
     public void CodePanelChange()
     {
+        CoderesultDisplay.text="Loading...";
+        kurukuru.SetActive(true);
         CodepanelActivity = CodePanel.activeInHierarchy;
         PanelClose();
         CodePanel.SetActive(!CodepanelActivity);
@@ -142,6 +148,9 @@ public class ButtonScript : MonoBehaviour
         ForMenu.SetActive(false);
         CalcMenu.SetActive(false);
         WhileMenu.SetActive(false);
+        CalcMenu.SetActive(false);
+        SubrMenu.SetActive(false);
+        ReturnMenu.SetActive(false);
     }
 
     public void UICallButtonClicked()
@@ -233,6 +242,11 @@ public class ButtonScript : MonoBehaviour
     //中身メニューを開こう。メニュー開くボタンにアタッチ
     public void OpenContentMenu()
     {
+
+        // !!! なんか非常にムカついたからcontent開くときだけcodingパネル閉じるようにした。ホントは他のとこにもやるべきなんだろうけど、この辺の全体観がないからはえいわに投げるね（
+        // 上の関数codingbuttonclicked使おうかと思ったんだけどsettingpanelは開いててもよいから普通に消すのみにした
+        CodePanel.SetActive(false);
+
         //text→textcomponent取得する。
         PrintfDisplay = PrintfDisplay.GetComponent<Text>();
         IfDisPlay = IfDisPlay.GetComponent<Text>();
