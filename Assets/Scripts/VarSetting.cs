@@ -694,6 +694,8 @@ public class VarSetting : MonoBehaviour
     public Dropdown VarDropdownIf2;
     public Dropdown VarDropdownWhile1;
     public Dropdown VarDropdownWhile2;
+    public Dropdown VarDropdownReturn;
+    //subrのdropdownはsubrにいます.
 
 
 
@@ -707,13 +709,19 @@ public class VarSetting : MonoBehaviour
         VarDropdownCalc3.ClearOptions();
         VarDropdownWhile1.ClearOptions();
         VarDropdownWhile2.ClearOptions();
+        VarDropdownReturn.ClearOptions();
+
         List<string> list = new List<string>();
+        List<string> retlist = new List<string>();
         list.Add("変数一覧");
+        retlist.Add("変数一覧");
         for(int i=0;i<intCount;i++){
             list.Add("int "+intVarArray[i].varName);
+            retlist.Add("int "+intVarArray[i].varName);
         }
         for(int i=0;i<floatCount;i++){
             list.Add("float "+floatVarArray[i].varName);
+            retlist.Add("float "+floatVarArray[i].varName);
         }
         for(int i=0;i<stringCount;i++){
             list.Add("char[] "+stringVarArray[i].varName);
@@ -735,6 +743,8 @@ public class VarSetting : MonoBehaviour
         VarDropdownWhile2.AddOptions(list);
         VarDropdownWhile1.value=0;
         VarDropdownWhile2.value=0;
+        VarDropdownReturn.AddOptions(retlist);
+        VarDropdownReturn.value=0;
         
     }
 
