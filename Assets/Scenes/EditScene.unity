@@ -4099,7 +4099,6 @@ GameObject:
   - component: {fileID: 258297309}
   - component: {fileID: 258297308}
   - component: {fileID: 258297310}
-  - component: {fileID: 258297311}
   m_Layer: 0
   m_Name: MenuButtonSummary
   m_TagString: Untagged
@@ -4190,18 +4189,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &258297311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 258297306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a74aa3c4455de4dc1925366b96275670, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &269933703
 GameObject:
   m_ObjectHideFlags: 0
@@ -4289,8 +4276,6 @@ MonoBehaviour:
   argsViewContent: {fileID: 2100265520}
   StartPosX: 0
   StartPosY: 0
-  jibunX: 0
-  jibunY: 0
   FunctionDropdown: {fileID: 1481378365}
   optionsList: []
   Tatedake_prefab: {fileID: 7880586597996365381, guid: 6f5ba704e2196f54c904081c27a6a6d1, type: 3}
@@ -13968,7 +13953,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 28809885}
   m_HandleRect: {fileID: 28809884}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -26208,7 +26193,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1860016082}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.47062144
+  m_Size: 0.47062147
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -34977,7 +34962,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2132564535}
   m_HandleRect: {fileID: 2132564534}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -38972,7 +38957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1988706211
 RectTransform:
   m_ObjectHideFlags: 0
@@ -38987,10 +38972,10 @@ RectTransform:
   m_Father: {fileID: 258297307}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 280.0002, y: 0}
+  m_SizeDelta: {x: 280, y: 70}
   m_Pivot: {x: 1.0000007, y: 1}
 --- !u!114 &1988706212
 MonoBehaviour:
