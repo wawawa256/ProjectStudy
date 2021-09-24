@@ -21,6 +21,11 @@ public class Subroutine : MonoBehaviour
     List<string> reservedWord = new List<string>();
     public List<string> optionsList = new List<string>();
 
+    int jibunX;
+    int jibunY;
+    int CurrentColumn;
+    int CurrentRow;
+
     void Start()
     {
         //作った変数の数を数えてるやつを初期化
@@ -172,6 +177,23 @@ public class Subroutine : MonoBehaviour
 
     public Dropdown FuncDropdownSubr;
     public string formatToStr;
+
+    public void Update ()
+    {
+        if(ObjectCollection.touch_flag == 1)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                jibunX = ObjectCollection.jibunX;
+                jibunY = ObjectCollection.jibunY;
+                CurrentColumn = ObjectCollection.CurrentColumn;
+                CurrentRow = ObjectCollection.CurrentRow;
+                if(jibunX == -1 || jibunY == -1) return;
+                if(ObjectCollection.objectArray[jibunX,jibunY]==null) return;
+                if(jibunX == CurrentColumn && jibunY == CurrentRow) UpdateFuncDropdown();
+            }
+        } 
+    }
 
     public void UpdateFuncDropdown(){
         FuncDropdownSubr.ClearOptions();

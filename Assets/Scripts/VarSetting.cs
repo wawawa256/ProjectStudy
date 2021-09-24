@@ -65,6 +65,11 @@ public class VarSetting : MonoBehaviour
     static int func;
 
     bool GlobalOrLocal;
+    
+    int jibunX;
+    int jibunY;
+    int CurrentColumn;
+    int CurrentRow;
 
     List<string> reservedWord = new List<string>();
 
@@ -698,6 +703,23 @@ public class VarSetting : MonoBehaviour
     //subrのdropdownはsubrにいます.
 
 
+
+    public void Update ()
+    {
+        if(ObjectCollection.touch_flag == 1)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                jibunX = ObjectCollection.jibunX;
+                jibunY = ObjectCollection.jibunY;
+                CurrentColumn = ObjectCollection.CurrentColumn;
+                CurrentRow = ObjectCollection.CurrentRow;
+                if(jibunX == -1 || jibunY == -1) return;
+                if(ObjectCollection.objectArray[jibunX,jibunY]==null) return;
+                if(jibunX == CurrentColumn && jibunY == CurrentRow) UpdateVarDropdown();
+            }
+        } 
+    }
 
     public void UpdateVarDropdown(){ //vardropdownが呼び出されるたびに呼び出せばいいかなあ、、、の気持ち。 contentメニュー開くのと同時に呼び出す
         //削除が万が一追加されたときに備えて毎回変数リスト全読み込みしようかなあの気持ち

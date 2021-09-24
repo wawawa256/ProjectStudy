@@ -68,6 +68,11 @@ public class ButtonScript : MonoBehaviour
     int forFlag;
     int whileFlag;
 
+    int jibunX;
+    int jibunY;
+    int CurrentColumn;
+    int CurrentRow;
+
     public void Start()
     {
         PanelClose();
@@ -78,6 +83,11 @@ public class ButtonScript : MonoBehaviour
         ifFlag = 0;
         forFlag = 0;
         whileFlag = 0;
+
+        jibunX = 0;
+        jibunY = 0;
+        CurrentColumn = 0;
+        CurrentRow = 0;
     }
 
     public void PaizaButtonClicked()
@@ -237,7 +247,23 @@ public class ButtonScript : MonoBehaviour
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
         WhileEndButton.SetActive(false);
-    } 
+    }
+    public void Update ()
+    {
+        if(ObjectCollection.touch_flag == 1)
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                jibunX = ObjectCollection.jibunX;
+                jibunY = ObjectCollection.jibunY;
+                CurrentColumn = ObjectCollection.CurrentColumn;
+                CurrentRow = ObjectCollection.CurrentRow;
+                if(jibunX == -1 || jibunY == -1) return;
+                if(ObjectCollection.objectArray[jibunX,jibunY]==null) return;
+                if(jibunX == CurrentColumn && jibunY == CurrentRow) OpenContentMenu();
+            }
+        } 
+    }
 
     //中身メニューを開こう。メニュー開くボタンにアタッチ
     public void OpenContentMenu()

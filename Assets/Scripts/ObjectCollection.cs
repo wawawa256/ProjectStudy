@@ -95,8 +95,8 @@ public class ObjectCollection : MonoBehaviour
     //西田
     public float  StartPosX;
     public float  StartPosY;
-    public int jibunX = 0;
-    public int jibunY = 0;
+    public static int jibunX = 0;
+    public static int jibunY = 0;
     public static int touch_flag = 1;
 
     //ここから自作関数関連
