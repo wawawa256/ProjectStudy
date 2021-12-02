@@ -173,8 +173,6 @@ public class Subroutine : MonoBehaviour
         nameText.text = NameInputField.text;
     }
 
-    //VarDropdownの時と同様アプデはここでしようかな
-
     public Dropdown FuncDropdownSubr;
     public string formatToStr;
 

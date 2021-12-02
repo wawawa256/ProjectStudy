@@ -52,7 +52,6 @@ public class ObjectCollection : MonoBehaviour
     public GameObject Args_prefab;
     public GameObject argsViewContent;
 
-
     Camera mainCamera;
 
     //定数の宣言
@@ -92,7 +91,6 @@ public class ObjectCollection : MonoBehaviour
     public static int TheDimension;
     public static int MaxDimension = 0;
 
-    //西田
     public float  StartPosX;
     public float  StartPosY;
     public static int jibunX = 0;
@@ -176,12 +174,10 @@ public class ObjectCollection : MonoBehaviour
                 {
                     Destroy(objectArray[i, j]);
                     objectArray[i, j] = null; 
-                    ///*
                     Destroy(wireArray[i, j]);
                     wireArray[i, j] = null;
                     Destroy(HorizontalwireArray[i, j]);
                     HorizontalwireArray[i, j] = null;
-                    //*/
                 }
             }
         }
@@ -756,7 +752,6 @@ public class ObjectCollection : MonoBehaviour
         }
         countColumnRow();
         WireSetting();
-        //illegalObjectCheck();
     }
 
     //すでにオブジェクトがその位置にあるか
@@ -852,9 +847,6 @@ public class ObjectCollection : MonoBehaviour
         for(row=1;row<maxRow[CurrentFunction];row++)
         for(column=1;column<maxColumn[CurrentFunction];column++)
         if(wireArray[column,row-1]==null
-            //&& ((objectArray[column,row].name!="Tatedake_prefab"
-            //&& objectArray[column,row].name!="Yokodake_prefab")
-            //|| objectArray[column,row]==null)
             )
         {
             Destroy(objectArray[column,row]);
@@ -874,7 +866,6 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[0,row] == null) break;
             maxRow[CurrentFunction]++;
         }
-        //Debug.Log("maxRow[CurrentFunction]="+maxRow[CurrentFunction]);
         for(column = 1;column<64;column++)
         {
             for(row = 0;objectArray[column,row]==null;row++)
@@ -882,7 +873,6 @@ public class ObjectCollection : MonoBehaviour
             if(objectArray[column,row]==null)
             {
                 maxColumn[CurrentFunction] = column;
-                //Debug.Log("maxColumn[CurrentFunction]="+maxColumn[CurrentFunction]);
                 return;
             }
         }
@@ -940,14 +930,11 @@ public class ObjectCollection : MonoBehaviour
             
 
         }
-       // Debug.Log(SaveobjectArray[Column, Raw]);
     }
 
     public void Saveuhihihi()
     {
         functionCount = Subroutine.functionCount;
-        //Debug.Log(maxColumn[CurrentFunction]);
-        //Debug.Log(maxRow[CurrentFunction]);
         int i, j;
         i = 0;
         j = 0;
@@ -1032,9 +1019,7 @@ public class ObjectCollection : MonoBehaviour
 
                     //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
                     objectArray[i, j].name = Prefab.name;
-
                     functionArray[0,i,j] = objectArray[i, j].name;
-
                     textMake(CurrentColumn, CurrentRow, Prefab.name);
                 }
             }
@@ -1059,7 +1044,6 @@ public class ObjectCollection : MonoBehaviour
         temp = 0;
         InOutCheck = false;
         act = false;
-        //Debug.Log(CurrentRow);
         if(ifFlag==1 || forFlag==1)
         {
             if(CurrentColumn!=tempColumn)
@@ -1078,8 +1062,7 @@ public class ObjectCollection : MonoBehaviour
             }
             else
             {
-                if(ifFlag==1){ //ifとforはがっつり分けることにした。にわの
-                    //Debug.Log("ifCount = "+ifCount);
+                if(ifFlag==1){ 
                     for(j=0;j<ifCount;j++)
                     {
                     //ifStartが他のifの内側かどうか
@@ -1095,12 +1078,10 @@ public class ObjectCollection : MonoBehaviour
                             }
                         }
                     }
-                    //Debug.Log(length);
                     if(length==128) InOutCheck = false;
                     //内
                     if(InOutCheck)
                     {
-                        //Debug.Log("uchi");
                         for(i=0;i<maxRow[CurrentFunction];i++)
                         {
                             if(ifArray[temp].ifStartRow<i)
@@ -1114,7 +1095,6 @@ public class ObjectCollection : MonoBehaviour
                     //外
                     else
                     {
-                        //Debug.Log("soto");
                         for(i=0;i<maxRow[CurrentFunction];i++)
                         {
                             act = false;
@@ -1133,15 +1113,13 @@ public class ObjectCollection : MonoBehaviour
                         }
                     }
                 }else{
-                    //この時点で上と横はしばいてるはず。下だけチェックしよう
-                    //一方通行でいい。true置きまくって、cor1の次からは×(内部ケア)、ifからcor1まで×(野良ifケア)、forからforEまで×(野良forケア)。
                     bool permanentdame=false;
                     int sibarakudamefor=0;
                     int sibarakudameif=0;
                     for(int k=tempRow+1;k<maxRow[CurrentFunction];k++){
                         if(permanentdame){
                             place[k]=0;
-                        }else if(objectArray[CurrentColumn,k].name=="Corner1_prefab"){ //cor1 -> 野良if終点? OR 実はもともと中にいた?
+                        }else if(objectArray[CurrentColumn,k].name=="Corner1_prefab"){
                             if(sibarakudameif>0){
                                 sibarakudameif--;
                                 place[k]=0;
@@ -1190,11 +1168,8 @@ public class ObjectCollection : MonoBehaviour
         }
         Location(CurrentColumn,CurrentRow,-1);
         CurrentPlace.transform.position = Place;
-        //reload();
         preRow = CurrentRow;
         preColumn = CurrentColumn;
-        //Debug.Log("maxRow[CurrentFunction] = "+maxRow[CurrentFunction]);
-        //Debug.Log("maxColumn[CurrentFunction] ="+maxColumn[CurrentFunction]);
     }
 
     void WireSetting()
@@ -1212,8 +1187,6 @@ public class ObjectCollection : MonoBehaviour
                     HorizontalwireArray[CurrentColumn,CurrentRow]=null;
                 }
                 if(objectArray[CurrentColumn, CurrentRow]!=null){
-                    /*Debug.Log(objectArray[CurrentColumn, CurrentRow].name
-                        +","+CurrentColumn+","+CurrentRow);*/
 
                     switch (objectArray[CurrentColumn, CurrentRow].name)
                     {
@@ -1237,9 +1210,6 @@ public class ObjectCollection : MonoBehaviour
                         {
                             WireInstall(Wire_prefab);
                             HorizontalWireInstall(Wire_If_prefab);
-                            /*CurrentColumn++; //庭野完成したらここ破壊
-                            WireInstall(Wire_prefab);
-                            CurrentColumn--;*/
                         }
                         break;
 
@@ -1301,16 +1271,8 @@ public class ObjectCollection : MonoBehaviour
         CurrentRow = tempRow;
         CurrentColumn = tempColumn;
     }
-//
-//庭野ゾーン
-//
-    //できればUI系はButtonScriptにまとめたいと思ってる。
-    //そうすると他のメニューとも連携取れやすいはず。byたくみん
+
     //変数#1 メニュー表示のためにメニュー(GameObject)を追加
-    //public GameObject IfMenu;
-    //public GameObject PrintfMenu;
-    //public GameObject ForMenu;
-    //public GameObject CalcMenu;
     public GameObject Tatedake_prefab;
     public GameObject Yokodake_prefab;
     public string enzansi;
@@ -1439,7 +1401,6 @@ public class ObjectCollection : MonoBehaviour
         switch(imanani){
             case 2://printf
                 string vartext;
-              //  Debug.Log(VarDropdownPrintf.value);
                 if(VarDropdownPrintf.value!=0){
                     vartext = VarSetting.whatisthis(VarDropdownPrintf.value);
                     kata[CurrentColumn,CurrentRow]=VarSetting.watchthis(VarDropdownPrintf.value);
@@ -1459,13 +1420,11 @@ public class ObjectCollection : MonoBehaviour
                 if(VarDropdownIf1.value!=0){
                     vartext1=VarSetting.youshouldrun(VarDropdownIf1.value);
                 }else{
-                    //vartext1='"'+IfInputField1.text.ToString()+'"';
                     vartext1=IfInputField1.text.ToString();
                 }
                 if(VarDropdownIf2.value!=0){
                     vartext2=VarSetting.youshouldrun(VarDropdownIf2.value);
                 }else{
-                    //vartext2='"'+IfInputField2.text.ToString()+'"';
                     vartext2=IfInputField2.text.ToString();
                 }
                 DataHere=vartext1+enzansi+vartext2;
@@ -1500,7 +1459,7 @@ public class ObjectCollection : MonoBehaviour
                     enzansidocchi="<=";
                     enzansidocchi2="+=";
                 }
-                DataHere="int i="+txt1+";"+"i"+enzansidocchi+txt2+";i"+enzansidocchi2+txt3;//for(int i=init;i<=)
+                DataHere="int i="+txt1+";"+"i"+enzansidocchi+txt2+";i"+enzansidocchi2+txt3;
                 ForDisplay.text=DataHere;
                 content[CurrentColumn,CurrentRow]=DataHere;
                 break;
@@ -1534,13 +1493,11 @@ public class ObjectCollection : MonoBehaviour
                 if(VarDropdownWhile1.value!=0){
                     vartextw1=VarSetting.youshouldrun(VarDropdownWhile1.value);
                 }else{
-                    //vartext1='"'+IfInputField1.text.ToString()+'"';
                     vartextw1=WhileInputField1.text.ToString();
                 }
                 if(VarDropdownWhile2.value!=0){
                     vartextw2=VarSetting.youshouldrun(VarDropdownWhile2.value);
                 }else{
-                    //vartext2='"'+IfInputField2.text.ToString()+'"';
                     vartextw2=WhileInputField2.text.ToString();
                 }
                 DataHere=vartextw1+enzansiw+vartextw2;
@@ -1566,7 +1523,6 @@ public class ObjectCollection : MonoBehaviour
                             break;
                         }
                     }
-                    //okだった
                     rettext=p;
                 }
                 DataHere=rettext;
@@ -1578,8 +1534,6 @@ public class ObjectCollection : MonoBehaviour
             default:
                 break;
         }
-      //  Debug.Log("値変えたよ");
-     //   content[CurrentColumn,CurrentRow]=DataHere;
     }
 
     //dropdown取得。これは選択するたびにかってにだしてくれる
@@ -1741,7 +1695,6 @@ public class ObjectCollection : MonoBehaviour
         }else{
             maxifkazu=0;
         }
-      //  Debug.Log(maxifkazu);
         return maxifkazu;
     }
 
@@ -1775,7 +1728,6 @@ public class ObjectCollection : MonoBehaviour
         }
         if(flag==0&&preflag==1){
             ObjectSlide(x,starty,endy);
-           // Debug.Log("すらいどはじめまむ"+x.ToString()+starty.ToString()+endy.ToString());
         }else if(flag==1){
             int nextnakax=x;
             int nextstarty=SearchUpper(x,y);
@@ -1835,12 +1787,9 @@ public class ObjectCollection : MonoBehaviour
             CurrentColumn=ifArray[ifCount].ifStartColumn+1;
             CurrentRow=ifArray[ifCount].ifStartRow;
             ObjectInstall(Tatedake_prefab);
-        //    Debug.Log("たておいた");
             //横幅をどれだけにするか求める
-            //ifControl(ifFlag);
             CurrentRow=ifArray[ifCount].ifEndRow;
             ObjectInstall(Corner2_prefab);
-         //   Debug.Log("こなおいた");
             ifArray[ifCount].ifCornerColumn = CurrentColumn;
             ifArray[ifCount].ifCornerRow = CurrentRow;
             CurrentRow--;
@@ -1862,41 +1811,27 @@ public class ObjectCollection : MonoBehaviour
         for(CurrentColumn=ifArray[ifCount].ifStartColumn+1;CurrentColumn<nakax+1;CurrentColumn++)
         {
             ObjectInstall(Yokodake_prefab);
-       //     Debug.Log("よこおいた");
-       //     Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         }
         
-        //右端に到着、tateおく
         CurrentColumn=nakax+1;
         ObjectInstall(Tatedake_prefab);
-     //   Debug.Log("たておいた");
-      //  Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         //下までblankいれる
-        //CurrentRow++;
         for(CurrentRow=CurrentRow+1;CurrentRow<ifArray[ifCount].ifEndRow;CurrentRow++)
         {
             ObjectInstall(Blank_prefab);
-            //Debug.Log("Blankいれた");
-           // Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         }
         
         //下ついた。corner2おく
         CurrentRow=ifArray[ifCount].ifEndRow;
         ObjectInstall(Corner2_prefab);
-     //  Debug.Log("cor2おいた");
-       // Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
          //ついでにarrayに情報いれる
         ifArray[ifCount].ifCornerColumn=CurrentColumn;
         ifArray[ifCount].ifCornerRow=CurrentRow;
-        //左にyokoおいてく
-        //CurrentColumn--;
         for(CurrentColumn=CurrentColumn-1;
             CurrentColumn>ifArray[ifCount].ifStartColumn;
             CurrentColumn--)
         {
             ObjectInstall(Yokodake_prefab);
-         //   Debug.Log("よこおいた");
-           // Debug.Log(CurrentColumn.ToString()+CurrentRow.ToString());
         }
         
         WireSetting();
@@ -1941,14 +1876,11 @@ public class ObjectCollection : MonoBehaviour
         PlacingSentry(XonSentry,ys,ye,0);
         ImaIfShori(p);
     }
-
-    //えらばれたのは綾鷹でした...。
     Vector3 Zerochan= new Vector3(0f,0f,0f);
     public static GameObject[] TempArgumentArray = new GameObject[64];
     public int TempArgCount =0;
     public static string[] NameArray = new string[64];
     public string tempfunctionname;
-    //public GameObject Subroutinecs; // subroutine,関数名にもあって変数取り出しできなかったから、やむを得ず、また、この、クソカスなやつ、やります。。。
     public void ayataka(){
         foreach(GameObject q in TempArgumentArray){
             Destroy(q);
@@ -1959,7 +1891,7 @@ public class ObjectCollection : MonoBehaviour
         if(choice==0){
             return;
         }
-        string[,] argsnamearray = new string[64,128]; //だめだったらintのほうつかお。。。
+        string[,] argsnamearray = new string[64,128];
         argsnamearray = VarSetting.argsNameArray;
         int[,] argsformarray = new int[64,128];
         argsformarray = VarSetting.argsFormatArray;
@@ -2065,10 +1997,7 @@ public class ObjectCollection : MonoBehaviour
         ifArrayBeyond();
         DimensionalColumn[Dimension] = maxColumn[CurrentFunction];
         DimensionalRow[Dimension] = maxRow[CurrentFunction];
-    //  Debug.Log(Dimension + "がセーブされた");
-    //    Debug.Log(objectArray3D[Dimension, 0, 0]);
         Dimension++;
-    //    Debug.Log("現在の次元は"+Dimension);
         if(Dimension-1==MaxDimension) MaxDimension++;
     }
 
@@ -2150,51 +2079,6 @@ public class ObjectCollection : MonoBehaviour
                 kata[i, j] = kata3D[TheDimension, i, j];
                 GameObject Prefab;
                 Prefab = ObjectSearch(objectArray3D[TheDimension,i, j]);
-                /*
-                switch (objectArray3D[TheDimension,i, j])
-                {
-                    case "Printf_prefab":
-                        Prefab = Printf_prefab;
-                        //Debug.Log(Prefab);
-                        break;
-                    case "Blank_prefab":
-                        Prefab = Blank_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "If_prefab":
-                        Prefab = If_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "ForEnd_prefab":
-                        Prefab = ForEnd_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "ForStart_prefab":
-                        Prefab = ForStart_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "Corner1_prefab":
-                        Prefab = Corner1_prefab;
-                        //Debug.Log(Prefab);
-                        break;
-                    case "Corner2_prefab":
-                        Prefab = Corner2_prefab;
-                        // Debug.Log(Prefab);
-                        break;
-                    case "Calc_prefab":
-                        Prefab = Calc_prefab;
-                        break;
-                    case "Yokodake_prefab":
-                        Prefab = Yokodake_prefab;
-                        break;
-                    case "Tatedake_prefab":
-                        Prefab = Tatedake_prefab;
-                        break;
-                    default:
-                        Prefab = null;
-                        break;
-                }
-                */
                 CurrentColumn = i;
                 CurrentRow = j;
                 if (Prefab != null)
@@ -2222,8 +2106,6 @@ public class ObjectCollection : MonoBehaviour
         maxColumn[CurrentFunction] = DimensionalColumn[TheDimension];
         maxRow[CurrentFunction] = DimensionalRow[TheDimension];
         WireSetting();
-      //  CurrentColumn = 0;
-      //  CurrentRow = 0;
         CurrentColumn = 0;
         CurrentRow = maxRow[CurrentFunction]-1;
         CurrentPosition();

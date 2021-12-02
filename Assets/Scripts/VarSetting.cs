@@ -721,8 +721,7 @@ public class VarSetting : MonoBehaviour
         } 
     }
 
-    public void UpdateVarDropdown(){ //vardropdownが呼び出されるたびに呼び出せばいいかなあ、、、の気持ち。 contentメニュー開くのと同時に呼び出す
-        //削除が万が一追加されたときに備えて毎回変数リスト全読み込みしようかなあの気持ち
+    public void UpdateVarDropdown(){ 
         VarDropdownPrintf.ClearOptions();
         VarDropdownIf1.ClearOptions();
         VarDropdownIf2.ClearOptions();
@@ -750,7 +749,7 @@ public class VarSetting : MonoBehaviour
         }
 
         VarDropdownPrintf.AddOptions(list);
-        VarDropdownPrintf.value = 0; //set default...
+        VarDropdownPrintf.value = 0; 
         VarDropdownIf1.AddOptions(list);
         VarDropdownIf1.value=0;
         VarDropdownIf2.AddOptions(list);
@@ -822,8 +821,7 @@ public class VarSetting : MonoBehaviour
         }
         return "char";
     }
-
-    //きるじょい
+    
     static public string youshouldrun(int xth){
         if(xth>intCount){
             xth -= intCount;

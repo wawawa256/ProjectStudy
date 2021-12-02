@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-//ふぉっきち
-
 public class Coding : MonoBehaviour
 {
     public static GameObject[,] objectArray;
