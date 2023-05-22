@@ -3,11 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class LearnableSkill : SkillBase
+public class LearnableSkill
 {
-    public SkillBase Base { get; set; }
-    public LearnableSkill(SkillBase _base)
-    {
-        Base = _base;
-    }
+    [SerializeField] SkillBase Base;
 }

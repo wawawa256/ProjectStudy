@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9ecb56520ae646bb91af7aa22555706, type: 3}
-  m_Name: Player
+  m_Name: Enemy1
   m_EditorClassIdentifier: 
-  _name: Player
-  initLevel: 1
-  offenceBasePower: 10
-  defenceBasePower: 10
+  _name: 
+  initLevel: 0
+  offenceBasePower: 0
+  defenceBasePower: 0
   learnableSkills:
   - {fileID: 11400000, guid: 94c91d551762c45b69c59b8dad255a12, type: 2}
   - {fileID: 11400000, guid: 467af839c983f422586015f3a966f931, type: 2}
