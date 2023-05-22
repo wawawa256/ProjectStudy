@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class Coding : MonoBehaviour
 {
+    [SerializeField] ObjectCollection objectCollection;
+
     public static GameObject[,] objectArray;
     public static string[,] content;
     public static string[,] kata;
@@ -34,11 +36,11 @@ public class Coding : MonoBehaviour
         y = 0;
         ifcount = 0;
         nullcheak = 0;
-        objectArray = ObjectCollection.objectArray;
-        maxColumn = ObjectCollection.maxColumn;
-        maxRow = ObjectCollection.maxRow;
-        content = ObjectCollection.content;
-        kata = ObjectCollection.kata;
+        objectArray = objectCollection.objectArray;
+        maxColumn = objectCollection.maxColumn;
+        maxRow = objectCollection.maxRow;
+        content = objectCollection.content;
+        kata = objectCollection.kata;
         intCount = VarSetting.intCount;
         floatCount = VarSetting.floatCount;
         stringCount = VarSetting.stringCount;

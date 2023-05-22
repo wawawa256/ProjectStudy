@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
 {
+    [SerializeField] ObjectCollection objectCollection;
     public GameObject AddPanel;
     public GameObject SettingPanel;
     public GameObject CodePanel;
@@ -32,26 +33,6 @@ public class ButtonScript : MonoBehaviour
     public GameObject BreakButton;
     public GameObject SubroutineButton;
     public GameObject CalcButton;
-
-    bool PrintButtonActivity;
-    bool IfStartButtonActivity;
-    bool IfEndButtonActivity;
-    bool ForStartButtonActivity;
-    bool ForEndButtonActivity;
-    bool CalcButtonActivity;
-    bool WhileMenuActivity;
-
-    public GameObject IfMenu;
-    public GameObject PrintfMenu;
-    public GameObject ForMenu;
-    public GameObject CalcMenu;
-    public GameObject WhileMenu;
-
-    public Text PrintfDisplay;
-    public Text IfDisPlay;
-    public Text ForDisplay;
-    public Text CalcDisplay;
-    public Text WhileDisplay;
 
     int ifFlag;
     int forFlag;
@@ -210,63 +191,8 @@ public class ButtonScript : MonoBehaviour
         WhileEndButton.SetActive(false);
     } 
 
-    //中身メニューを開こう。メニュー開くボタンにアタッチ
-    public void OpenContentMenu()
-    {
-        //text→textcomponent取得する。
-        PrintfDisplay = PrintfDisplay.GetComponent<Text>();
-        IfDisPlay = IfDisPlay.GetComponent<Text>();
-        ForDisplay = ForDisplay.GetComponent<Text>();
-        CalcDisplay = CalcDisplay.GetComponent<Text>();
-        WhileDisplay = WhileDisplay.GetComponent<Text>();
-        int imanani = ObjectCollection.ItemCheck2();
-        bool IfMenuActivity = IfMenu.activeInHierarchy;
-        bool PrintfMenuActivity = PrintfMenu.activeInHierarchy;
-        bool ForMenuActivity = ForMenu.activeInHierarchy;
-        bool CalcMenuActivity = CalcMenu.activeInHierarchy;
-        bool WhileMenuActivity = WhileMenu.activeInHierarchy;
-        string DataHere = 
-            ObjectCollection.content[ObjectCollection.CurrentColumn,ObjectCollection.CurrentRow];
-
-        if(imanani==2)
-        {
-            //更新処理。何もしないとさっき入力した時のdisplayがmenuないに表示されるからそれを今のデータに合わせて変更してあげなくちゃいけない。
-            PrintfDisplay.text = DataHere;
-            PrintfMenu.SetActive(!PrintfMenuActivity);
-            ObjectCollection.touch_flag = 0;
-        }
-        else if(imanani==3)
-        {
-            IfDisPlay.text = DataHere;
-            IfMenu.SetActive(!IfMenuActivity);
-            ObjectCollection.touch_flag = 0;
-        }
-        else if(imanani==5)
-        {
-            ForDisplay.text=DataHere;
-            ForMenu.SetActive(!ForMenuActivity);
-            ObjectCollection.touch_flag = 0;
-        }
-        else if(imanani==7)
-        {
-            CalcDisplay.text=DataHere;
-            CalcMenu.SetActive(!CalcMenuActivity);
-            ObjectCollection.touch_flag = 0;
-        }
-        else if(imanani==8)
-        {
-            WhileDisplay.text=DataHere;
-            WhileMenu.SetActive(!WhileMenuActivity);
-            ObjectCollection.touch_flag=0;
-        }
-        else
-        {
-            ObjectCollection.touch_flag = 1;
-        }
-        //ObjectCollection.BeyondDimension();
-    }
 
     public void touch_flagtateruyo(){
-        ObjectCollection.touch_flag = 1;
+        objectCollection.touch_flag = 1;
     }
 }

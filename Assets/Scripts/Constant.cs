@@ -1,0 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Constant
+{
+    public const float VerticalSpace = -1.5f;
+    public const float HorizontalSpace = 4.0f;
+    public const float startX = 0f;
+    public const float startY = 1.0f;
+}

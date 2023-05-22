@@ -5,23 +5,25 @@ using UnityEngine.EventSystems;
 
 public class CameraController : MonoBehaviour
 {
-    static int CurrentColumn = ObjectCollection.CurrentColumn;
-    static int CurrentRow = ObjectCollection.CurrentRow;
+    [SerializeField] ObjectCollection objectCollection;
+
+    int CurrentColumn;
+    int CurrentRow;
     Camera mainCamera;
 
     void Start()
     {
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
+        CurrentColumn = objectCollection.CurrentColumn;
+        CurrentRow = objectCollection.CurrentRow;
     }
 
-
-
-    public void reload() {
-        CurrentColumn = ObjectCollection.CurrentColumn;
-        CurrentRow = ObjectCollection.CurrentRow;
-        ObjectCollection.Location(CurrentColumn,CurrentRow,-10);
+    public void Reload() {
+        CurrentColumn = objectCollection.CurrentColumn;
+        CurrentRow = objectCollection.CurrentRow;
+        objectCollection.Location(CurrentColumn,CurrentRow,-10);
         //カメラはプレイヤーと同じ位置にする
-        mainCamera.transform.position = ObjectCollection.Place;
+        mainCamera.transform.position = objectCollection.Place;
 
     }
 

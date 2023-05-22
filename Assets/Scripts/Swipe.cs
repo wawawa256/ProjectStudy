@@ -6,6 +6,8 @@ using UnityEngine.EventSystems;
 
 public class Swipe : MonoBehaviour
 {
+    [SerializeField] ObjectCollection objectCollection;
+
     public float StartPosX;
     public float StartPosY;
     public float EndPosX;
@@ -14,15 +16,12 @@ public class Swipe : MonoBehaviour
     public float SwipeLengthY;
     public float CameraPosX;
     public float CameraPosY;
-    public float VerticalSpace = ObjectCollection.VerticalSpace;
-    public float HorizontalSpace = ObjectCollection.HorizontalSpace;
-    public float startX = ObjectCollection.startX;
-    public float startY = ObjectCollection.startY;
+    public float VerticalSpace;
+    public float HorizontalSpace;
+    public float startX;
+    public float startY;
     public float maxPosX;
     public float maxPosY;
-
-    int CurrentColumn;
-    int CurrentRow;
 
     int maxColumn;
     int maxRow;
@@ -31,8 +30,11 @@ public class Swipe : MonoBehaviour
 
     void Start()
     {
-        mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
-       // Debug.Log(mainCamera.orthographicSize);
+        mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+        VerticalSpace = Constant.VerticalSpace;
+        HorizontalSpace = Constant.HorizontalSpace;
+        startX = Constant.startX;
+        startY = Constant.startY;
     }
     public void zoom_in()
     {
@@ -55,8 +57,8 @@ public class Swipe : MonoBehaviour
 
         if(Input.GetMouseButtonDown(0))
         {    
-            maxColumn = ObjectCollection.maxColumn;
-            maxRow = ObjectCollection.maxRow;
+            maxColumn = objectCollection.maxColumn;
+            maxRow = objectCollection.maxRow;
             maxPosX = HorizontalSpace * maxColumn;
             maxPosY = VerticalSpace * maxRow;
 

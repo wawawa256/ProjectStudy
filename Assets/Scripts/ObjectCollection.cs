@@ -7,27 +7,27 @@ using UnityEngine.UI;
 public class ObjectCollection : MonoBehaviour
 {
     //オブジェクト配列の宣言
-    public static GameObject[,] objectArray = new GameObject[64,128];
-    public static string[,] SaveobjectArray = new string[64,128];
+    public GameObject[,] objectArray = new GameObject[64,128];
+    public string[,] SaveobjectArray = new string[64,128];
 
     public GameObject[,] wireArray = new GameObject[64,128];
     public GameObject[,] HorizontalwireArray = new GameObject[64,128];
     //nakamiiii
-    public static string[,] content = new string[64,128];
-    public static string[,] kata = new string[64,128];
+    public string[,] content = new string[64,128];
+    public string[,] kata = new string[64,128];
     public Text messageText;
 
     Ifreference[] ifArray = new Ifreference[128];
     Ifreference[,] ifArray2 = new Ifreference[256,128];
 
     //次元を超える
-    public static string[,,] objectArray3D = new string[256, 64, 128];
-    public static string[,,] content3D = new string[256, 64, 128];
-    public static string[,,] kata3D = new string[256, 64, 128];
+    public string[,,] objectArray3D = new string[256, 64, 128];
+    public string[,,] content3D = new string[256, 64, 128];
+    public string[,,] kata3D = new string[256, 64, 128];
 
-    public static int[] DimensionalColumn = new int[256];
-    public static int[] DimensionalRow = new int[256];
-    public static int[] ifCount2D = new int[256];
+    public int[] DimensionalColumn = new int[256];
+    public int[] DimensionalRow = new int[256];
+    public int[] ifCount2D = new int[256];
 
     //オブジェクトのプロトタイプ宣言
     public GameObject CurrentPlace;
@@ -48,48 +48,42 @@ public class ObjectCollection : MonoBehaviour
 
     Camera mainCamera;
 
-    //定数の宣言
-    public const float VerticalSpace = -1.5f;
-    public const float HorizontalSpace = 4.0f;
-    public const float startX = 0f;
-    public const float startY = 1.0f;
 
     //変数の宣言
-    static float locationX;
-    static float locationY;
-    static float locationZ;
-    public static int CurrentColumn;
-    public static int CurrentRow;
-    public static int maxColumn;
-    public static int maxRow;
-    public static int row;
-    public static int column;
-    public static bool CheckResult;
-    public static bool whetherIf;
-    public static int tempRow;
-    public static int tempColumn;
-    public static int ifFlag;
-    public static int forFlag;
-    public static int whileFlag;
+    float locationX;
+    float locationY;
+    float locationZ;
+    public int CurrentColumn { get; set; }
+    public int CurrentRow { get; set; }
+    public int maxColumn;
+    public int maxRow;
+    public int row;
+    public int column;
+    public bool CheckResult;
+    public bool whetherIf;
+    public int tempRow;
+    public int tempColumn;
+    public int ifFlag;
+    public int forFlag;
+    public int whileFlag;
 
-    public static Vector3 Place;
+    public Vector3 Place;
 
     int ifCount;
-    int[] ifCount2 = new int[256];
 
     int preColumn;
     int preRow;
 
-    public static int Dimension = 0;
-    public static int TheDimension;
-    public static int MaxDimension = 0;
+    public int Dimension = 0;
+    public int TheDimension;
+    public int MaxDimension = 0;
 
     //西田
     public float  StartPosX;
     public float  StartPosY;
     public int jibunX = 0;
     public int jibunY = 0;
-    public static int touch_flag = 1;
+    public int touch_flag = 1;
 
     //自作関数関連
     public Dropdown FunctionDropdown;
@@ -259,7 +253,7 @@ public class ObjectCollection : MonoBehaviour
         preColumn = 0;
         preRow = 0;
         ObjectInstall(Blank_prefab);
-        CurrentPlace.transform.position = new Vector3(startX,startY,-1.0f);
+        CurrentPlace.transform.position = new Vector3(Constant.startX,Constant.startY,-1.0f);
         messageText = messageText.GetComponent<Text>();
         Label = Label.GetComponent<Text>();
         mainCamera = GameObject.Find ("MainCamera").GetComponent<Camera>();
@@ -276,10 +270,10 @@ public class ObjectCollection : MonoBehaviour
     }
 
     //列と行による位置決定
-    public static void Location(int column,int raw, int depth)
+    public void Location(int column,int raw, int depth)
     {
-        locationX = HorizontalSpace * column + startX;
-        locationY = VerticalSpace * raw + startY;
+        locationX = Constant.HorizontalSpace * column + Constant.startX;
+        locationY = Constant.VerticalSpace * raw + Constant.startY;
         locationZ = depth;
         Place = new Vector3(locationX,locationY,locationZ);
     }
@@ -781,23 +775,6 @@ public class ObjectCollection : MonoBehaviour
         }
         CurrentRow = tempRow;
         CurrentColumn = tempColumn;
-    }
-
-    void illegalObjectCheck()
-    {
-        int column;
-        int row;
-        for(row=1;row<maxRow;row++)
-        for(column=1;column<maxColumn;column++)
-        if(wireArray[column,row-1]==null
-            //&& ((objectArray[column,row].name!="Tatedake_prefab"
-            //&& objectArray[column,row].name!="Yokodake_prefab")
-            //|| objectArray[column,row]==null)
-            )
-        {
-            Destroy(objectArray[column,row]);
-            objectArray[column,row]=null;
-        }
     }
 
     void countColumnRow()
@@ -1552,7 +1529,7 @@ public class ObjectCollection : MonoBehaviour
     }
 
     //上の奴を参考にしてつくった。1:blank 2:printf 3:if 4:ifend 5:fors 6:fore 99:null
-    public static int ItemCheck2(){
+    public int ItemCheck2(){
         if(!objectArray[CurrentColumn,CurrentRow]){
             return 0;
         }
