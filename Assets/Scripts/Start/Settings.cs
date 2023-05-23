@@ -5,18 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class Settings : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void OnClickWiki()
     {
         Application.OpenURL("http://ucchon.php.xdomain.jp/wiki.php");//""の中には開きたいWebページのURLを入力します
