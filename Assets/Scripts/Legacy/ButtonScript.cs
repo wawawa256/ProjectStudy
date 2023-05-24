@@ -6,25 +6,16 @@ using UnityEngine.UI;
 public class ButtonScript : MonoBehaviour
 {
     [SerializeField] ObjectCollection objectCollection;
-    public GameObject AddFunctionPanel;
-    public GameObject UIButtons;
 
-    bool AddpanelActivity;
-    bool CodepanelActivity;
-    bool AddFunctionPanelActivity;
-    bool UIButtonsActivity;
-
-    //if、for用
-    public GameObject PrintfButton;
-    public GameObject IfStartButton;
-    public GameObject IfEndButton;
-    public GameObject ForStartButton;
-    public GameObject ForEndButton;
-    public GameObject WhileStartButton;
-    public GameObject WhileEndButton;
-    public GameObject BreakButton;
-    public GameObject SubroutineButton;
-    public GameObject CalcButton;
+    [SerializeField] GameObject PrintfButton;
+    [SerializeField] GameObject IfStartButton;
+    [SerializeField] GameObject IfEndButton;
+    [SerializeField] GameObject ForStartButton;
+    [SerializeField] GameObject ForEndButton;
+    [SerializeField] GameObject WhileStartButton;
+    [SerializeField] GameObject WhileEndButton;
+    [SerializeField] GameObject BreakButton;
+    [SerializeField] GameObject SubroutineButton;
 
     int ifFlag;
     int forFlag;
@@ -32,8 +23,6 @@ public class ButtonScript : MonoBehaviour
 
     public void Start()
     {
-        UIButtons.SetActive(false);
-
         ButtonUnlock();
 
         ifFlag = 0;
@@ -41,26 +30,9 @@ public class ButtonScript : MonoBehaviour
         whileFlag = 0;
     }
 
-    public void PaizaButtonClicked()
-    {
-        Application.OpenURL("https://paiza.io/ja/projects/new");
-    }
-
-    public void AddFunctionPanelChange()
-    {
-        AddFunctionPanelActivity = AddFunctionPanel.activeInHierarchy;
-        AddFunctionPanel.SetActive(!AddFunctionPanelActivity);
-    }
-
-    public void UICallButtonClicked()
-    {
-        UIButtonsActivity = UIButtons.activeInHierarchy;
-        UIButtons.SetActive(!UIButtonsActivity);
-    }
-
     public void IfButtonClicked()
     {
-        switch(ifFlag)
+        switch (ifFlag)
         {
             case 0:
                 ButtonLock();
@@ -76,9 +48,9 @@ public class ButtonScript : MonoBehaviour
 
     public void ForButtonClicked()
     {
-        switch(forFlag)
+        switch (forFlag)
         {
-            case 0 :
+            case 0:
                 ButtonLock();
                 ForEndButton.SetActive(true);
                 forFlag = 1;
@@ -92,9 +64,9 @@ public class ButtonScript : MonoBehaviour
 
     public void WhileButtonClicked()
     {
-        switch(whileFlag)
+        switch (whileFlag)
         {
-            case 0 :
+            case 0:
                 ButtonLock();
                 WhileEndButton.SetActive(true);
                 whileFlag = 1;
@@ -112,7 +84,6 @@ public class ButtonScript : MonoBehaviour
         IfStartButton.SetActive(false);
         ForStartButton.SetActive(false);
         WhileStartButton.SetActive(false);
-        CalcButton.SetActive(false);
         BreakButton.SetActive(false);
         SubroutineButton.SetActive(false);
 
@@ -127,17 +98,11 @@ public class ButtonScript : MonoBehaviour
         IfStartButton.SetActive(true);
         ForStartButton.SetActive(true);
         WhileStartButton.SetActive(true);
-        CalcButton.SetActive(true);
         BreakButton.SetActive(true);
         SubroutineButton.SetActive(true);
 
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
         WhileEndButton.SetActive(false);
-    } 
-
-
-    public void touch_flagtateruyo(){
-        objectCollection.touch_flag = 1;
     }
 }

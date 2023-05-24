@@ -26,13 +26,11 @@ public class ContentButtonUI : MonoBehaviour
         PrintfDisplay = PrintfDisplay.GetComponent<Text>();
         IfDisPlay = IfDisPlay.GetComponent<Text>();
         ForDisplay = ForDisplay.GetComponent<Text>();
-        CalcDisplay = CalcDisplay.GetComponent<Text>();
         WhileDisplay = WhileDisplay.GetComponent<Text>();
         int imanani = objectCollection.ItemCheck2();
         bool IfMenuActivity = ifMenu.activeInHierarchy;
         bool PrintfMenuActivity = printfMenu.activeInHierarchy;
         bool ForMenuActivity = forMenu.activeInHierarchy;
-        bool CalcMenuActivity = calcMenu.activeInHierarchy;
         bool WhileMenuActivity = whileMenu.activeInHierarchy;
         string DataHere =
             objectCollection.content[objectCollection.CurrentColumn, objectCollection.CurrentRow];
@@ -54,12 +52,6 @@ public class ContentButtonUI : MonoBehaviour
         {
             ForDisplay.text = DataHere;
             forMenu.SetActive(!ForMenuActivity);
-            objectCollection.touch_flag = 0;
-        }
-        else if (imanani == 7)
-        {
-            CalcDisplay.text = DataHere;
-            calcMenu.SetActive(!CalcMenuActivity);
             objectCollection.touch_flag = 0;
         }
         else if (imanani == 8)
