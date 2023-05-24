@@ -16,17 +16,17 @@ public class Coding : MonoBehaviour
     public int maxRow;
     public int column;
     public int row;
-    int x, y,ifcount,nullcheak;
+    int x, y, ifcount, nullcheak;
     public string objectName;
-    public static int intCount;
-    public static int floatCount;
-    public static int stringCount;
-    public static string[] saveintvalueArray = new string[128];
-    public static string[] saveintnameArray = new string[128];
-    public static string[] savefloatvalueArray = new string[128];
-    public static string[] savefloatnameArray = new string[128];
-    public static string[] savestringvalueArray = new string[128];
-    public static string[] savestringnameArray = new string[128];
+    public int intCount;
+    public int floatCount;
+    public int stringCount;
+    public string[] saveintvalueArray = new string[128];
+    public string[] saveintnameArray = new string[128];
+    public string[] savefloatvalueArray = new string[128];
+    public string[] savefloatnameArray = new string[128];
+    public string[] savestringvalueArray = new string[128];
+    public string[] savestringnameArray = new string[128];
     public Text Code;
 
     public void CodeButtonClicked()
@@ -37,19 +37,10 @@ public class Coding : MonoBehaviour
         ifcount = 0;
         nullcheak = 0;
         objectArray = objectCollection.objectArray;
-        maxColumn = objectCollection.maxColumn;
-        maxRow = objectCollection.maxRow;
+        maxColumn = objectCollection.MaxColumn;
+        maxRow = objectCollection.MaxRow;
         content = objectCollection.content;
         kata = objectCollection.kata;
-        intCount = VarSetting.intCount;
-        floatCount = VarSetting.floatCount;
-        stringCount = VarSetting.stringCount;
-        saveintnameArray = VarSetting.saveintnameArray;
-        saveintvalueArray = VarSetting.saveintvalueArray;
-        savefloatnameArray = VarSetting.savefloatnameArray;
-        savefloatvalueArray = VarSetting.savefloatvalueArray;
-        savestringnameArray = VarSetting.savestringnameArray;
-        savestringvalueArray = VarSetting.savestringvalueArray;
         Code = Code.GetComponent<Text>();
 
         //最初の決り文句みたいなやつ入れる
@@ -59,10 +50,10 @@ public class Coding : MonoBehaviour
 
         for (int i = 0; i < intCount; i++)
         {
-           space(spacecount(1));
-           Code.text += "int " +
-           saveintnameArray[i] + " = " +
-           saveintvalueArray[i] + ";\n";
+            space(spacecount(1));
+            Code.text += "int " +
+            saveintnameArray[i] + " = " +
+            saveintvalueArray[i] + ";\n";
         }
         for (int i = 0; i < floatCount; i++)
         {
@@ -75,11 +66,11 @@ public class Coding : MonoBehaviour
         {
             space(spacecount(1));
             Code.text += "char " +
-            savestringnameArray[i] + "[] = " +'"'+
-            savestringvalueArray[i]+'"' + ";\n";
+            savestringnameArray[i] + "[] = " + '"' +
+            savestringvalueArray[i] + '"' + ";\n";
         }
-            //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
-            while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
+        //上から順に調べていく、左下まで行ったら押しまい、でも必要な内容が記述されてない場合はコーディングしない
+        while ((((x != 0) || (y != maxRow)) && (nullcheak == 0)))
         {
             CodingCheck();
         }
@@ -88,7 +79,7 @@ public class Coding : MonoBehaviour
         if (nullcheak == 1)
         {
             Code.text = null;
-            Code.text =( "入力された情報が不十分なブロックが存在します");
+            Code.text = ("入力された情報が不十分なブロックが存在します");
         }
         else
         {
@@ -112,7 +103,7 @@ public class Coding : MonoBehaviour
                 break;
 
             case "int":
-                Code.text += "printf(" + '"' + "%d" + '"' +","+content[x,y]+ ")" + ";";
+                Code.text += "printf(" + '"' + "%d" + '"' + "," + content[x, y] + ")" + ";";
                 Code.text += "\n";
                 y++;
                 break;
@@ -182,7 +173,7 @@ public class Coding : MonoBehaviour
         space(spacecount(0));
         Code.text += "}else{\n";
         //ifの開始地点から否定側の分が横にどのくらいずれているかを確認する
-        int scatterx = 1;        
+        int scatterx = 1;
         //否定側は、（横だけ→縦だけ）または(ifprefab→たてだけ）のどっちか
         while (!((objectArray[x + 1, y].name == "Tatedake_prefab") && ((objectArray[x, y].name == "If_prefab") || (objectArray[x, y].name == "Yokodake_prefab"))))
         {
@@ -192,24 +183,24 @@ public class Coding : MonoBehaviour
         x++;
         y++;
         //コーナ2が見つかるまで下方向に探索
-            while (objectArray[x, y].name != "Corner2_prefab")
+        while (objectArray[x, y].name != "Corner2_prefab")
         {
             CodingCheck();
         }
         //最初のifのx座標をあわせるためにオーメンに任せる
-        x=x-scatterx;
+        x = x - scatterx;
         //1マス下に行くと、ifを離脱する
         y++;
         space(spacecount(0));
         Code.text += "}\n";
-        ifcount -=1;
+        ifcount -= 1;
     }
 
     public void Code_Calc()
     {
         if (content[x, y] == null || content[x, y] == "") nullcheak = 1;
         space(spacecount(1));
-        Code.text += content[x,y];
+        Code.text += content[x, y];
         Code.text += ";\n";
         y++;
     }
@@ -234,16 +225,16 @@ public class Coding : MonoBehaviour
     //任意の数だけ\tしてくれる
     public void space(int count)
     {
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
-            Code.text+="\t";
+            Code.text += "\t";
         }
     }
 
     //ifの数によって、\tの数を見やすいように調整してくれる
     public int spacecount(int x)
     {
-        return 1+ x + ifcount;
+        return 1 + x + ifcount;
 
     }
 }

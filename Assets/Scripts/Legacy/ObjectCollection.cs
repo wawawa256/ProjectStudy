@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class ObjectCollection : MonoBehaviour
 {
+    [SerializeField] VarSetting varSetting;
     //オブジェクト配列の宣言
     public GameObject[,] objectArray = new GameObject[64,128];
     public string[,] SaveobjectArray = new string[64,128];
@@ -55,8 +56,8 @@ public class ObjectCollection : MonoBehaviour
     float locationZ;
     public int CurrentColumn { get; set; }
     public int CurrentRow { get; set; }
-    public int maxColumn;
-    public int maxRow;
+    public int MaxColumn {get; set;}
+    public int MaxRow {get; set;}
     public int row;
     public int column;
     public bool CheckResult;
@@ -99,8 +100,7 @@ public class ObjectCollection : MonoBehaviour
     //OnValueChengedで動かす
     public void Subroutine()
     {
-        int i,j;
-        int dim;
+        int i,j,dim;
 
         if(CurrentFunction == FunctionDropdown.value)
         {
@@ -246,8 +246,8 @@ public class ObjectCollection : MonoBehaviour
         ifCount = 0;
         ifFlag = 0;
         forFlag = 0;
-        maxColumn = 0;
-        maxRow = 0;
+        MaxColumn = 0;
+        MaxRow = 0;
         CurrentColumn = 0;
         CurrentRow = 0;
         preColumn = 0;
@@ -288,25 +288,25 @@ public class ObjectCollection : MonoBehaviour
                 StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
                 StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
                 int i,j;
-                for(i = 0;i<maxColumn+1;i++)
+                for(i = 0;i<MaxColumn+1;i++)
                 {
                     if(-1.5+4.0*i<StartPosX && 1.5+4.0*i>StartPosX){
                         jibunX = i;
                         break;
                     }
-                    else if(i == maxColumn)
+                    else if(i == MaxColumn)
                     {
                         jibunX = -1;
                     }
                 }
-                for(j = 0; j<maxRow+1;j++)
+                for(j = 0; j<MaxRow+1;j++)
                 {
                     if(1.5-1.5*j>StartPosY && 0.5-1.5*j<StartPosY)
                     {
                         jibunY = j;
                         break;
                     }
-                    else if(j==maxRow)
+                    else if(j==MaxRow)
                     {
                         jibunY = -1;
                     }
@@ -334,9 +334,9 @@ public class ObjectCollection : MonoBehaviour
 
     public void RedoClicked()
     {
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 if (objectArray[i, j] != null)
                 {
@@ -344,30 +344,30 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 content3D[Dimension, i, j] = content[i, j];
             }
         }
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 kata3D[Dimension, i, j] = kata[i, j];
             }
         }
-        DimensionalColumn[Dimension] = maxColumn;
-        DimensionalRow[Dimension] = maxRow;
+        DimensionalColumn[Dimension] = MaxColumn;
+        DimensionalRow[Dimension] = MaxRow;
         Dimensional_Drift(1);
     }
 
     public void UndoClicked()
     {
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 if (objectArray[i, j] != null)
                 {
@@ -375,25 +375,25 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 content3D[Dimension, i, j] = content[i, j];
             }
         }
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 kata3D[Dimension, i, j] = kata[i, j];
             }
         }
-        DimensionalColumn[Dimension] = maxColumn;
-        DimensionalRow[Dimension] = maxRow;
+        DimensionalColumn[Dimension] = MaxColumn;
+        DimensionalRow[Dimension] = MaxRow;
         Dimensional_Drift(-1);
         CurrentColumn = 0;
-        CurrentRow = maxRow-1;
+        CurrentRow = MaxRow-1;
         CurrentPosition();
     }
 
@@ -717,9 +717,9 @@ public class ObjectCollection : MonoBehaviour
     void ObjectReplace()
     {
         int i;
-        for(CurrentRow=maxRow;CurrentRow>tempRow-1;CurrentRow--)
+        for(CurrentRow=MaxRow;CurrentRow>tempRow-1;CurrentRow--)
         {
-            for(CurrentColumn=maxColumn;CurrentColumn>-1;CurrentColumn--)
+            for(CurrentColumn=MaxColumn;CurrentColumn>-1;CurrentColumn--)
             {
                 if(CurrentRow==0){
                     break;
@@ -781,21 +781,21 @@ public class ObjectCollection : MonoBehaviour
     {
         int column;
         int row;
-        maxColumn = 0;
-        maxRow = 0;
+        MaxColumn = 0;
+        MaxRow = 0;
         for(row = 0;row < 128;row++)
         {
             if(objectArray[0,row] == null) break;
-            maxRow++;
+            MaxRow++;
         }
         //Debug.Log("maxRow="+maxRow);
         for(column = 1;column<64;column++)
         {
             for(row = 0;objectArray[column,row]==null;row++)
-            if(row == maxRow)
+            if(row == MaxRow)
             if(objectArray[column,row]==null)
             {
-                maxColumn = column;
+                MaxColumn = column;
                 //Debug.Log("maxColumn="+maxColumn);
                 return;
             }
@@ -850,9 +850,9 @@ public class ObjectCollection : MonoBehaviour
         j = 0;
 
         //gameobject型をstringの配列に変える
-        for (i = 0; i < maxColumn; i++)
+        for (i = 0; i < MaxColumn; i++)
         {
-            for (j = 0; j < maxRow; j++)
+            for (j = 0; j < MaxRow; j++)
             {
                 if (objectArray[i, j] != null)
                 {
@@ -862,34 +862,34 @@ public class ObjectCollection : MonoBehaviour
         }
 
         //座標ごとにストレージに保存する（ブロックの種類）
-        for (i = 0; i < maxColumn; i++)
+        for (i = 0; i < MaxColumn; i++)
         {
-            for (j = 0; j < maxRow; j++)
+            for (j = 0; j < MaxRow; j++)
             {
                 PlayerPrefs.SetString("ObjectArray" + i + j, SaveobjectArray[i, j]);
                 // Debug.Log(objectArray[i, j]);
             }
         }
         //座標ごとにストレージに保存する（ブロックの中身）
-        for (i = 0; i < maxColumn; i++)
+        for (i = 0; i < MaxColumn; i++)
         {
-            for (j = 0; j < maxRow; j++)
+            for (j = 0; j < MaxRow; j++)
             {
                 PlayerPrefs.SetString("contentArray" + i + j, content[i, j]);
                 //Debug.Log(content[i, j]);
             }
         }
         //座標ごとストレージに保存する(変数の型情報)
-        for (i = 0; i < maxColumn; i++)
+        for (i = 0; i < MaxColumn; i++)
         {
-            for (j = 0; j < maxRow; j++)
+            for (j = 0; j < MaxRow; j++)
             {
                 PlayerPrefs.SetString("kataArray" + i + j, kata[i, j]);
                 //Debug.Log(content[i, j]);
             }
         }
-        PlayerPrefs.SetInt("maxColumn", maxColumn);
-        PlayerPrefs.SetInt("maxRow", maxRow);
+        PlayerPrefs.SetInt("maxColumn", MaxColumn);
+        PlayerPrefs.SetInt("maxRow", MaxRow);
         PlayerPrefs.Save();
     }
 
@@ -906,8 +906,8 @@ public class ObjectCollection : MonoBehaviour
                 // Debug.Log(content[i, j]);
             }
         }
-        maxColumn = PlayerPrefs.GetInt("maxColumn", 0);
-        maxRow = PlayerPrefs.GetInt("maxRow", 0);
+        MaxColumn = PlayerPrefs.GetInt("maxColumn", 0);
+        MaxRow = PlayerPrefs.GetInt("maxRow", 0);
         tempColumn = -1;
         tempRow = -1;
         LoadObject();
@@ -916,9 +916,9 @@ public class ObjectCollection : MonoBehaviour
     void LoadObject()
     {
         //Debug.Log("ろーどかいしするよ");
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 GameObject Prefab;
 
@@ -1051,7 +1051,7 @@ public class ObjectCollection : MonoBehaviour
                 if(InOutCheck)
                 {
                     //Debug.Log("uchi");
-                    for(i=0;i<maxRow;i++)
+                    for(i=0;i<MaxRow;i++)
                     {
                         if(ifArray[temp].ifStartRow<i)
                         if(ifArray[temp].ifEndRow>=i)
@@ -1065,7 +1065,7 @@ public class ObjectCollection : MonoBehaviour
                 else
                 {
                     //Debug.Log("soto");
-                    for(i=0;i<maxRow;i++)
+                    for(i=0;i<MaxRow;i++)
                     {
                         act = false;
                         for(j=0;j<=ifCount;j++)
@@ -1102,9 +1102,9 @@ public class ObjectCollection : MonoBehaviour
 
     void WireSetting()
     {
-        for(CurrentRow=maxRow+1;CurrentRow>-1;CurrentRow--)
+        for(CurrentRow=MaxRow+1;CurrentRow>-1;CurrentRow--)
         {
-            for(CurrentColumn=maxColumn+1;CurrentColumn>-1;CurrentColumn--)
+            for(CurrentColumn=MaxColumn+1;CurrentColumn>-1;CurrentColumn--)
             {
                 if(wireArray[CurrentColumn, CurrentRow]!=null){
                     Destroy(wireArray[CurrentColumn,CurrentRow]);
@@ -1125,7 +1125,7 @@ public class ObjectCollection : MonoBehaviour
                         break;
 
                     case "Blank_prefab":
-                        if(CurrentRow!=maxRow-1)
+                        if(CurrentRow!=MaxRow-1)
                         {
                             WireInstall(Wire_prefab);
                         }
@@ -1325,9 +1325,9 @@ public class ObjectCollection : MonoBehaviour
                 string vartext;
               //  Debug.Log(VarDropdownPrintf.value);
                 if(VarDropdownPrintf.value!=0){
-                    vartext = VarSetting.whatisthis(VarDropdownPrintf.value);
-                    kata[CurrentColumn,CurrentRow]=VarSetting.watchthis(VarDropdownPrintf.value);
-                    content[CurrentColumn, CurrentRow] = VarSetting.youshouldrun(VarDropdownPrintf.value);
+                    vartext = varSetting.whatisthis(VarDropdownPrintf.value);
+                    kata[CurrentColumn,CurrentRow]=varSetting.watchthis(VarDropdownPrintf.value);
+                    content[CurrentColumn, CurrentRow] = varSetting.youshouldrun(VarDropdownPrintf.value);
                 }
                 else{
                     vartext = PrintfInputField.text.ToString();
@@ -1341,13 +1341,13 @@ public class ObjectCollection : MonoBehaviour
             case 3://if
                 string vartext1, vartext2;
                 if(VarDropdownIf1.value!=0){
-                    vartext1=VarSetting.youshouldrun(VarDropdownIf1.value);
+                    vartext1=varSetting.youshouldrun(VarDropdownIf1.value);
                 }else{
                     //vartext1='"'+IfInputField1.text.ToString()+'"';
                     vartext1=IfInputField1.text.ToString();
                 }
                 if(VarDropdownIf2.value!=0){
-                    vartext2=VarSetting.youshouldrun(VarDropdownIf2.value);
+                    vartext2=varSetting.youshouldrun(VarDropdownIf2.value);
                 }else{
                     //vartext2='"'+IfInputField2.text.ToString()+'"';
                     vartext2=IfInputField2.text.ToString();
@@ -1392,12 +1392,12 @@ public class ObjectCollection : MonoBehaviour
             case 7://calc
                 string vartext3,vartext4;
                 if(VarDropdownCalc1.value!=0){
-                    vartext3=VarSetting.youshouldrun(VarDropdownCalc1.value);
+                    vartext3=varSetting.youshouldrun(VarDropdownCalc1.value);
                 }else{
                     vartext3=CalcInputField1.text.ToString();
                 }
                 if(VarDropdownCalc2.value!=0){
-                    vartext4=VarSetting.youshouldrun(VarDropdownCalc2.value);
+                    vartext4=varSetting.youshouldrun(VarDropdownCalc2.value);
                 }else{
                     vartext4=CalcInputField2.text.ToString();
                 }
@@ -1405,7 +1405,7 @@ public class ObjectCollection : MonoBehaviour
                 if(VarDropdownCalc3.value==0){
                     aaa="";
                 }else{
-                    aaa=VarSetting.youshouldrun(VarDropdownCalc3.value);
+                    aaa=varSetting.youshouldrun(VarDropdownCalc3.value);
                 }
                 DataHere=aaa+"="+vartext3+enzansi2+vartext4;
                 CalcDisplay.text=DataHere;
@@ -1416,13 +1416,13 @@ public class ObjectCollection : MonoBehaviour
             case 8://while
                 string vartextw1, vartextw2;
                 if(VarDropdownWhile1.value!=0){
-                    vartextw1=VarSetting.youshouldrun(VarDropdownWhile1.value);
+                    vartextw1=varSetting.youshouldrun(VarDropdownWhile1.value);
                 }else{
                     //vartext1='"'+IfInputField1.text.ToString()+'"';
                     vartextw1=WhileInputField1.text.ToString();
                 }
                 if(VarDropdownWhile2.value!=0){
-                    vartextw2=VarSetting.youshouldrun(VarDropdownWhile2.value);
+                    vartextw2=varSetting.youshouldrun(VarDropdownWhile2.value);
                 }else{
                     //vartext2='"'+IfInputField2.text.ToString()+'"';
                     vartextw2=WhileInputField2.text.ToString();
@@ -1797,9 +1797,9 @@ public class ObjectCollection : MonoBehaviour
 
     public void BeyondDimension()
     {
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 if (objectArray[i, j] != null)
                 {
@@ -1807,23 +1807,23 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 content3D[Dimension, i, j] = content[i, j];
             }
         }
-        for (int i = 0; i < maxColumn; i++)
+        for (int i = 0; i < MaxColumn; i++)
         {
-            for (int j = 0; j < maxRow; j++)
+            for (int j = 0; j < MaxRow; j++)
             {
                 kata3D[Dimension, i, j] = kata[i, j];
             }
         }
         ifArrayBeyond();
-        DimensionalColumn[Dimension] = maxColumn;
-        DimensionalRow[Dimension] = maxRow;
+        DimensionalColumn[Dimension] = MaxColumn;
+        DimensionalRow[Dimension] = MaxRow;
     //  Debug.Log(Dimension + "がセーブされた");
     //    Debug.Log(objectArray3D[Dimension, 0, 0]);
         Dimension++;
@@ -1889,8 +1889,8 @@ public class ObjectCollection : MonoBehaviour
             //instantiateされたオブジェクトの名前に(Clone)がつかないようにする
             objectArray[0, 0].name = "Blank_prefab";
             textMake(CurrentColumn, CurrentRow, "Blank_prefab");
-            maxColumn = 1;
-            maxRow = 1;
+            MaxColumn = 1;
+            MaxRow = 1;
             WireSetting();
             CurrentColumn = 0;
             CurrentRow = 0;
@@ -1971,13 +1971,13 @@ public class ObjectCollection : MonoBehaviour
                 }
             }
         }
-        maxColumn = DimensionalColumn[TheDimension];
-        maxRow = DimensionalRow[TheDimension];
+        MaxColumn = DimensionalColumn[TheDimension];
+        MaxRow = DimensionalRow[TheDimension];
         WireSetting();
       //  CurrentColumn = 0;
       //  CurrentRow = 0;
         CurrentColumn = 0;
-        CurrentRow = maxRow-1;
+        CurrentRow = MaxRow-1;
         CurrentPosition();
         Dimension = TheDimension;
     }
@@ -1987,8 +1987,8 @@ public class ObjectCollection : MonoBehaviour
         ifCount = 0;
         ifFlag = 0;
         forFlag = 0;
-        maxColumn = 0;
-        maxRow = 0;
+        MaxColumn = 0;
+        MaxRow = 0;
         CurrentColumn = 0;
         CurrentRow = 0;
         preColumn = 0;

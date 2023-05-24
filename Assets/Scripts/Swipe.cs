@@ -7,104 +7,55 @@ using UnityEngine.EventSystems;
 public class Swipe : MonoBehaviour
 {
     [SerializeField] ObjectCollection objectCollection;
-
-    public float StartPosX;
-    public float StartPosY;
-    public float EndPosX;
-    public float EndPosY;
-    public float SwipeLengthX;
-    public float SwipeLengthY;
-    public float CameraPosX;
-    public float CameraPosY;
-    public float VerticalSpace;
-    public float HorizontalSpace;
-    public float startX;
-    public float startY;
-    public float maxPosX;
-    public float maxPosY;
-
-    int maxColumn;
-    int maxRow;
     Camera mainCamera;
-    float i = 0.0f;
+
+    float StartPosX;
+    float StartPosY;
+    float maxPosX;
+    float maxPosY;
 
     void Start()
     {
-        mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
-        VerticalSpace = Constant.VerticalSpace;
-        HorizontalSpace = Constant.HorizontalSpace;
-        startX = Constant.startX;
-        startY = Constant.startY;
+        Camera mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
+        mainCamera.orthographicSize = 5.0f;
     }
-    public void zoom_in()
+
+    //いずれピンチインピンチアウトも実装したい :TODO
+    public void Zoom_in()
     {
-        if(i>0.0f)
+        if(mainCamera.orthographicSize >0f)
         {
-            i = i - 0.5f;
-            mainCamera.orthographicSize = 5.0f + i;  
+            mainCamera.orthographicSize -= 0.5f;  
         }
-        
     }
-    public void zoom_out()
+    public void Zoom_out()
     {
-        i = i + 0.5f;
-        mainCamera.orthographicSize = 5.0f + i;  
+        mainCamera.orthographicSize += 0.5f;  
     }
     
-
     void Update ()
     {
-
         if(Input.GetMouseButtonDown(0))
-        {    
-            maxColumn = objectCollection.maxColumn;
-            maxRow = objectCollection.maxRow;
-            maxPosX = HorizontalSpace * maxColumn;
-            maxPosY = VerticalSpace * maxRow;
+        { 
+            maxPosX = Constant.HorizontalSpace * objectCollection.MaxColumn;
+            maxPosY = Constant.VerticalSpace * objectCollection.MaxRow;
 
             StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
             StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
         }
         if (Input.GetMouseButton (0))
         {
-            EndPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
-            EndPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
-            SwipeLengthX = StartPosX - EndPosX;
-            SwipeLengthY = StartPosY - EndPosY;
-            CameraPosX = mainCamera.transform.position.x;
-            CameraPosY = mainCamera.transform.position.y;
+            float EndPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
+            float EndPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
 
-            UpperSetting();
+            float SwipeLengthX = StartPosX - EndPosX;
+            float SwipeLengthY = StartPosY - EndPosY;
+            float CameraPosX = Mathf.Clamp(mainCamera.transform.position.x + SwipeLengthX, 0, maxPosX);
+            float CameraPosY = Mathf.Clamp(mainCamera.transform.position.y + SwipeLengthY, 0, maxPosY);
 
-            mainCamera.transform.position = 
-                new Vector3 (CameraPosX + SwipeLengthX, CameraPosY + SwipeLengthY, -10);
+            mainCamera.transform.position = new Vector3 (CameraPosX , CameraPosY, -10);
             StartPosX = mainCamera.ScreenToWorldPoint (Input.mousePosition).x;
             StartPosY = mainCamera.ScreenToWorldPoint (Input.mousePosition).y;
-        }
-    }
-
-    void UpperSetting()
-    {
-        if(CameraPosX + SwipeLengthX < 0)
-        {          
-            CameraPosX = 0;
-            SwipeLengthX = 0;
-        }
-        else if(CameraPosX + SwipeLengthX > maxPosX)
-        {
-            CameraPosX = maxPosX;
-            SwipeLengthX = 0;
-        }
-
-        if(CameraPosY + SwipeLengthY > 0)
-        {           
-            CameraPosY = 0;
-            SwipeLengthY = 0;
-        }
-        else if(CameraPosY + SwipeLengthY < maxPosY)
-        {           
-            CameraPosY = maxPosY;
-            SwipeLengthY = 0;
         }
     }
 }

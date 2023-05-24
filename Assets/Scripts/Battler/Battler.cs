@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class Battler : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    BattlerBase _base;
+    int level;
+    int attackPower;
+    int defensePower;
+    int speed;
+    int maxHp;
+    int currentHp;
+
+    public BattlerBase Base => _base;
+    
+    public void Init()
     {
-        
+        level = Base.InitLevel;
+        attackPower = Base.OffencePower;
+        defensePower = Base.DefensePower;
+        speed = Base.Speed;
+        maxHp = Base.MaxHp;
+        currentHp = maxHp;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    
+
 }
