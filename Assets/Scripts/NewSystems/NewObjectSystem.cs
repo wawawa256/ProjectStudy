@@ -10,7 +10,8 @@ public class NewObjectSystem : MonoBehaviour
 
     GameObject[] objectPrefabs;
     List<int> existIds = new List<int>();
-    int[] alreadyCalculated; //もう計算したものはもう良くない？の気持ち
+    int[] alreadyCalculatedTrue;
+    int[] alreadyCalculatedFalse; //もう計算したものはもう良くない？の気持ち
 
     public void AddNewObject(FlowChartObject obj)//どこに？は必要そう
     {
@@ -40,7 +41,8 @@ public class NewObjectSystem : MonoBehaviour
                 count++;
             }
         }
-        alreadyCalculated = new int[Constant.MAX_IF_OBJECTS];
+        alreadyCalculatedTrue = new int[Constant.MAX_IF_OBJECTS];
+        alreadyCalculatedFalse = new int[Constant.MAX_IF_OBJECTS];
         foreach (int id in existIds)
         {
             foreach (IfObject obj in ifObjects)
@@ -59,17 +61,12 @@ public class NewObjectSystem : MonoBehaviour
 
     int GetSize(List<IfObject> list, int id)
     {
-        if(alreadyCalculated[id] != 0)
-        {
-            return alreadyCalculated[id];
-        }
         //sizeは最大値の判定にのみ使用します。
         int size = 1;
         foreach (IfObject item in list)
         {
             if (item.Id == id)
             {
-                alreadyCalculated[id] = size;
                 return size;
             }
             else if (item is IfTrueObject)
@@ -83,16 +80,27 @@ public class NewObjectSystem : MonoBehaviour
             }
         }
         Debug.Log("error");
-        alreadyCalculated[id] = 0;
-        return 0;
+        alreadyCalculatedTrue[id] = -1;
+        alreadyCalculatedFalse[id] = -1;
+        return -1;
     }
     int GetTrueSize(int id)
     {
-        return GetSize(GetListTrueToFalse(id), id);
+        if (alreadyCalculatedTrue[id] != 0)
+        {
+            return alreadyCalculatedTrue[id];
+        }
+        alreadyCalculatedTrue[id] = GetSize(GetListTrueToFalse(id), id);
+        return alreadyCalculatedTrue[id];
     }
     int GetFalseSize(int id)
     {
-        return GetSize(GetListFalseToEnd(id), id);
+        if (alreadyCalculatedFalse[id] != 0)
+        {
+            return alreadyCalculatedFalse[id];
+        }
+        alreadyCalculatedFalse[id] = GetSize(GetListFalseToEnd(id), id);
+        return alreadyCalculatedFalse[id];
     }
 
     List<IfObject> GetListTrueToFalse(int id)
@@ -110,6 +118,7 @@ public class NewObjectSystem : MonoBehaviour
                 int end = i;
                 int size = end - start;
                 //最初のifは含まないlistを返す
+                Debug.Log("id:"+ id + " start:" + start + " end:" + end + " size:" + size);
                 return ifObjects.GetRange(start+1, size);
             }
         }
@@ -131,6 +140,7 @@ public class NewObjectSystem : MonoBehaviour
                 int end = i;
                 int size = end - start;
                 //最初のifは含まないlistを返す
+                Debug.Log("id:"+ id +" start:" + start + " end:" + end + " size:" + size);
                 return ifObjects.GetRange(start+1, size);
             }
         }
@@ -162,19 +172,21 @@ public class NewObjectSystem : MonoBehaviour
     }
     void Test()
     {
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfTrueObject(3));
         AddNewObject(new IfTrueObject(4));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfFalseObject(4));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new IfTrueObject(2));
+        AddNewObject(new IfFalseObject(2));
+        AddNewObject(new IfEndObject(2));
         AddNewObject(new IfEndObject(4));
         AddNewObject(new IfFalseObject(3));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new IfTrueObject(1));
+        AddNewObject(new IfFalseObject(1));
+        AddNewObject(new IfEndObject(1));
         AddNewObject(new IfEndObject(3));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         //idは統一したものを使います
+        existIds.Add(1);
+        existIds.Add(2);
         existIds.Add(3);
         existIds.Add(4);
     }
