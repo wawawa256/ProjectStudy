@@ -9,6 +9,9 @@ public class NewObjectSystem : MonoBehaviour
     List<IfObject> ifObjects = new List<IfObject>();
 
     GameObject[] objectPrefabs;
+    List<int> existIds = new List<int>();
+    int[] alreadyCalculated; //もう計算したものはもう良くない？の気持ち
+
     public void AddNewObject(FlowChartObject obj)//どこに？は必要そう
     {
         objects.Add(obj);
@@ -37,30 +40,102 @@ public class NewObjectSystem : MonoBehaviour
                 count++;
             }
         }
-
-        //GetSize();
-    }
-
-    void GetSize()
-    {
-        //ifのsizeに応じてFlowのサイズを変更する
-        int size = 0;
-        foreach (IfObject obj in ifObjects)
+        alreadyCalculated = new int[Constant.MAX_IF_OBJECTS];
+        foreach (int id in existIds)
         {
-            if (obj is IfTrueObject)
+            foreach (IfObject obj in ifObjects)
             {
-                size += ((IfTrueObject)obj).Size;
-            }
-            else if(obj is IfFalseObject)
-            {
-                size++;
-            }
-            else if(obj is IfEndObject)
-            {
-                size++;
+                if (obj.Id == id)
+                {
+                    obj.TrueSize = GetTrueSize(id);
+                    obj.FalseSize = GetFalseSize(id);
+                    Debug.Log("id:" + id + " true:" + obj.TrueSize + " false:" + obj.FalseSize);
+                }
             }
         }
-        Debug.Log(size);
+    }
+
+    //ifで囲まれたlistをもらって、その中の最大のifのsizeを返す
+
+    int GetSize(List<IfObject> list, int id)
+    {
+        if(alreadyCalculated[id] != 0)
+        {
+            return alreadyCalculated[id];
+        }
+        //sizeは最大値の判定にのみ使用します。
+        int size = 1;
+        foreach (IfObject item in list)
+        {
+            if (item.Id == id)
+            {
+                alreadyCalculated[id] = size;
+                return size;
+            }
+            else if (item is IfTrueObject)
+            {
+                if (size < item.Size)
+                {
+                    item.TrueSize = GetTrueSize(item.Id);
+                    item.FalseSize = GetFalseSize(item.Id);
+                    size = item.Size;
+                }
+            }
+        }
+        Debug.Log("error");
+        alreadyCalculated[id] = 0;
+        return 0;
+    }
+    int GetTrueSize(int id)
+    {
+        return GetSize(GetListTrueToFalse(id), id);
+    }
+    int GetFalseSize(int id)
+    {
+        return GetSize(GetListFalseToEnd(id), id);
+    }
+
+    List<IfObject> GetListTrueToFalse(int id)
+    {
+        int start = 0;
+
+        for (int i = 0;i<ifObjects.Count;i++)
+        {
+            if (ifObjects[i] is IfTrueObject && ifObjects[i].Id == id)
+            {
+                start = i;
+            }
+            else if (ifObjects[i] is IfFalseObject && ifObjects[i].Id == id)
+            {
+                int end = i;
+                int size = end - start;
+                //最初のifは含まないlistを返す
+                return ifObjects.GetRange(start+1, size);
+            }
+        }
+        Debug.Log("error");
+        return null;
+    }
+    List<IfObject> GetListFalseToEnd(int id)
+    {
+        int start = 0;
+
+        for (int i = 0; i < ifObjects.Count; i++)
+        {
+            if (ifObjects[i] is IfFalseObject && ifObjects[i].Id == id)
+            {
+                start = i;
+            }
+            else if (ifObjects[i] is IfEndObject && ifObjects[i].Id == id)
+            {
+                int end = i;
+                int size = end - start;
+                //最初のifは含まないlistを返す
+                return ifObjects.GetRange(start+1, size);
+            }
+        }
+        Debug.Log("error");
+        return null;
     }
     void ResizeFlow()
     {
@@ -78,23 +153,29 @@ public class NewObjectSystem : MonoBehaviour
     void Start()
     {
         Init();
-        AddNewObject(new SkillObject(player.Battler.GetSkill(), 1));
-        AddNewObject(new SkillObject(player.Battler.GetSkill(), 2));
-        AddNewObject(new IfTrueObject(3));
-        AddNewObject(new IfTrueObject(4));
-        AddNewObject(new SkillObject(player.Battler.GetSkill(), 8));
-        AddNewObject(new IfFalseObject(4));
-        AddNewObject(new SkillObject(player.Battler.GetSkill(), 7));
-        AddNewObject(new IfEndObject(4));
-        AddNewObject(new IfFalseObject(3));
-        AddNewObject(new SkillObject(player.Battler.GetSkill(), 5));
-        AddNewObject(new IfEndObject(3));
-        AddNewObject(new SkillObject(player.Battler.GetSkill(), 6));
-        //idは統一したものを使います
+        Test();
         Display();
     }
     void Init()
     {
         objectPrefabs = new GameObject[Constant.MAX_OBJECTS];
+    }
+    void Test()
+    {
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new IfTrueObject(3));
+        AddNewObject(new IfTrueObject(4));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new IfFalseObject(4));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new IfEndObject(4));
+        AddNewObject(new IfFalseObject(3));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new IfEndObject(3));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        //idは統一したものを使います
+        existIds.Add(3);
+        existIds.Add(4);
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SkillObject : FlowChartObject
 {
     public SkillBase SkillBase { get; set; }
-    public SkillObject(SkillBase skillBase, int id) : base(id)
+    public SkillObject(SkillBase skillBase)
     {
         SkillBase = skillBase;
         Init();

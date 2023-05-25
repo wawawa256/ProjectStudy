@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class IfTrueObject : IfObject
 {
-    public int Size { get => TrueSize + FalseSize; }
-    public int TrueSize { get; set; }
-    public int FalseSize { get; set; }
     public IfTrueObject(int id) : base(id)
     {
         Init();

@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class IfObject : FlowChartObject
 {
-    public IfObject(int id) : base(id)
+    public int Id { get; }
+    public int Size { get => TrueSize + FalseSize; }
+    public int TrueSize { get; set; }
+    public int FalseSize { get; set; }
+    public IfObject(int id)
     {
+        Id = id;
+        Init();
     }
 }
