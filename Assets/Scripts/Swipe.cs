@@ -50,8 +50,10 @@ public class Swipe : MonoBehaviour
 
             float SwipeLengthX = StartPosX - EndPosX;
             float SwipeLengthY = StartPosY - EndPosY;
-            float CameraPosX = Mathf.Clamp(mainCamera.transform.position.x + SwipeLengthX, 0, maxPosX);
-            float CameraPosY = Mathf.Clamp(mainCamera.transform.position.y + SwipeLengthY, 0, maxPosY);
+            //float CameraPosX = Mathf.Clamp(mainCamera.transform.position.x + SwipeLengthX, 0, maxPosX);
+            //float CameraPosY = Mathf.Clamp(mainCamera.transform.position.y + SwipeLengthY, 0, maxPosY);
+            float CameraPosX = mainCamera.transform.position.x + SwipeLengthX;
+            float CameraPosY = mainCamera.transform.position.y + SwipeLengthY;
 
             mainCamera.transform.position = new Vector3(CameraPosX, CameraPosY, -10);
             StartPosX = mainCamera.ScreenToWorldPoint(Input.mousePosition).x;

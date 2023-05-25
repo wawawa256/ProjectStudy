@@ -15,7 +15,6 @@ public class ButtonScript : MonoBehaviour
     [SerializeField] GameObject WhileStartButton;
     [SerializeField] GameObject WhileEndButton;
     [SerializeField] GameObject BreakButton;
-    [SerializeField] GameObject SubroutineButton;
 
     int ifFlag;
     int forFlag;
@@ -85,7 +84,6 @@ public class ButtonScript : MonoBehaviour
         ForStartButton.SetActive(false);
         WhileStartButton.SetActive(false);
         BreakButton.SetActive(false);
-        SubroutineButton.SetActive(false);
 
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);
@@ -99,7 +97,6 @@ public class ButtonScript : MonoBehaviour
         ForStartButton.SetActive(true);
         WhileStartButton.SetActive(true);
         BreakButton.SetActive(true);
-        SubroutineButton.SetActive(true);
 
         IfEndButton.SetActive(false);
         ForEndButton.SetActive(false);

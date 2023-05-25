@@ -83,17 +83,6 @@ public class ObjectCollection : MonoBehaviour
     public int jibunY = 0;
     public int touch_flag = 1;
 
-    enum State
-    {
-        None,
-        If,
-        For,
-        While,
-        Break,
-        Subroutine,
-    }
-    State state = State.None;
-
     public Text Label;
     Ifreference[,] ifArray3 = new Ifreference[64, 128];
 
@@ -163,8 +152,8 @@ public class ObjectCollection : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                StartPosX = mainCamera.ScreenToWorldPoint(Input.mousePosition).x;
-                StartPosY = mainCamera.ScreenToWorldPoint(Input.mousePosition).y;
+                //StartPosX = mainCamera.ScreenToWorldPoint(Input.mousePosition).x;
+                //StartPosY = mainCamera.ScreenToWorldPoint(Input.mousePosition).y;
                 int i, j;
                 for (i = 0; i < MaxColumn + 1; i++)
                 {
@@ -335,9 +324,6 @@ public class ObjectCollection : MonoBehaviour
                     break;
                 case "WhileStart_prefab":
                     ObjectText.text = "while";
-                    break;
-                case "Subroutine_prefab":
-                    ObjectText.text = "Subroutine";
                     break;
             }
         else
@@ -518,20 +504,6 @@ public class ObjectCollection : MonoBehaviour
         whileFlag = 0;
     }
 
-    //calculateボタン
-    public void CalcButtonClicked()
-    {
-        BeyondDimension();
-        tempRow = CurrentRow;
-        tempColumn = CurrentColumn;
-
-        Replace();
-        ObjectInstall(Calc_prefab);
-        ButtonClicked();
-        CurrentPosition();
-        whetherIf = false;
-    }
-
     public void BreakButtonClicked()
     {
         BeyondDimension();
@@ -545,18 +517,6 @@ public class ObjectCollection : MonoBehaviour
         whetherIf = false;
     }
 
-    public void SubroutineButtonClicked()
-    {
-        BeyondDimension();
-        tempRow = CurrentRow;
-        tempColumn = CurrentColumn;
-
-        Replace();
-        ObjectInstall(Subroutine_prefab);
-        ButtonClicked();
-        CurrentPosition();
-        whetherIf = false;
-    }
 
     //全ボタン共通
     void ButtonClicked()

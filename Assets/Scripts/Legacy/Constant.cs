@@ -8,4 +8,5 @@ public class Constant
     public const float HorizontalSpace = 4.0f;
     public const float startX = 0f;
     public const float startY = 1.0f;
+    public const int MAX_OBJECTS = 100;
 }
