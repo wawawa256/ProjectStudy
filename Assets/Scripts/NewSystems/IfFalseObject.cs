@@ -11,6 +11,6 @@ public class IfFalseObject : IfObject
     public override void Init()
     {
         base.Init();
-        Prefab = null;
+        Prefab = Resources.Load<GameObject>("Prefabs/IfFalseObjectPrefab");
     }
 }

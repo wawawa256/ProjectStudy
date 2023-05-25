@@ -13,6 +13,9 @@ public class NewObjectSystem : MonoBehaviour
     int[] alreadyCalculatedTrue;
     int[] alreadyCalculatedFalse; //もう計算したものはもう良くない？の気持ち
 
+    int[] trueLengths;
+    int[] falseLengths;
+
     public void AddNewObject(FlowChartObject obj)//どこに？は必要そう
     {
         objects.Add(obj);
@@ -29,20 +32,16 @@ public class NewObjectSystem : MonoBehaviour
 
     void Display()
     {
-        //Listから全てをInstantiateして表示する
-        //実験的
-        int count = 0;
-        for (int i = 0; i < objects.Count; i++)
-        {
-            FlowChartObject obj = objects[i];
-            if (obj.Prefab != null)
-            {
-                objectPrefabs[count] = Instantiate(obj.Prefab, new Vector3(0, -1.5f * count + 1.0f, 0), Quaternion.identity);
-                count++;
-            }
-        }
+        CalculateIfSize();
+        PrintPrefabs();
+    }
+
+    void CalculateIfSize()
+    {
         alreadyCalculatedTrue = new int[Constant.MAX_IF_OBJECTS];
         alreadyCalculatedFalse = new int[Constant.MAX_IF_OBJECTS];
+        trueLengths = new int[Constant.MAX_IF_OBJECTS];
+        falseLengths = new int[Constant.MAX_IF_OBJECTS];
         foreach (int id in existIds)
         {
             foreach (IfObject obj in ifObjects)
@@ -55,6 +54,46 @@ public class NewObjectSystem : MonoBehaviour
                 }
             }
         }
+    }
+
+    void PrintPrefabs()
+    {
+        Stack<int> nextStack = new Stack<int>();
+        Stack<int> rowStack = new Stack<int>();
+        int row = 0;
+        int column = 0;
+        int i = 0;
+        foreach (FlowChartObject obj in objects)
+        {
+            if (obj is IfObject)
+            {
+                IfObject ifObject = (IfObject)obj;
+
+                if (obj is IfTrueObject)
+                {
+                    //IfTrueObjectの大きさにresizeして表示する
+                    nextStack.Push(row);
+                }
+                else if (obj is IfFalseObject)
+                {
+                    column += ifObject.TrueSize;
+                    row = nextStack.Pop();
+                    rowStack.Push(row);
+                }
+                else if (obj is IfEndObject)
+                {
+                    row = rowStack.Pop()+GetLongerLength(ifObject.Id);
+                    column -= ifObject.TrueSize;
+                }
+            }
+            objectPrefabs[i++] = Instantiate(obj.Prefab, Location(column, row), Quaternion.identity);
+            row++;
+        }
+    }
+
+    Vector3 Location(int column, int row)
+    {
+        return new Vector3(Constant.HorizontalSpace * column, Constant.VerticalSpace * row + 1.0f, 0);
     }
 
     //ifで囲まれたlistをもらって、その中の最大のifのsizeを返す
@@ -117,8 +156,8 @@ public class NewObjectSystem : MonoBehaviour
             {
                 int end = i;
                 int size = end - start;
+
                 //最初のifは含まないlistを返す
-                Debug.Log("id:"+ id + " start:" + start + " end:" + end + " size:" + size);
                 return ifObjects.GetRange(start+1, size);
             }
         }
@@ -139,13 +178,100 @@ public class NewObjectSystem : MonoBehaviour
             {
                 int end = i;
                 int size = end - start;
+
                 //最初のifは含まないlistを返す
-                Debug.Log("id:"+ id +" start:" + start + " end:" + end + " size:" + size);
                 return ifObjects.GetRange(start+1, size);
             }
         }
         Debug.Log("error");
         return null;
+    }
+    int GetLongerLength(int id)
+    {
+        int trueLength = GetTrueLengths(id);
+        int falseLength = GetFalseLengths(id);
+        if (trueLength > falseLength)
+        {
+            return trueLength;
+        }
+        else
+        {
+            return falseLength;
+        }
+    }
+    int GetTrueLengths(int id)
+    {
+        foreach (FlowChartObject obj in objects)
+        {
+            for (int i = 0; i < objects.Count; i++)
+            {
+                if (obj is IfObject)
+                {
+                    IfObject ifObject = (IfObject)obj;
+                    if (ifObject.Id == id)
+                    {
+                        if (obj is IfTrueObject)
+                        {
+                            trueLengths[id] = 1;
+                        }
+                        else if (obj is IfFalseObject)
+                        {
+                            return trueLengths[id];
+                        }
+                    }
+                    else
+                    {
+                        if (obj is IfFalseObject)
+                        {
+                            i += GetFalseLengths(ifObject.Id);
+                        }
+                        else if (obj is IfEndObject)
+                        {
+                            break;
+                        }
+                    }
+                }
+                trueLengths[id] += 1;
+            }
+        }
+        return trueLengths[id];
+    }
+    int GetFalseLengths(int id)
+    {
+        foreach (FlowChartObject obj in objects)
+        {
+            for (int i = 0; i < objects.Count; i++)
+            {
+                if (obj is IfObject)
+                {
+                    IfObject ifObject = (IfObject)obj;
+                    if (ifObject.Id == id)
+                    {
+                        if (obj is IfFalseObject)
+                        {
+                            falseLengths[id] = 1;
+                        }
+                        else if (obj is IfEndObject)
+                        {
+                            return falseLengths[id];
+                        }
+                    }
+                    else
+                    {
+                        if (obj is IfFalseObject)
+                        {
+                            i += GetFalseLengths(ifObject.Id);
+                        }
+                        else if (obj is IfEndObject)
+                        {
+                            break;
+                        }
+                    }
+                }
+                falseLengths[id] += 1;
+            }
+        }
+        return falseLengths[id];
     }
     void ResizeFlow()
     {
@@ -172,17 +298,26 @@ public class NewObjectSystem : MonoBehaviour
     }
     void Test()
     {
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfTrueObject(3));
         AddNewObject(new IfTrueObject(4));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfFalseObject(4));
         AddNewObject(new IfTrueObject(2));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfFalseObject(2));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfEndObject(2));
         AddNewObject(new IfEndObject(4));
         AddNewObject(new IfFalseObject(3));
-        AddNewObject(new IfTrueObject(1));
-        AddNewObject(new IfFalseObject(1));
-        AddNewObject(new IfEndObject(1));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfEndObject(3));
         //idは統一したものを使います
         existIds.Add(1);

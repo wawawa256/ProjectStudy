@@ -13,6 +13,6 @@ public class IfTrueObject : IfObject
         base.Init();
         TrueSize = 1;
         FalseSize = 1;
-        Prefab = Resources.Load<GameObject>("Prefabs/IfObjectPrefab");
+        Prefab = Resources.Load<GameObject>("Prefabs/IfTrueObjectPrefab");
     }
 }
