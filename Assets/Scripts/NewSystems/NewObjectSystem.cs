@@ -15,6 +15,8 @@ public class NewObjectSystem : MonoBehaviour
 
     int[] trueLengths;
     int[] falseLengths;
+    int[] trueLengthsInList;
+    int[] falseLengthsInList;
 
     public void AddNewObject(FlowChartObject obj)//どこに？は必要そう
     {
@@ -42,6 +44,8 @@ public class NewObjectSystem : MonoBehaviour
         alreadyCalculatedFalse = new int[Constant.MAX_IF_OBJECTS];
         trueLengths = new int[Constant.MAX_IF_OBJECTS];
         falseLengths = new int[Constant.MAX_IF_OBJECTS];
+        trueLengthsInList = new int[Constant.MAX_IF_OBJECTS];
+        falseLengthsInList = new int[Constant.MAX_IF_OBJECTS];
         foreach (int id in existIds)
         {
             foreach (IfObject obj in ifObjects)
@@ -50,7 +54,7 @@ public class NewObjectSystem : MonoBehaviour
                 {
                     obj.TrueSize = GetTrueSize(id);
                     obj.FalseSize = GetFalseSize(id);
-                    Debug.Log("id:" + id + " true:" + obj.TrueSize + " false:" + obj.FalseSize);
+                    //Debug.Log("id:" + id + " true:" + obj.TrueSize + " false:" + obj.FalseSize);
                 }
             }
         }
@@ -190,6 +194,7 @@ public class NewObjectSystem : MonoBehaviour
     {
         int trueLength = GetTrueLengths(id);
         int falseLength = GetFalseLengths(id);
+        Debug.Log("id:" + id + " true:" + trueLength + " false:" + falseLength);
         if (trueLength > falseLength)
         {
             return trueLength;
@@ -201,90 +206,122 @@ public class NewObjectSystem : MonoBehaviour
     }
     int GetTrueLengths(int id)
     {
-        foreach (FlowChartObject obj in objects)
+        if (trueLengths[id] != 0)
         {
-            for (int i = 0; i < objects.Count; i++)
+            return trueLengths[id];
+        }
+        bool isInScope = false;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[i] is IfObject)
             {
-                if (obj is IfObject)
+                IfObject ifObject = (IfObject)objects[i];
+                if (ifObject.Id == id && objects[i] is IfTrueObject)
                 {
-                    IfObject ifObject = (IfObject)obj;
-                    if (ifObject.Id == id)
+                    trueLengths[id] = 0;
+                    isInScope = true;
+                }
+                else if (ifObject.Id == id && objects[i] is IfFalseObject)
+                {
+                    trueLengths[id] += 1;
+                    return trueLengths[id];
+                }
+                else
+                {
+                    if (isInScope)
                     {
-                        if (obj is IfTrueObject)
-                        {
-                            trueLengths[id] = 1;
-                        }
-                        else if (obj is IfFalseObject)
-                        {
-                            return trueLengths[id];
-                        }
-                    }
-                    else
-                    {
-                        if (obj is IfFalseObject)
-                        {
-                            i += GetFalseLengths(ifObject.Id);
-                        }
-                        else if (obj is IfEndObject)
-                        {
-                            break;
-                        }
+                        trueLengths[id] += GetLongerLength(ifObject.Id) + 1;
+                        i += GetTrueLengthsInList(ifObject.Id) + GetFalseLengthsInList(ifObject.Id);
                     }
                 }
-                trueLengths[id] += 1;
             }
+            else trueLengths[id] += 1;
         }
-        return trueLengths[id];
+        Debug.Log("error");
+        return -1;
     }
     int GetFalseLengths(int id)
     {
-        foreach (FlowChartObject obj in objects)
+        if (falseLengths[id] != 0)
         {
-            for (int i = 0; i < objects.Count; i++)
+            return falseLengths[id];
+        }
+        bool isInScope = false;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[i] is IfObject)
             {
-                if (obj is IfObject)
+                IfObject ifObject = (IfObject)objects[i];
+                if (ifObject.Id == id && ifObject is IfFalseObject)
                 {
-                    IfObject ifObject = (IfObject)obj;
-                    if (ifObject.Id == id)
+                    falseLengths[id] = 0;
+                    isInScope = true;
+                }
+                else if (ifObject.Id == id && ifObject is IfEndObject)
+                {
+                    falseLengths[id] += 1;
+                    return falseLengths[id];
+                }
+                else
+                {
+                    if(isInScope)
                     {
-                        if (obj is IfFalseObject)
-                        {
-                            falseLengths[id] = 1;
-                        }
-                        else if (obj is IfEndObject)
-                        {
-                            return falseLengths[id];
-                        }
-                    }
-                    else
-                    {
-                        if (obj is IfFalseObject)
-                        {
-                            i += GetFalseLengths(ifObject.Id);
-                        }
-                        else if (obj is IfEndObject)
-                        {
-                            break;
-                        }
+                        falseLengths[id] += GetLongerLength(ifObject.Id) + 1;
+                        i += GetTrueLengthsInList(ifObject.Id) + GetFalseLengthsInList(ifObject.Id);
                     }
                 }
-                falseLengths[id] += 1;
+            }
+            else falseLengths[id] += 1;
+        }
+        Debug.Log("error");
+        return -1;
+    }
+    int GetTrueLengthsInList(int id)
+    {
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[i] is IfTrueObject)
+            {
+                if(((IfObject)objects[i]).Id == id)start = i;
+            }
+            if (objects[i] is IfFalseObject)
+            {
+                if (((IfObject)objects[i]).Id == id){
+                    end = i;
+                    return end - start;
+                } 
             }
         }
-        return falseLengths[id];
+        return -1;
+    }
+    int GetFalseLengthsInList(int id)
+    {
+        int start = 0;
+        int end = 0;
+        for (int i = 0; i < objects.Count; i++)
+        {
+            if (objects[i] is IfFalseObject)
+            {
+                if (((IfObject)objects[i]).Id == id) start = i;
+            }
+            if (objects[i] is IfEndObject)
+            {
+                if (((IfObject)objects[i]).Id == id)
+                {
+                    end = i;
+                    return end - start;
+                }
+            }
+        }
+        return -1;
     }
     void ResizeFlow()
     {
         //ifのsizeに応じてFlowのサイズを変更する
     }
 
-    void Reload()
-    {
-        foreach (GameObject obj in objectPrefabs)
-        {
-            Destroy(obj);
-        }
-    }
 
     void Start()
     {
@@ -304,12 +341,12 @@ public class NewObjectSystem : MonoBehaviour
         AddNewObject(new IfTrueObject(4));
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfFalseObject(4));
         AddNewObject(new IfTrueObject(2));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfFalseObject(2));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfEndObject(2));
         AddNewObject(new IfEndObject(4));
         AddNewObject(new IfFalseObject(3));
@@ -317,12 +354,25 @@ public class NewObjectSystem : MonoBehaviour
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new IfEndObject(3));
         //idは統一したものを使います
         existIds.Add(1);
         existIds.Add(2);
         existIds.Add(3);
         existIds.Add(4);
+    }
+    private void Update() {
+        if (Input.GetMouseButtonDown(0))
+        {
+            //Reset();
+        }
+    }
+    void Reset()
+    {
+        foreach (GameObject obj in objectPrefabs)
+        {
+            Destroy(obj);
+        }
     }
 }
