@@ -15,6 +15,7 @@ public class FlowChartObject
         While,
         WhileEnd
     }
+    public string Name { get; set; }
     public Kinds Type{ get; set; }
     public GameObject Prefab { get; set; }
     public virtual void Init() { }

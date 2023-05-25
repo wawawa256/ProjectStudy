@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class NewObjectSystem : MonoBehaviour
 {
@@ -90,7 +91,9 @@ public class NewObjectSystem : MonoBehaviour
                     column -= ifObject.TrueSize;
                 }
             }
-            objectPrefabs[i++] = Instantiate(obj.Prefab, Location(column, row), Quaternion.identity);
+            objectPrefabs[i] = Instantiate(obj.Prefab, Location(column, row), Quaternion.identity);
+            TextMake(i, obj.Name);
+            i++;
             row++;
         }
     }
@@ -99,8 +102,6 @@ public class NewObjectSystem : MonoBehaviour
     {
         return new Vector3(Constant.HorizontalSpace * column, Constant.VerticalSpace * row + 1.0f, 0);
     }
-
-    //ifで囲まれたlistをもらって、その中の最大のifのsizeを返す
 
     int GetSize(List<IfObject> list, int id)
     {
@@ -194,7 +195,7 @@ public class NewObjectSystem : MonoBehaviour
     {
         int trueLength = GetTrueLengths(id);
         int falseLength = GetFalseLengths(id);
-        Debug.Log("id:" + id + " true:" + trueLength + " false:" + falseLength);
+        //Debug.Log("id:" + id + " true:" + trueLength + " false:" + falseLength);
         if (trueLength > falseLength)
         {
             return trueLength;
@@ -320,6 +321,17 @@ public class NewObjectSystem : MonoBehaviour
     void ResizeFlow()
     {
         //ifのsizeに応じてFlowのサイズを変更する
+    }
+
+    void TextMake(int i, string _name)
+    {
+        Transform canv = objectPrefabs[i].transform.Find("Canvas");
+        if (canv == null) return;
+        GameObject canvObj = canv.gameObject;
+        Transform text = canvObj.transform.Find("Text");
+        GameObject textObj = text.gameObject;
+        Text ObjectText = textObj.GetComponent<Text>();
+        ObjectText.text = _name;
     }
 
 

@@ -11,6 +11,7 @@ public class IfEndObject : IfObject
     public override void Init()
     {
         base.Init();
+        Name = "IfEnd";
         Prefab = Resources.Load<GameObject>("Prefabs/IfEndObjectPrefab");
     }
 }

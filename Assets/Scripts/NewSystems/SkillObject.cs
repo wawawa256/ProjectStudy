@@ -13,6 +13,7 @@ public class SkillObject : FlowChartObject
     public override void Init()
     {
         base.Init();
+        Name = SkillBase.Name;
         Prefab = Resources.Load<GameObject>("Prefabs/SkillObjectPrefab");
     }
 }
