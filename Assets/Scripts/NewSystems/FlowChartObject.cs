@@ -16,11 +16,12 @@ public class FlowChartObject
         WhileEnd
     }
     public string Name { get; set; }
+    public List<FlowChartObject> Parent { get; set; }
     public Kinds Type{ get; set; }
     public GameObject Prefab { get; set; }
     public virtual void Init() { }
-    public FlowChartObject()
+    public FlowChartObject(List<FlowChartObject> parent)
     {
-        
+        Parent = parent;
     }
 }

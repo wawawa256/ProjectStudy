@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class IfTrueObject : IfObject
 {
-    public IfTrueObject(int id) : base(id)
+    public IfTrueObject(int id, List<FlowChartObject> parent) : base(id, parent)
     {
         Init();
     }
     public override void Init()
     {
         base.Init();
-        TrueSize = 1;
-        FalseSize = 1;
+        TrueHSize = 1;
+        FalseHSize = 1;
         Name = "IfTrue";
         Prefab = Resources.Load<GameObject>("Prefabs/IfTrueObjectPrefab");
     }

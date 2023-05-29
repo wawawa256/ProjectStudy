@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class IfObject : FlowChartObject
 {
-    public int Id { get; }
-    public int Size { get => TrueSize + FalseSize; }
-    public int TrueSize { get; set; }
-    public int FalseSize { get; set; }
-    public IfObject(int id)
+    public int Id { get; }//この概念消したいかも
+    public int HSize { get => TrueHSize + FalseHSize; }
+    public int VSize { get => TrueVSize > FalseVSize ? TrueVSize : FalseVSize; }
+    public int TrueHSize { get; set; }
+    public int FalseHSize { get; set; }
+    public int TrueVSize { get => TrueList.Count; }
+    public int FalseVSize { get => FalseList.Count; }
+
+    public List<FlowChartObject> TrueList { get; set; }
+    public List<FlowChartObject> FalseList { get; set; }
+    public IfObject(int id, List<FlowChartObject> parent): base(parent)
     {
         Id = id;
         Init();

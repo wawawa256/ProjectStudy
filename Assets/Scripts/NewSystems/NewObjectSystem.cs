@@ -5,9 +5,13 @@ using UnityEngine.UI;
 
 public class NewObjectSystem : MonoBehaviour
 {
+    //追加および挿入システム導入のために、座標からオブジェクトを逆探知するシステムを作る必要がある。
+    Dictionary<Vector3, FlowChartObject> flowDictionary = new Dictionary<Vector3, FlowChartObject>();
+
     [SerializeField] PlayerController player;
     List<FlowChartObject> objects = new List<FlowChartObject>();
     List<IfObject> ifObjects = new List<IfObject>();
+
 
     GameObject[] objectPrefabs;
     List<int> existIds = new List<int>();
@@ -39,6 +43,8 @@ public class NewObjectSystem : MonoBehaviour
         PrintPrefabs();
     }
 
+    
+
     void CalculateIfSize()
     {
         alreadyCalculatedTrue = new int[Constant.MAX_IF_OBJECTS];
@@ -53,8 +59,8 @@ public class NewObjectSystem : MonoBehaviour
             {
                 if (obj.Id == id)
                 {
-                    obj.TrueSize = GetTrueSize(id);
-                    obj.FalseSize = GetFalseSize(id);
+                    obj.TrueHSize = GetTrueSize(id);
+                    obj.FalseHSize = GetFalseSize(id);
                     //Debug.Log("id:" + id + " true:" + obj.TrueSize + " false:" + obj.FalseSize);
                 }
             }
@@ -81,20 +87,38 @@ public class NewObjectSystem : MonoBehaviour
                 }
                 else if (obj is IfFalseObject)
                 {
-                    column += ifObject.TrueSize;
+                    column += ifObject.TrueHSize;
                     row = nextStack.Pop();
                     rowStack.Push(row);
                 }
                 else if (obj is IfEndObject)
                 {
                     row = rowStack.Pop()+GetLongerLength(ifObject.Id);
-                    column -= ifObject.TrueSize;
+                    column -= ifObject.TrueHSize;
                 }
             }
             objectPrefabs[i] = Instantiate(obj.Prefab, Location(column, row), Quaternion.identity);
             TextMake(i, obj.Name);
             i++;
             row++;
+        }
+    }
+
+    void PrintOut(List<FlowChartObject> list, int column, int row)
+    {
+        foreach (FlowChartObject obj in list)
+        {
+            if (obj is IfObject)
+            {
+                IfObject ifObject = (IfObject)obj;
+                PrintOut(ifObject.TrueList, column, row);
+                PrintOut(ifObject.FalseList, column + ifObject.TrueHSize, row);
+            }
+            else
+            {
+                Instantiate(obj.Prefab, Location(column, row), Quaternion.identity);
+                row++;
+            }
         }
     }
 
@@ -115,11 +139,11 @@ public class NewObjectSystem : MonoBehaviour
             }
             else if (item is IfTrueObject)
             {
-                if (size < item.Size)
+                if (size < item.HSize)
                 {
-                    item.TrueSize = GetTrueSize(item.Id);
-                    item.FalseSize = GetFalseSize(item.Id);
-                    size = item.Size;
+                    item.TrueHSize = GetTrueSize(item.Id);
+                    item.FalseHSize = GetFalseSize(item.Id);
+                    size = item.HSize;
                 }
             }
         }
@@ -347,9 +371,10 @@ public class NewObjectSystem : MonoBehaviour
     }
     void Test()
     {
+        /*
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new IfTrueObject(3));
+        AddNewObject(new IfTrueObject(3,objects));
         AddNewObject(new IfTrueObject(4));
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
         AddNewObject(new SkillObject(player.Battler.GetSkill()));
@@ -373,6 +398,12 @@ public class NewObjectSystem : MonoBehaviour
         existIds.Add(2);
         existIds.Add(3);
         existIds.Add(4);
+        */
+
+
+        AddNewObject(new SkillObject(player.Battler.GetSkill(), objects));
+        AddNewObject(new IfObject(1, objects));
+
     }
     private void Update() {
         if (Input.GetMouseButtonDown(0))

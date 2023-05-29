@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class IfFalseObject : IfObject
 {
-    public IfFalseObject(int id): base(id)
+    public IfFalseObject(int id, List<FlowChartObject> parent): base(id, parent)
     {
         Init();
     }
