@@ -8,8 +8,8 @@ public class IfObject : FlowChartObject
     public int VSize { get => TrueVSize > FalseVSize ? TrueVSize : FalseVSize; }
     public int TrueHSize { get => GetTrueHSize(); }
     public int FalseHSize { get => GetFalseHSize(); }
-    public int TrueVSize { get => TrueList.Count; }
-    public int FalseVSize { get => FalseList.Count; }
+    public int TrueVSize { get => GetTrueVSize(); }
+    public int FalseVSize { get => GetFalseVSize(); }
 
     public List<FlowChartObject> TrueList { get; set; }
     public List<FlowChartObject> FalseList { get; set; }
@@ -42,6 +42,32 @@ public class IfObject : FlowChartObject
             }
         }
         return falseHSize;
+    }
+    int GetTrueVSize()
+    {
+        int trueVSize = 1;
+        foreach (var item in TrueList)
+        {
+            if (item is IfObject)
+            {
+                trueVSize += (item as IfObject).VSize;
+            }
+            else trueVSize++;
+        }
+        return trueVSize;
+    }
+    int GetFalseVSize()
+    {
+        int falseVSize = 1;
+        foreach (var item in FalseList)
+        {
+            if (item is IfObject)
+            {
+                falseVSize += (item as IfObject).VSize;
+            }
+            else falseVSize++;
+        }
+        return falseVSize;
     }
     public IfObject(): base()
     {

@@ -13,11 +13,11 @@ public class NewObjectSystem : MonoBehaviour
 
     public void AddNewObject(FlowChartObject addObject, Vector3 place)
     {
-        FlowChartObject original = flowList.Find(obj => obj.Place == place);
+        FlowChartObject original = flowList.Find(obj => obj.Place == place); 
         
         if(original != null)
         {
-            Debug.Log($"{place}に{addObject.Name}を追加します");
+            Debug.Log($"{original.Name}があった{place}に{addObject.Name}を追加します");
 
             IfEndObject ifTrueEndObject = new IfEndObject();
             IfEndObject ifFalseEndObject = new IfEndObject();
@@ -32,17 +32,27 @@ public class NewObjectSystem : MonoBehaviour
             }
             List<FlowChartObject> parent = original.Parent;
             addObject.Parent = parent;
+            ShowListForDebug(parent);
             int index = parent.IndexOf(original);
-            parent.Insert(index, addObject);
+            if(index == -1)
+            {
+                Debug.Log("error: index == -1");
+                return;
+            }
+            if (parent != objects && original is BlankObject)
+            { 
+                flowList.Remove(original);
+                parent[index] = addObject; 
+            }
+            else parent.Insert(index, addObject);
+            DisplayFlow(); //ifのサイズを調整
             flowList.Add(addObject);
-            Reset();
-            AdjustIfSize(); //ifのサイズを調整
-            UpdateFlow(objects, 0, 0);
             if(addObject is IfObject)
             {
                 flowList.Add(ifTrueEndObject);
                 flowList.Add(ifFalseEndObject);
-            }
+                DisplayFlow();
+            } 
             return;
         }
         else 
@@ -51,7 +61,7 @@ public class NewObjectSystem : MonoBehaviour
         }
     }
 
-    private void AdjustIfSize()
+    private void DisplayFlow()
     {
         List<FlowChartObject> ifList = flowList.FindAll(obj => obj is IfObject);
         foreach(FlowChartObject obj in ifList)
@@ -61,36 +71,27 @@ public class NewObjectSystem : MonoBehaviour
                 IfObject ifObject = (IfObject)obj;
                 while (true)
                 {
+                    //Debug.Log($"ifObject.VSize:{ifObject.VSize}");
+                    //if(ifObject.VSize>1)Debug.Log($"ifObject.TrueList[ifObject.VSize - 2]:{ifObject.TrueList[ifObject.VSize - 2]}");
                     BlankObject blankObject = new BlankObject();
-                    if (ifObject.TrueList.Count > ifObject.FalseList.Count)
+                    if (ifObject.TrueVSize > ifObject.FalseVSize)
                     {
-                        ifObject.FalseList.Insert(ifObject.FalseList.Count - 1,blankObject);
+                        ifObject.FalseList.Insert(ifObject.FalseList.Count - 1, blankObject);
                         blankObject.Parent = ifObject.FalseList;
                         flowList.Add(blankObject);
                     }
-                    else if (ifObject.TrueList.Count < ifObject.FalseList.Count)
+                    else if (ifObject.TrueVSize < ifObject.FalseVSize)
                     {
                         ifObject.TrueList.Insert(ifObject.TrueList.Count - 1, blankObject);
                         blankObject.Parent = ifObject.TrueList;
                         flowList.Add(blankObject);
                     }
-                    else if(ifObject.TrueList.Count>1 && ifObject.FalseList.Count>1)
-                    {
-                        if (
-                            ifObject.TrueList[ifObject.TrueList.Count - 2] is BlankObject &&
-                            ifObject.FalseList[ifObject.FalseList.Count - 2] is BlankObject
-                            )
-                        {
-                            ifObject.TrueList.RemoveAt(ifObject.TrueList.Count - 1);
-                            ifObject.FalseList.RemoveAt(ifObject.FalseList.Count - 1);
-                            flowList.Remove(ifObject.TrueList[ifObject.TrueList.Count - 1]);
-                            flowList.Remove(ifObject.FalseList[ifObject.FalseList.Count - 1]);
-                        } //多分大丈夫なはず
-                    }
                     else break;
                 }
             }
         }
+        Reset();
+        UpdateFlow(objects, 0, 0);
     }
 
     private void UpdateFlow(List<FlowChartObject> list, int column, int row)
@@ -109,7 +110,7 @@ public class NewObjectSystem : MonoBehaviour
                 row++;
                 UpdateFlow(ifObject.TrueList, column, row);
                 UpdateFlow(ifObject.FalseList, column + ifObject.TrueHSize, row);
-                row += ifObject.VSize;
+                row += ifObject.VSize - 1;
             }
             else
             {
@@ -146,6 +147,8 @@ public class NewObjectSystem : MonoBehaviour
         AddNewObject(new IfObject(), Location(0, 2));
         AddNewObject(new SkillObject(player.Battler.GetSkill()), Location(0, 3));
         AddNewObject(new SkillObject(player.Battler.GetSkill()), Location(1, 3));
+
+        AddNewObject(new IfObject(), Location(0, 3));
     }
     private void Update()
     {
@@ -161,5 +164,12 @@ public class NewObjectSystem : MonoBehaviour
             Destroy(obj);
         }
         presentPrefabs.Clear();
+    }
+    private void ShowListForDebug(List<FlowChartObject> list)
+    {
+        foreach (FlowChartObject obj in list)
+        {
+            Debug.Log(obj.Name);
+        }
     }
 }
