@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IfEndObject : IfObject
+public class IfEndObject : FlowChartObject
 {
-    public IfEndObject(int id) : base(id)
+    public IfEndObject() : base()
     {
         Init();
     }
@@ -12,6 +12,6 @@ public class IfEndObject : IfObject
     {
         base.Init();
         Name = "IfEnd";
-        Prefab = Resources.Load<GameObject>("Prefabs/IfEndObjectPrefab");
+        Prefab = Resources.Load<GameObject>("Prefabs/IfEndPrefab");
     }
 }

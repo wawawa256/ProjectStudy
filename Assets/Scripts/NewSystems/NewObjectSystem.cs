@@ -5,417 +5,161 @@ using UnityEngine.UI;
 
 public class NewObjectSystem : MonoBehaviour
 {
-    //追加および挿入システム導入のために、座標からオブジェクトを逆探知するシステムを作る必要がある。
-    Dictionary<Vector3, FlowChartObject> flowDictionary = new Dictionary<Vector3, FlowChartObject>();
-
     [SerializeField] PlayerController player;
     List<FlowChartObject> objects = new List<FlowChartObject>();
-    List<IfObject> ifObjects = new List<IfObject>();
+    List<FlowChartObject> flowList = new List<FlowChartObject>();
+    List<GameObject> presentPrefabs = new();
+    [SerializeField] GameObject ifPrefab;
 
-
-    GameObject[] objectPrefabs;
-    List<int> existIds = new List<int>();
-    int[] alreadyCalculatedTrue;
-    int[] alreadyCalculatedFalse; //もう計算したものはもう良くない？の気持ち
-
-    int[] trueLengths;
-    int[] falseLengths;
-    int[] trueLengthsInList;
-    int[] falseLengthsInList;
-
-    public void AddNewObject(FlowChartObject obj)//どこに？は必要そう
+    public void AddNewObject(FlowChartObject addObject, Vector3 place)
     {
-        objects.Add(obj);
-        if (obj is IfObject)
+        FlowChartObject original = flowList.Find(obj => obj.Place == place);
+        
+        if(original != null)
         {
-            ifObjects.Add((IfObject)obj);
-        }
-    }
+            Debug.Log($"{place}に{addObject.Name}を追加します");
 
-    void RemoveObject(int code)
-    {
-        objects.RemoveAt(code);
-    }
+            IfEndObject ifTrueEndObject = new IfEndObject();
+            IfEndObject ifFalseEndObject = new IfEndObject();
 
-    void Display()
-    {
-        CalculateIfSize();
-        PrintPrefabs();
-    }
-
-    
-
-    void CalculateIfSize()
-    {
-        alreadyCalculatedTrue = new int[Constant.MAX_IF_OBJECTS];
-        alreadyCalculatedFalse = new int[Constant.MAX_IF_OBJECTS];
-        trueLengths = new int[Constant.MAX_IF_OBJECTS];
-        falseLengths = new int[Constant.MAX_IF_OBJECTS];
-        trueLengthsInList = new int[Constant.MAX_IF_OBJECTS];
-        falseLengthsInList = new int[Constant.MAX_IF_OBJECTS];
-        foreach (int id in existIds)
-        {
-            foreach (IfObject obj in ifObjects)
+            if(addObject is IfObject)
             {
-                if (obj.Id == id)
-                {
-                    obj.TrueHSize = GetTrueSize(id);
-                    obj.FalseHSize = GetFalseSize(id);
-                    //Debug.Log("id:" + id + " true:" + obj.TrueSize + " false:" + obj.FalseSize);
-                }
+                (addObject as IfObject).TrueList.Add(ifTrueEndObject);
+                ifTrueEndObject.Parent = (addObject as IfObject).TrueList;
+
+                (addObject as IfObject).FalseList.Add(ifFalseEndObject);
+                ifFalseEndObject.Parent = (addObject as IfObject).FalseList;
             }
+            List<FlowChartObject> parent = original.Parent;
+            addObject.Parent = parent;
+            int index = parent.IndexOf(original);
+            parent.Insert(index, addObject);
+            flowList.Add(addObject);
+            Reset();
+            AdjustIfSize(); //ifのサイズを調整
+            UpdateFlow(objects, 0, 0);
+            if(addObject is IfObject)
+            {
+                flowList.Add(ifTrueEndObject);
+                flowList.Add(ifFalseEndObject);
+            }
+            return;
+        }
+        else 
+        {
+            Debug.Log($"{place}にObjectを追加できません");
         }
     }
 
-    void PrintPrefabs()
+    private void AdjustIfSize()
     {
-        Stack<int> nextStack = new Stack<int>();
-        Stack<int> rowStack = new Stack<int>();
-        int row = 0;
-        int column = 0;
-        int i = 0;
-        foreach (FlowChartObject obj in objects)
+        List<FlowChartObject> ifList = flowList.FindAll(obj => obj is IfObject);
+        foreach(FlowChartObject obj in ifList)
         {
-            if (obj is IfObject)
+            if(obj is IfObject)
             {
                 IfObject ifObject = (IfObject)obj;
-
-                if (obj is IfTrueObject)
+                while (true)
                 {
-                    //IfTrueObjectの大きさにresizeして表示する
-                    nextStack.Push(row);
-                }
-                else if (obj is IfFalseObject)
-                {
-                    column += ifObject.TrueHSize;
-                    row = nextStack.Pop();
-                    rowStack.Push(row);
-                }
-                else if (obj is IfEndObject)
-                {
-                    row = rowStack.Pop()+GetLongerLength(ifObject.Id);
-                    column -= ifObject.TrueHSize;
+                    BlankObject blankObject = new BlankObject();
+                    if (ifObject.TrueList.Count > ifObject.FalseList.Count)
+                    {
+                        ifObject.FalseList.Insert(ifObject.FalseList.Count - 1,blankObject);
+                        blankObject.Parent = ifObject.FalseList;
+                        flowList.Add(blankObject);
+                    }
+                    else if (ifObject.TrueList.Count < ifObject.FalseList.Count)
+                    {
+                        ifObject.TrueList.Insert(ifObject.TrueList.Count - 1, blankObject);
+                        blankObject.Parent = ifObject.TrueList;
+                        flowList.Add(blankObject);
+                    }
+                    else if(ifObject.TrueList.Count>1 && ifObject.FalseList.Count>1)
+                    {
+                        if (
+                            ifObject.TrueList[ifObject.TrueList.Count - 2] is BlankObject &&
+                            ifObject.FalseList[ifObject.FalseList.Count - 2] is BlankObject
+                            )
+                        {
+                            ifObject.TrueList.RemoveAt(ifObject.TrueList.Count - 1);
+                            ifObject.FalseList.RemoveAt(ifObject.FalseList.Count - 1);
+                            flowList.Remove(ifObject.TrueList[ifObject.TrueList.Count - 1]);
+                            flowList.Remove(ifObject.FalseList[ifObject.FalseList.Count - 1]);
+                        } //多分大丈夫なはず
+                    }
+                    else break;
                 }
             }
-            objectPrefabs[i] = Instantiate(obj.Prefab, Location(column, row), Quaternion.identity);
-            TextMake(i, obj.Name);
-            i++;
-            row++;
         }
     }
 
-    void PrintOut(List<FlowChartObject> list, int column, int row)
+    private void UpdateFlow(List<FlowChartObject> list, int column, int row)
     {
+        if(list.Count == 0)
+        {
+            return;
+        }
         foreach (FlowChartObject obj in list)
         {
             if (obj is IfObject)
             {
                 IfObject ifObject = (IfObject)obj;
-                PrintOut(ifObject.TrueList, column, row);
-                PrintOut(ifObject.FalseList, column + ifObject.TrueHSize, row);
+                obj.Place = Location(column, row);
+                presentPrefabs.Add(Instantiate(obj.Prefab, Location(column, row), Quaternion.identity));
+                row++;
+                UpdateFlow(ifObject.TrueList, column, row);
+                UpdateFlow(ifObject.FalseList, column + ifObject.TrueHSize, row);
+                row += ifObject.VSize;
             }
             else
             {
-                Instantiate(obj.Prefab, Location(column, row), Quaternion.identity);
+                presentPrefabs.Add(Instantiate(obj.Prefab, Location(column, row), Quaternion.identity));
+                obj.Place = Location(column, row);
                 row++;
             }
         }
     }
 
-    Vector3 Location(int column, int row)
+    private Vector3 Location(int column, int row)
     {
         return new Vector3(Constant.HorizontalSpace * column, Constant.VerticalSpace * row + 1.0f, 0);
     }
 
-    int GetSize(List<IfObject> list, int id)
-    {
-        //sizeは最大値の判定にのみ使用します。
-        int size = 1;
-        foreach (IfObject item in list)
-        {
-            if (item.Id == id)
-            {
-                return size;
-            }
-            else if (item is IfTrueObject)
-            {
-                if (size < item.HSize)
-                {
-                    item.TrueHSize = GetTrueSize(item.Id);
-                    item.FalseHSize = GetFalseSize(item.Id);
-                    size = item.HSize;
-                }
-            }
-        }
-        Debug.Log("error");
-        alreadyCalculatedTrue[id] = -1;
-        alreadyCalculatedFalse[id] = -1;
-        return -1;
-    }
-    int GetTrueSize(int id)
-    {
-        if (alreadyCalculatedTrue[id] != 0)
-        {
-            return alreadyCalculatedTrue[id];
-        }
-        alreadyCalculatedTrue[id] = GetSize(GetListTrueToFalse(id), id);
-        return alreadyCalculatedTrue[id];
-    }
-    int GetFalseSize(int id)
-    {
-        if (alreadyCalculatedFalse[id] != 0)
-        {
-            return alreadyCalculatedFalse[id];
-        }
-        alreadyCalculatedFalse[id] = GetSize(GetListFalseToEnd(id), id);
-        return alreadyCalculatedFalse[id];
-    }
-
-    List<IfObject> GetListTrueToFalse(int id)
-    {
-        int start = 0;
-
-        for (int i = 0;i<ifObjects.Count;i++)
-        {
-            if (ifObjects[i] is IfTrueObject && ifObjects[i].Id == id)
-            {
-                start = i;
-            }
-            else if (ifObjects[i] is IfFalseObject && ifObjects[i].Id == id)
-            {
-                int end = i;
-                int size = end - start;
-
-                //最初のifは含まないlistを返す
-                return ifObjects.GetRange(start+1, size);
-            }
-        }
-        Debug.Log("error");
-        return null;
-    }
-    List<IfObject> GetListFalseToEnd(int id)
-    {
-        int start = 0;
-
-        for (int i = 0; i < ifObjects.Count; i++)
-        {
-            if (ifObjects[i] is IfFalseObject && ifObjects[i].Id == id)
-            {
-                start = i;
-            }
-            else if (ifObjects[i] is IfEndObject && ifObjects[i].Id == id)
-            {
-                int end = i;
-                int size = end - start;
-
-                //最初のifは含まないlistを返す
-                return ifObjects.GetRange(start+1, size);
-            }
-        }
-        Debug.Log("error");
-        return null;
-    }
-    int GetLongerLength(int id)
-    {
-        int trueLength = GetTrueLengths(id);
-        int falseLength = GetFalseLengths(id);
-        //Debug.Log("id:" + id + " true:" + trueLength + " false:" + falseLength);
-        if (trueLength > falseLength)
-        {
-            return trueLength;
-        }
-        else
-        {
-            return falseLength;
-        }
-    }
-    int GetTrueLengths(int id)
-    {
-        if (trueLengths[id] != 0)
-        {
-            return trueLengths[id];
-        }
-        bool isInScope = false;
-        for (int i = 0; i < objects.Count; i++)
-        {
-            if (objects[i] is IfObject)
-            {
-                IfObject ifObject = (IfObject)objects[i];
-                if (ifObject.Id == id && objects[i] is IfTrueObject)
-                {
-                    trueLengths[id] = 0;
-                    isInScope = true;
-                }
-                else if (ifObject.Id == id && objects[i] is IfFalseObject)
-                {
-                    trueLengths[id] += 1;
-                    return trueLengths[id];
-                }
-                else
-                {
-                    if (isInScope)
-                    {
-                        trueLengths[id] += GetLongerLength(ifObject.Id) + 1;
-                        i += GetTrueLengthsInList(ifObject.Id) + GetFalseLengthsInList(ifObject.Id);
-                    }
-                }
-            }
-            else trueLengths[id] += 1;
-        }
-        Debug.Log("error");
-        return -1;
-    }
-    int GetFalseLengths(int id)
-    {
-        if (falseLengths[id] != 0)
-        {
-            return falseLengths[id];
-        }
-        bool isInScope = false;
-        for (int i = 0; i < objects.Count; i++)
-        {
-            if (objects[i] is IfObject)
-            {
-                IfObject ifObject = (IfObject)objects[i];
-                if (ifObject.Id == id && ifObject is IfFalseObject)
-                {
-                    falseLengths[id] = 0;
-                    isInScope = true;
-                }
-                else if (ifObject.Id == id && ifObject is IfEndObject)
-                {
-                    falseLengths[id] += 1;
-                    return falseLengths[id];
-                }
-                else
-                {
-                    if(isInScope)
-                    {
-                        falseLengths[id] += GetLongerLength(ifObject.Id) + 1;
-                        i += GetTrueLengthsInList(ifObject.Id) + GetFalseLengthsInList(ifObject.Id);
-                    }
-                }
-            }
-            else falseLengths[id] += 1;
-        }
-        Debug.Log("error");
-        return -1;
-    }
-    int GetTrueLengthsInList(int id)
-    {
-        int start = 0;
-        int end = 0;
-        for (int i = 0; i < objects.Count; i++)
-        {
-            if (objects[i] is IfTrueObject)
-            {
-                if(((IfObject)objects[i]).Id == id)start = i;
-            }
-            if (objects[i] is IfFalseObject)
-            {
-                if (((IfObject)objects[i]).Id == id){
-                    end = i;
-                    return end - start;
-                } 
-            }
-        }
-        return -1;
-    }
-    int GetFalseLengthsInList(int id)
-    {
-        int start = 0;
-        int end = 0;
-        for (int i = 0; i < objects.Count; i++)
-        {
-            if (objects[i] is IfFalseObject)
-            {
-                if (((IfObject)objects[i]).Id == id) start = i;
-            }
-            if (objects[i] is IfEndObject)
-            {
-                if (((IfObject)objects[i]).Id == id)
-                {
-                    end = i;
-                    return end - start;
-                }
-            }
-        }
-        return -1;
-    }
-    void ResizeFlow()
-    {
-        //ifのsizeに応じてFlowのサイズを変更する
-    }
-
-    void TextMake(int i, string _name)
-    {
-        Transform canv = objectPrefabs[i].transform.Find("Canvas");
-        if (canv == null) return;
-        GameObject canvObj = canv.gameObject;
-        Transform text = canvObj.transform.Find("Text");
-        GameObject textObj = text.gameObject;
-        Text ObjectText = textObj.GetComponent<Text>();
-        ObjectText.text = _name;
-    }
-
-
-    void Start()
+    private void Start()
     {
         Init();
         Test();
-        Display();
     }
-    void Init()
+    private void Init()
     {
-        objectPrefabs = new GameObject[Constant.MAX_OBJECTS];
+        BlankObject startObject = new BlankObject();
+        startObject.Place = Location(0, 0);
+        startObject.Parent = objects;
+        objects.Add(startObject);
+        flowList.Add(startObject);
     }
-    void Test()
+    private void Test()
     {
-        /*
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new IfTrueObject(3,objects));
-        AddNewObject(new IfTrueObject(4));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new IfFalseObject(4));
-        AddNewObject(new IfTrueObject(2));
-        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new IfFalseObject(2));
-        //AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new IfEndObject(2));
-        AddNewObject(new IfEndObject(4));
-        AddNewObject(new IfFalseObject(3));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new SkillObject(player.Battler.GetSkill()));
-        AddNewObject(new IfEndObject(3));
-        //idは統一したものを使います
-        existIds.Add(1);
-        existIds.Add(2);
-        existIds.Add(3);
-        existIds.Add(4);
-        */
+        AddNewObject(new SkillObject(player.Battler.GetSkill()), Location(0, 0));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()), Location(0, 1));
 
-
-        AddNewObject(new SkillObject(player.Battler.GetSkill(), objects));
-        AddNewObject(new IfObject(1, objects));
-
+        AddNewObject(new IfObject(), Location(0, 2));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()), Location(0, 3));
+        AddNewObject(new SkillObject(player.Battler.GetSkill()), Location(1, 3));
     }
-    private void Update() {
-        if (Input.GetMouseButtonDown(0))
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            //Reset();
+            Reset();
         }
     }
-    void Reset()
+    private void Reset()
     {
-        foreach (GameObject obj in objectPrefabs)
+        foreach (GameObject obj in presentPrefabs)
         {
             Destroy(obj);
         }
+        presentPrefabs.Clear();
     }
 }

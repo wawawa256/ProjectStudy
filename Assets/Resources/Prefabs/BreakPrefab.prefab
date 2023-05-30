@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1554332103479062029}
   - component: {fileID: 1624045605027627705}
   m_Layer: 0
-  m_Name: Break_prefab
+  m_Name: BreakPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

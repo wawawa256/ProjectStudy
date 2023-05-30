@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IfFalseObject : IfObject
+public class IfFalseObject : FlowChartObject
 {
-    public IfFalseObject(int id, List<FlowChartObject> parent): base(id, parent)
+    public IfFalseObject(): base()
     {
         Init();
     }

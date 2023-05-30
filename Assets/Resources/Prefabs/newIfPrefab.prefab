@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 3632608343399254133}
   - component: {fileID: 7753042869178984981}
   m_Layer: 0
-  m_Name: IfTruePrefab
+  m_Name: newIfPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
