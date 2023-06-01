@@ -3,14 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NewObjectSystem : MonoBehaviour
+public class FlowChartSystem : MonoBehaviour
 {
     [SerializeField] PlayerController player;
+    [SerializeField] AddFlowSelectUI addFlowSelectUI;
+    [SerializeField] SkillKindSelectUI skillKindSelectUI;
+    [SerializeField] SkillSelectUI skillSelectUI;
     List<FlowChartObject> objects = new List<FlowChartObject>();
     List<FlowChartObject> flowList = new List<FlowChartObject>();
     List<GameObject> presentPrefabs = new();
-    [SerializeField] GameObject ifPrefab;
 
+    enum State
+    {
+        View,
+        AddFlowSelect,
+        SkillKindSelect,
+        SkillSelect,
+    }
+    State state;
     public void AddNewObject(FlowChartObject addObject, Vector3 place)
     {
         FlowChartObject original = flowList.Find(obj => obj.Place == place); 
@@ -133,7 +143,15 @@ public class NewObjectSystem : MonoBehaviour
     }
     private void Init()
     {
+        state = State.View;
         BlankObject startObject = new BlankObject();
+        addFlowSelectUI.Close();
+        skillKindSelectUI.Close();
+        skillSelectUI.Close();
+        addFlowSelectUI.SkillButtonOnClick += SkillKindSelect;
+        objects.Clear();
+        flowList.Clear();
+        Reset();
         startObject.Place = Location(0, 0);
         startObject.Parent = objects;
         objects.Add(startObject);
@@ -156,13 +174,34 @@ public class NewObjectSystem : MonoBehaviour
         {
             Reset();
         }
+        switch(state)
+        {
+            case State.View:
+                break;
+            case State.AddFlowSelect:
+                break;
+            case State.SkillKindSelect:
+                break;
+            case State.SkillSelect:
+                break;
+        }
+    }
+    private void AddFlowSelect()
+    {
+        state = State.AddFlowSelect;
+    }
+    private void SkillKindSelect()
+    {
+        state = State.SkillKindSelect;
+        skillKindSelectUI.Open();
+    }
+    private void SkillSelect()
+    {
+        state = State.SkillSelect;
     }
     private void Reset()
     {
-        foreach (GameObject obj in presentPrefabs)
-        {
-            Destroy(obj);
-        }
+        presentPrefabs.ForEach(obj => Destroy(obj));
         presentPrefabs.Clear();
     }
     private void ShowListForDebug(List<FlowChartObject> list)
