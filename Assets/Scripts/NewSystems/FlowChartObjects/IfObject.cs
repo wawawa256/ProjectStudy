@@ -52,6 +52,10 @@ public class IfObject : FlowChartObject
             {
                 trueVSize += (item as IfObject).VSize;
             }
+            else if (item is WhileObject)
+            {
+                trueVSize += (item as WhileObject).Size;
+            }
             else trueVSize++;
         }
         return trueVSize;
@@ -65,6 +69,10 @@ public class IfObject : FlowChartObject
             {
                 falseVSize += (item as IfObject).VSize;
             }
+            else if (item is WhileObject)
+            {
+                falseVSize += (item as WhileObject).Size;
+            }
             else falseVSize++;
         }
         return falseVSize;
@@ -72,7 +80,7 @@ public class IfObject : FlowChartObject
     public IfObject(): base()
     {
         Name = "IfObject";
-        Prefab = Resources.Load<GameObject>("Prefabs/IfPrefab");
+        Prefab = Resources.Load<GameObject>("Prefabs/FlowChart/IfPrefab");
         TrueList = new List<FlowChartObject>();
         FalseList = new List<FlowChartObject>();
 

@@ -14,6 +14,6 @@ public class SkillObject : FlowChartObject
     {
         base.Init();
         Name = SkillBase.Name;
-        Prefab = Resources.Load<GameObject>("Prefabs/SkillObjectPrefab");
+        Prefab = Resources.Load<GameObject>("Prefabs/FlowChart/SkillObjectPrefab");
     }
 }

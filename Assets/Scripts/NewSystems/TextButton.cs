@@ -15,6 +15,8 @@ public class TextButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     public bool IsClicked { get => isClicked; set => isClicked = value; }
 
     public event UnityAction OnClick;
+    public event UnityAction OnTouch;
+    public event UnityAction OnRelease;
     void Start()
     {
         text = GetComponent<Text>();
@@ -38,9 +40,11 @@ public class TextButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler,
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {
         text.color = pressedColor;
+        OnTouch?.Invoke();
     }
     void IPointerUpHandler.OnPointerUp(PointerEventData eventData)
     {
         text.color = normalColor;
+        OnRelease?.Invoke();
     }
 }
