@@ -461,7 +461,6 @@ Transform:
   m_Children:
   - {fileID: 428702022}
   - {fileID: 241444075}
-  - {fileID: 274685831}
   - {fileID: 1539979117}
   - {fileID: 1390222335}
   - {fileID: 928246178}
@@ -1178,10 +1177,10 @@ RectTransform:
   m_Father: {fileID: 1673736935}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -415}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &176729431
 MonoBehaviour:
@@ -2990,10 +2989,10 @@ RectTransform:
   m_Father: {fileID: 1376543128}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -325}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &252997059
 MonoBehaviour:
@@ -3143,79 +3142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bb68d947b1ea4bcfa96637b8457d7d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &274685829
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 274685831}
-  - component: {fileID: 274685830}
-  m_Layer: 0
-  m_Name: ObjectCollection
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &274685830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 274685829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d944f24353345068e1a4b70e200729, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  messageText: {fileID: 1714211588}
-  CurrentPlace: {fileID: 0}
-  Printf_prefab: {fileID: 1284551837734781671, guid: 4b1ba3acdc6a24324958b5d3a8613c6d, type: 3}
-  If_prefab: {fileID: 6633812285940625856, guid: 92cdb6e9cb9fe4e278879c38614fd684, type: 3}
-  Blank_prefab: {fileID: 9101584263933921257, guid: f230b5e1475ab49618a600cfaf1aea79, type: 3}
-  Wire_prefab: {fileID: 3143971191318222018, guid: d8098e3d71d314f8d978434ea17388a4, type: 3}
-  Wire_If_prefab: {fileID: 5123664820458306697, guid: a7c7d46221442435c959d9249ad72448, type: 3}
-  Corner1_prefab: {fileID: 7081676813067730129, guid: 9a0b379a63a9c4887ad429bccbbc62ed, type: 3}
-  Corner2_prefab: {fileID: 1300635845545357244, guid: ab076123c61d54163a964c19b9c4a1d5, type: 3}
-  ForStart_prefab: {fileID: 5915915881307531056, guid: 106660c57447a4fd888a4719bc2c76d5, type: 3}
-  ForEnd_prefab: {fileID: 2564939335298593, guid: dcdddc181c9244a248bc5946dd0ca3b2, type: 3}
-  WhileStart_prefab: {fileID: 8568664890063282088, guid: 7c31c698bbf764025acdb90ba0c04236, type: 3}
-  WhileEnd_prefab: {fileID: 7716807859240496671, guid: 8df1392ad77b4447e9e7aa2c9d0eca65, type: 3}
-  Break_prefab: {fileID: 7830649792677881218, guid: 6d2ab6471866c46b38e086f6f9e3326c, type: 3}
-  Subroutine_prefab: {fileID: 5124547758893101625, guid: c977195d49f1942448856943caab09c9, type: 3}
-  tempRow: 0
-  tempColumn: 0
-  ifFlag: 0
-  forFlag: 0
-  Place: {x: 0, y: 0, z: 0}
-  StartPosX: 0
-  StartPosY: 0
-  jibunX: 0
-  jibunY: 0
-  touch_flag: 1
-  Label: {fileID: 1264392108}
-  Tatedake_prefab: {fileID: 7880586597996365381, guid: 6f5ba704e2196f54c904081c27a6a6d1, type: 3}
-  Yokodake_prefab: {fileID: 5943651443365725486, guid: 971144e0e4f2ab64a942df5046544c63, type: 3}
-  originalX: 0
---- !u!4 &274685831
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 274685829}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -843.22565, y: -430.8565, z: 222.51776}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 74766561}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &284969568
 GameObject:
   m_ObjectHideFlags: 0
@@ -4002,7 +3928,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -4014,7 +3940,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice1
         m_Mode: 1
@@ -5633,7 +5559,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 0}
+  m_BackGroundColor: {r: 0.90588236, g: 1, b: 1, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -5776,7 +5702,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -5788,7 +5714,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice3
         m_Mode: 1
@@ -6626,7 +6552,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -6638,7 +6564,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice2
         m_Mode: 1
@@ -6785,7 +6711,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: Saveuhihihi
         m_Mode: 1
@@ -7059,7 +6985,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -7071,7 +6997,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetFieldWhile1
         m_Mode: 1
@@ -7413,7 +7339,7 @@ GameObject:
   - component: {fileID: 716925534}
   - component: {fileID: 716925533}
   m_Layer: 5
-  m_Name: zoom out
+  m_Name: ZoomOut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7484,8 +7410,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1539979116}
-        m_TargetAssemblyTypeName: Swipe, Assembly-CSharp
-        m_MethodName: zoom_out
+        m_TargetAssemblyTypeName: SwipeController, Assembly-CSharp
+        m_MethodName: Zoom_out
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7868,10 +7794,10 @@ RectTransform:
   m_Father: {fileID: 1673736935}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -145}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &753844269
 MonoBehaviour:
@@ -8091,7 +8017,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -8103,7 +8029,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetContentOn2
         m_Mode: 1
@@ -8541,10 +8467,10 @@ RectTransform:
   m_Father: {fileID: 1376543128}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -145}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &789534674
 MonoBehaviour:
@@ -9883,7 +9809,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 74766561}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &928246179
 MonoBehaviour:
@@ -9910,9 +9836,8 @@ GameObject:
   - component: {fileID: 932174865}
   - component: {fileID: 932174864}
   - component: {fileID: 932174863}
-  - component: {fileID: 932174866}
   m_Layer: 5
-  m_Name: ResetButton
+  m_Name: AllClearButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10032,18 +9957,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932174861}
   m_CullTransparentMesh: 1
---- !u!114 &932174866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 932174861}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b3ad09cfdec24a7bb43e5b987bc2db3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &933602464
 GameObject:
   m_ObjectHideFlags: 0
@@ -12342,7 +12255,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -12354,7 +12267,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice7
         m_Mode: 1
@@ -12626,7 +12539,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -12638,7 +12551,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetContentOn3
         m_Mode: 1
@@ -13151,7 +13064,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -13163,7 +13076,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetFieldWhile2
         m_Mode: 1
@@ -13400,7 +13313,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -13412,7 +13325,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice6
         m_Mode: 1
@@ -13451,7 +13364,7 @@ GameObject:
   - component: {fileID: 1349662032}
   - component: {fileID: 1349662031}
   m_Layer: 5
-  m_Name: zoom in
+  m_Name: ZoomIn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13522,8 +13435,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1539979116}
-        m_TargetAssemblyTypeName: Swipe, Assembly-CSharp
-        m_MethodName: zoom_in
+        m_TargetAssemblyTypeName: SwipeController, Assembly-CSharp
+        m_MethodName: Zoom_in
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -13590,7 +13503,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1376543128
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13799,7 +13712,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 74766561}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1390222336
 MonoBehaviour:
@@ -13932,10 +13845,10 @@ RectTransform:
   m_Father: {fileID: 1376543128}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -235}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1428233106
 MonoBehaviour:
@@ -14385,7 +14298,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetDropDown1
         m_Mode: 1
@@ -14498,7 +14411,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: Subroutine
         m_Mode: 1
@@ -14887,7 +14800,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -14899,7 +14812,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice1
         m_Mode: 1
@@ -15540,7 +15453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c41607c7adae4f5295e2330a6865266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectCollection: {fileID: 274685830}
+  mainCamera: {fileID: 519420031}
 --- !u!4 &1539979117
 Transform:
   m_ObjectHideFlags: 0
@@ -15554,7 +15467,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 74766561}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1546267483
 GameObject:
@@ -15878,10 +15791,10 @@ RectTransform:
   m_Father: {fileID: 1673736935}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -325}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1616792544
 MonoBehaviour:
@@ -16180,7 +16093,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -16192,7 +16105,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice1
         m_Mode: 1
@@ -16355,7 +16268,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1673736935
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17379,8 +17292,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 600, y: 175}
-  m_SizeDelta: {x: -1500, y: -550}
+  m_AnchoredPosition: {x: 600, y: 225}
+  m_SizeDelta: {x: -1500, y: -650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1786494246
 MonoBehaviour:
@@ -17675,7 +17588,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -17687,7 +17600,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetContentOn4
         m_Mode: 1
@@ -18165,10 +18078,10 @@ RectTransform:
   m_Father: {fileID: 1376543128}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -415}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901168125
 MonoBehaviour:
@@ -18337,10 +18250,10 @@ RectTransform:
   m_Father: {fileID: 1673736935}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 225, y: -235}
-  m_SizeDelta: {x: 250, y: 90}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1938924895
 MonoBehaviour:
@@ -18696,7 +18609,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: Loaduhihihi
         m_Mode: 1
@@ -19192,7 +19105,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -19204,7 +19117,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetContentOn2
         m_Mode: 1
@@ -19825,7 +19738,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetDropDown
         m_Mode: 1
@@ -20066,7 +19979,7 @@ MonoBehaviour:
   m_OnSubmit:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: GetVarContent
         m_Mode: 1
@@ -20078,7 +19991,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 274685830}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ObjectCollection, Assembly-CSharp
         m_MethodName: ResetChoice1
         m_Mode: 1

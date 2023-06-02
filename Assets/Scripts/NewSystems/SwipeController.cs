@@ -6,17 +6,13 @@ using UnityEngine.EventSystems;
 
 public class SwipeController : MonoBehaviour
 {
-    [SerializeField] ObjectCollection objectCollection;
-    Camera mainCamera;
+    [SerializeField] Camera mainCamera;
 
     float StartPosX;
     float StartPosY;
-    float maxPosX;
-    float maxPosY;
 
     void Start()
     {
-        mainCamera = GameObject.Find("MainCamera").GetComponent<Camera>();
         mainCamera.orthographicSize = 5.0f;
     }
 
@@ -37,9 +33,6 @@ public class SwipeController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            maxPosX = Constant.HorizontalSpace * objectCollection.MaxColumn;
-            maxPosY = Constant.VerticalSpace * objectCollection.MaxRow;
-
             StartPosX = mainCamera.ScreenToWorldPoint(Input.mousePosition).x;
             StartPosY = mainCamera.ScreenToWorldPoint(Input.mousePosition).y;
         }
@@ -50,8 +43,7 @@ public class SwipeController : MonoBehaviour
 
             float SwipeLengthX = StartPosX - EndPosX;
             float SwipeLengthY = StartPosY - EndPosY;
-            //float CameraPosX = Mathf.Clamp(mainCamera.transform.position.x + SwipeLengthX, 0, maxPosX);
-            //float CameraPosY = Mathf.Clamp(mainCamera.transform.position.y + SwipeLengthY, 0, maxPosY);
+            
             float CameraPosX = mainCamera.transform.position.x + SwipeLengthX;
             float CameraPosY = mainCamera.transform.position.y + SwipeLengthY;
 
