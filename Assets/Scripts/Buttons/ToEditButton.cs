@@ -14,13 +14,13 @@ public class ToEditButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     Color pressedColor = Color.gray;
 
     public bool IsClicked { get => isClicked; set => isClicked = value; }
-    void Start()
+    void Awake()
     {
         text = GetComponent<Text>();
         normalColor = GetColor("#007AFF");
         Init();
     }
-    public void Init()
+    private void Init()
     {
         text.color = normalColor;
         IsClicked = false;
