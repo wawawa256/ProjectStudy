@@ -6,19 +6,19 @@ using UnityEngine.EventSystems;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class BackToSelectChart : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
+public class ToHomeScene : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
-    public UnityAction OnBackToSelectChart;
     bool isClicked;
     Image image;
     Color normalColor;
-    Color pressedColor = Color.gray;
+    Color pressedColor;
 
     public bool IsClicked { get => isClicked; set => isClicked = value; }
     void Awake()
     {
         image = GetComponent<Image>();
-        normalColor = GetColor("#007AFF");
+        normalColor = Color.black;
+        pressedColor = GetColor("#007AFF");
         Init();
     }
     private void Init()
@@ -47,6 +47,7 @@ public class BackToSelectChart : MonoBehaviour, IPointerDownHandler, IPointerUpH
             return;
         }
         isClicked = true;
+        SceneManager.LoadScene("HomeScene");
     }
     void IPointerDownHandler.OnPointerDown(PointerEventData eventData)
     {

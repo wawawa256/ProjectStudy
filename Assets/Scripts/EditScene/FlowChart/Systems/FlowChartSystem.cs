@@ -194,7 +194,7 @@ public class FlowChartSystem : MonoBehaviour
 
     private Vector3 Location(int column, int row)
     {
-        return new Vector3(Constant.HorizontalSpace * column, Constant.VerticalSpace * row + 1.0f, 0);
+        return new Vector3(Constant.HorizontalSpace * column - 2.0f, Constant.VerticalSpace * row + 2.0f, 0);
     }
 
     private Vector3 LineLocation(int column, int row)
