@@ -350,7 +350,11 @@ public class FlowChartSystem : MonoBehaviour
         objects.Clear();
         flowList.Clear();
         Reset();
+        SetStartObjects();
+    }
 
+    private void SetStartObjects()
+    {
         //最初のObjectを追加
         BlankObject startObject = new BlankObject();
         startObject.Place = Location(0, 0);

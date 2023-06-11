@@ -1,0 +1,54 @@
+{
+    "name": "Touch",
+    "maps": [
+        {
+            "name": "UI",
+            "id": "072f5eee-2ddd-4bea-aa13-ea8dad775137",
+            "actions": [
+                {
+                    "name": "Touch0",
+                    "type": "Value",
+                    "id": "7aef8a89-b913-4dd8-b6ce-61041296e818",
+                    "expectedControlType": "Touch",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Touch1",
+                    "type": "Value",
+                    "id": "3ece16db-d8c6-4dbe-9d30-adafb8f47074",
+                    "expectedControlType": "Touch",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "27a68c34-ed67-4903-8ef6-3f29a67cc0d6",
+                    "path": "<Touchscreen>/touch0",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Touch0",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dabace3a-15e5-464c-a078-eda7cad55aef",
+                    "path": "<Touchscreen>/touch1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Touch1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

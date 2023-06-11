@@ -17,14 +17,14 @@ public class SwipeController : MonoBehaviour
     }
 
     //いずれピンチインピンチアウトも実装したい :TODO
-    public void Zoom_in()
+    public void ZoomIn()
     {
         if (mainCamera.orthographicSize > 0f)
         {
             mainCamera.orthographicSize -= 0.5f;
         }
     }
-    public void Zoom_out()
+    public void ZoomOut()
     {
         mainCamera.orthographicSize += 0.5f;
     }
